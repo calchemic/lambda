@@ -20,10 +20,8 @@ tracer = Tracer()
 logger = Logger()
 app = APIGatewayRestResolver()
 
-
-
 #Uncomment the line below if you want to use the Lambda Powertools Logger
-#@logger.inject_lambda_context(log_event=True)
+@logger.inject_lambda_context(log_event=True)
 def lambda_handler(event, context):
     # parse event data for query string parameters, path parameters, headers, body, source IP and user agent
     event_data = event['queryStringParameters']
