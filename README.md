@@ -23,4 +23,5 @@ This boilerplate provides a quick start for an API Gateway Lambda Proxy Integrat
     - note: the endpoint is in the Outputs section
 - test the endpoint
     - ```curl {endpoint}```
+    - can also reach in browser by navigating to the endpoint
     - note: you should see the html returned by google.com
