@@ -16,6 +16,7 @@ logger = Logger()
 from flask import Flask, request, jsonify, render_template
 app = Flask(__name__)
 
+
 # Define Flask routes
 @app.route('/about')
 def about():
@@ -29,12 +30,15 @@ def index():
 #Uncomment the line below if you want to use the Lambda Powertools Logger
 @logger.inject_lambda_context(log_event=True)
 def lambda_handler(event, context):
+
     # Analyze incoming HTTP Request, including path of requested resource.
     http_path = event['path']
     http_query_string_parameters = event['queryStringParameters']
     http_method = event['httpMethod']
     http_headers = event['headers']
     http_body = event['body']
+
+    # Set up the Flask request context
 
     # # parse event data for source IP and user agent
     # event_source_ip = event['requestContext']['identity']['sourceIp']
@@ -66,9 +70,14 @@ def lambda_handler(event, context):
         if http_method == 'GET' :
             with app.app_context():
                 if http_path == '/':
-                    html = render_template('index.html')
+                    http_path = '/index'
                 else:
-                    html = render_template(http_path[1:] + '.html')
+                    pass
+                ctx = app.test_request_context(path=http_path, method=http_method, headers=http_headers, data=http_body)
+                ctx.push()
+                app.preprocess_request()
+                logger.info("Request Context: {}".format(ctx))
+                html = render_template(http_path[1:] + '.html')
             return {
                 "statusCode": 200,
                 "body": html,
@@ -84,7 +93,8 @@ def lambda_handler(event, context):
                     'Content-Type': 'text/html',
                 }
             }
-    except:
+    except Exception as e:
+        logger.error("Exception: {}".format(e))
         return {
             "statusCode": 404,
             "body": "Not Found",
