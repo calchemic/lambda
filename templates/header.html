@@ -1,5 +1,5 @@
 <header>
-    <h1>StinkBait Server</h1>
+    <h1 class="header-title">StinkBait Server</h1>
     <nav>
         <ul>
             <li><a href="{{ url_for('index') }}">Home</a></li>
@@ -9,75 +9,3 @@
         </ul>
     </nav>
 </header>
-<style>
-    /* CSS for header */
-    
-    header {
-        background-color: lawngreen;
-        background-blend-mode: luminosity;
-        text-align: center;
-        width: 100%;
-        height: auto;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-    
-    h1 {
-        font-size: 4rem;
-        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        color: lawngreen;
-        margin: 0;
-        padding: 1rem;
-        align-items: center;
-        vertical-align: auto;
-    }
-    
-    nav {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
-    }
-    
-    ul {
-        list-style: none;
-        display: flex;
-        align-items: center;
-        justify-items: auto;
-        vertical-align: auto;
-    }
-    
-    li {
-        margin-right: 1rem;
-    }
-    
-    a {
-        text-decoration: none;
-        color: #000000;
-        font-weight: bold;
-        font-size: 2rem;
-        padding: 0.25rem;
-        border-radius: 5px;
-        justify-items: auto;
-        width: auto;
-    }
-    
-    a:hover {
-        background-color: #000000;
-        color: lawngreen;
-    }
-    
-    a:active {
-        background-color: lawngreen;
-        color: #000000;
-    }
-    
-    body {
-        margin: 0;
-        padding: 0;
-        background-color: #000000;
-        color: lawngreen;
-    }
-</style>
