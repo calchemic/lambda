@@ -87,6 +87,8 @@ Resources:
             - "logs:CreateLogGroup"
             - "logs:CreateLogStream"
             - "logs:PutLogEvents"
+            - "xray:PutTraceSegments"
+            - "xray:PutTelemetryRecords"
             Resource: "*"
 
   ApiGatewayInvokePermission:

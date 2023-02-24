@@ -26,18 +26,22 @@ def about():
     tracer.put_annotation(key="about", value="about-page")
     return render_template('about.html')
 
+@tracer.capture_method
 @app.route('/index')
 def index():
     return render_template('index.html')
 
+@tracer.capture_method
 @app.route('/login')
 def login():
     return render_template('login.html')
 
+@tracer.capture_method
 @app.route('/register')
 def register():
     return render_template('register.html')
 
+@tracer.capture_method
 @app.route('/404')
 def error404():
     return render_template('404.html')
