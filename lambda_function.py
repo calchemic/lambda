@@ -34,6 +34,9 @@ def login():
 def register():
     return render_template('register.html')
 
+@app.route('/404')
+def error404():
+    return render_template('404.html')
 
 #Uncomment the line below if you want to use the Lambda Powertools Logger
 @logger.inject_lambda_context(log_event=True)
@@ -95,9 +98,18 @@ def lambda_handler(event, context):
         }
     except Exception as e:
         logger.error("Exception: {}".format(e))
+        with app.app_context():
+            if http_path == '/':
+                http_path = '/index'
+            else:
+                pass
+            ctx = app.test_request_context(base_url=base_url, path=http_path, method=http_method, headers=http_headers, data=http_body)
+            ctx.push()
+            app.preprocess_request()
+            html = render_template('404.html')
         return {
             "statusCode": 404,
-            "body": "Not Found",
+            "body": html,
             "headers": {
                 'Content-Type': 'text/html',
             }
