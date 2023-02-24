@@ -22,13 +22,17 @@ app = Flask(__name__)
 def about():
     return render_template('about.html')
 
-@app.route('/a')
+@app.route('/index')
 def index():
     return render_template('index.html')
 
 @app.route('/login')
 def login():
     return render_template('login.html')
+
+@app.route('/register')
+def register():
+    return render_template('register.html')
 
 
 #Uncomment the line below if you want to use the Lambda Powertools Logger
@@ -41,6 +45,7 @@ def lambda_handler(event, context):
     http_method = event['httpMethod']
     http_headers = event['headers']
     http_body = event['body']
+    base_url = '/' + event['requestContext']['stage']
 
     # Set up the Flask request context
 
@@ -71,32 +76,23 @@ def lambda_handler(event, context):
     
     # Render the requested page
     try:
-        if http_method == 'GET' :
-            with app.app_context():
-                if http_path == '/':
-                    http_path = '/index'
-                else:
-                    pass
-                ctx = app.test_request_context(path=http_path, method=http_method, headers=http_headers, data=http_body)
-                ctx.push()
-                app.preprocess_request()
-                logger.info("Request Context: {}".format(ctx))
-                html = render_template(http_path[1:] + '.html')
-            return {
-                "statusCode": 200,
-                "body": html,
-                "headers": {
-                    'Content-Type': 'text/html',
-                }
+        with app.app_context():
+            if http_path == '/':
+                http_path = '/index'
+            else:
+                pass
+            ctx = app.test_request_context(base_url=base_url, path=http_path, method=http_method, headers=http_headers, data=http_body)
+            ctx.push()
+            app.preprocess_request()
+            logger.info("Request Context: {}".format(ctx.request.base_url))
+            html = render_template(http_path[1:] + '.html')
+        return {
+            "statusCode": 200,
+            "body": html,
+            "headers": {
+                'Content-Type': 'text/html',
             }
-        else:
-            return {
-                "statusCode": 404,
-                "body": "Not Found",
-                "headers": {
-                    'Content-Type': 'text/html',
-                }
-            }
+        }
     except Exception as e:
         logger.error("Exception: {}".format(e))
         return {
