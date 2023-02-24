@@ -58,7 +58,7 @@ def error404():
 @logger.inject_lambda_context(log_event=True)
 @tracer.capture_lambda_handler()
 def lambda_handler(event, context):
-
+    logger.set_correlation_id(context.aws_request_id)
     # Analyze incoming HTTP Request, including path of requested resource.
     http_path = event['path']
     http_query_string_parameters = event['queryStringParameters']
@@ -94,7 +94,6 @@ def lambda_handler(event, context):
     
     # Render the requested page
     try:
-        logger.info(app.name)
         with app.app_context():
             if http_path == '/':
                 http_path = '/index'
