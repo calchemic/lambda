@@ -7,13 +7,21 @@ from aws_lambda_powertools.logging import correlation_paths
 from aws_lambda_powertools.utilities.typing import LambdaContext
 
 
+from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
+from aws_xray_sdk.core import patcher, xray_recorder
+patcher.patch(('requests',))
+# Configure the X-Ray recorder to generate segments with our service name
+xray_recorder.configure(service='My First Serverless App')
+# Instrument the Flask application
+
+
 #trigger = APIGatewayRestResolver()
 
 
 # Import Flask
 from flask import Flask, request, jsonify, render_template
 app = Flask(__name__)
-
+XRayMiddleware(app, xray_recorder)
 
 # Initialize the AWS Lambda Powertools
 tracer = Tracer()

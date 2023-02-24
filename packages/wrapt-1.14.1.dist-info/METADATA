@@ -170,3 +170,5 @@ and unit tests, can be obtained from github.
    :target: https://github.com/GrahamDumpleton/wrapt/actions
 .. |PyPI| image:: https://img.shields.io/pypi/v/wrapt.svg?logo=python&cacheSeconds=3600
    :target: https://pypi.python.org/pypi/wrapt
+
+

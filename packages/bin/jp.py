@@ -1,4 +1,4 @@
-#!/opt/homebrew/opt/python@3.11/bin/python3.11
+#!/opt/homebrew/opt/python@3.9/bin/python3.9
 
 import sys
 import json
