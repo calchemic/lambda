@@ -26,6 +26,10 @@ def about():
 def index():
     return render_template('index.html')
 
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
 
 #Uncomment the line below if you want to use the Lambda Powertools Logger
 @logger.inject_lambda_context(log_event=True)
