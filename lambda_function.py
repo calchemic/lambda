@@ -6,10 +6,8 @@ from aws_lambda_powertools.event_handler import APIGatewayRestResolver
 from aws_lambda_powertools.logging import correlation_paths
 from aws_lambda_powertools.utilities.typing import LambdaContext
 
-# Initialize the AWS Lambda Powertools
-tracer = Tracer()
-logger = Logger()
-#app = APIGatewayRestResolver()
+
+#trigger = APIGatewayRestResolver()
 
 
 # Import Flask
@@ -17,9 +15,15 @@ from flask import Flask, request, jsonify, render_template
 app = Flask(__name__)
 
 
+# Initialize the AWS Lambda Powertools
+tracer = Tracer()
+logger = Logger()
+
 # Define Flask routes
+@tracer.capture_method
 @app.route('/about')
 def about():
+    tracer.put_annotation(key="about", value="about-page")
     return render_template('about.html')
 
 @app.route('/index')
@@ -38,8 +42,9 @@ def register():
 def error404():
     return render_template('404.html')
 
-#Uncomment the line below if you want to use the Lambda Powertools Logger
+#Uncomment the line below if you want to use the Lambda Powertools Logger or Tracer
 @logger.inject_lambda_context(log_event=True)
+@tracer.capture_lambda_handler()
 def lambda_handler(event, context):
 
     # Analyze incoming HTTP Request, including path of requested resource.
@@ -49,8 +54,6 @@ def lambda_handler(event, context):
     http_headers = event['headers']
     http_body = event['body']
     base_url = '/' + event['requestContext']['stage']
-
-    # Set up the Flask request context
 
     # # parse event data for source IP and user agent
     # event_source_ip = event['requestContext']['identity']['sourceIp']
@@ -79,6 +82,7 @@ def lambda_handler(event, context):
     
     # Render the requested page
     try:
+        logger.info(app.name)
         with app.app_context():
             if http_path == '/':
                 http_path = '/index'

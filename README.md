@@ -2,11 +2,11 @@
 This boilerplate provides a quick start for an API Gateway Lambda Proxy Integration. It includes the following features:
 - Public REST API Gateway 
 - single resource and a proxy method for any HTTP method
-- Lambda function with a handler that returns a 200 response and the html returned by google.com
+- Lambda function with a handler that returns a flask app response
 # Instructions
 - Clone this repository
 - update lambda_function.py with your code
-- update installed packages in packages folder using ```pip install --target ./packages {package name}```
+- update installed packages in packages folder using ```pip install --target ./packages flask urllib3 aws_lambda_powertools aws-xray-sdk openai langchain```
 - zip the contents of the packages folder into the root folder:
     - ```cd packages```
     - ```zip -r ../packages.zip .```
