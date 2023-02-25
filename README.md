@@ -3,6 +3,7 @@ This boilerplate provides a quick start for an API Gateway Lambda Proxy Integrat
 - Public REST API Gateway 
 - single resource and a proxy method for any HTTP method
 - Lambda function with a handler that returns a flask app response
+- This blog from MDSec provides insight to some additional technique we can employ: https://www.mdsec.co.uk/2018/09/serverless-red-team-infrastructure-part-1-web-bugs/
 # Instructions
 - Clone this repository
 - update lambda_function.py with your code

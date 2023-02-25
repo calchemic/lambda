@@ -5,8 +5,6 @@ from aws_lambda_powertools import Logger, Tracer
 from aws_lambda_powertools.event_handler import APIGatewayRestResolver
 from aws_lambda_powertools.logging import correlation_paths
 from aws_lambda_powertools.utilities.typing import LambdaContext
-
-
 from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
 from aws_xray_sdk.core import patcher, xray_recorder
 patcher.patch(('requests',))
@@ -14,9 +12,7 @@ patcher.patch(('requests',))
 xray_recorder.configure(service='My First Serverless App')
 # Instrument the Flask application
 
-
 #trigger = APIGatewayRestResolver()
-
 
 # Import Flask
 from flask import Flask, request, jsonify, render_template
@@ -61,7 +57,8 @@ def register():
 
 @tracer.capture_method
 @app.route('/404')
-def error404():
+@app.errorhandler(404)
+def error404(error):
     logger.info("404 Page")
     return render_template('404.html')
 
@@ -112,6 +109,10 @@ def lambda_handler(event, context):
                 pass
             ctx = app.test_request_context(base_url="https:"+base_url, path=http_path, method=http_method, headers=http_headers, data=http_body)
             ctx.push()
+            if request.url_rule != None:
+                pass
+            else:
+                raise Exception("The route does not exist.")
             rv = app.preprocess_request()
             if rv != None:
                 response = app.make_response(rv)
@@ -134,7 +135,7 @@ def lambda_handler(event, context):
                 http_path = '/index'
             else:
                 pass
-            ctx = app.request_context(base_url=base_url, path=http_path, method=http_method, headers=http_headers, data=http_body)
+            ctx = app.test_request_context(base_url=base_url, path=http_path, method=http_method, headers=http_headers, data=http_body)
             ctx.push()
             app.preprocess_request()
             html = render_template('404.html')

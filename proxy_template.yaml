@@ -49,14 +49,14 @@ Resources:
     Properties:
       Code:
         S3Bucket: infantsense
-        S3Key: 29fcc0343687ff30f29eedd328b65202
+        S3Key: 095e0d9239ea781270603885b446b63e
       Handler: lambda_function.lambda_handler
       Role:
         Fn::GetAtt:
         - LambdaExecutionRole
         - Arn
       Runtime: python3.9
-      Timeout: 60
+      Timeout: 15
       MemorySize: 128
       Environment:
         Variables:
@@ -64,6 +64,12 @@ Resources:
           PARAM2: VALUE2
       TracingConfig:
         Mode: Active
+  MyLambdaVersion:
+    Type: AWS::Lambda::Version
+    Properties:
+      FunctionName:
+        Ref: MyLambda
+      Description: v1
   LambdaExecutionRole:
     Type: AWS::IAM::Role
     Properties:
