@@ -44,8 +44,8 @@ def index():
 @app.route('/login', methods = ['POST', 'GET'])
 def login():
     logger.info("Login Page")
-    logger.info(request.headers)
     if request.method == 'POST':
+        logger.info(request.form)
         return render_template('404.html')
     elif request.method == 'GET':
         logger.info("GET")
@@ -119,8 +119,6 @@ def lambda_handler(event, context):
                 # do the main dispatch
                 rv = app.dispatch_request()
                 response = app.make_response(rv)
-
-            logger.info("Request Context: {}".format(ctx.request.base_url))
 
         return {
             "statusCode": 200,
