@@ -134,7 +134,7 @@ def lambda_handler(event, context):
                 http_path = '/index'
             else:
                 pass
-            ctx = app.test_request_context(base_url=base_url, path=http_path, method=http_method, headers=http_headers, data=http_body)
+            ctx = app.request_context(base_url=base_url, path=http_path, method=http_method, headers=http_headers, data=http_body)
             ctx.push()
             app.preprocess_request()
             html = render_template('404.html')
