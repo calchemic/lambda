@@ -37,21 +37,32 @@ def about():
 @tracer.capture_method
 @app.route('/index')
 def index():
+    logger.info("Index Page")
     return render_template('index.html')
 
 @tracer.capture_method
-@app.route('/login')
+@app.route('/login', methods = ['POST', 'GET'])
 def login():
-    return render_template('login.html')
+    logger.info("Login Page")
+    logger.info(request.headers)
+    if request.method == 'POST':
+        return render_template('404.html')
+    elif request.method == 'GET':
+        logger.info("GET")
+        return render_template('login.html')
+    else:
+        pass
 
 @tracer.capture_method
 @app.route('/register')
 def register():
+    logger.info("Register Page")
     return render_template('register.html')
 
 @tracer.capture_method
 @app.route('/404')
 def error404():
+    logger.info("404 Page")
     return render_template('404.html')
 
 #Uncomment the line below if you want to use the Lambda Powertools Logger or Tracer
@@ -99,14 +110,21 @@ def lambda_handler(event, context):
                 http_path = '/index'
             else:
                 pass
-            ctx = app.test_request_context(base_url=base_url, path=http_path, method=http_method, headers=http_headers, data=http_body)
+            ctx = app.test_request_context(base_url="https:"+base_url, path=http_path, method=http_method, headers=http_headers, data=http_body)
             ctx.push()
-            app.preprocess_request()
+            rv = app.preprocess_request()
+            if rv != None:
+                response = app.make_response(rv)
+            else:
+                # do the main dispatch
+                rv = app.dispatch_request()
+                response = app.make_response(rv)
+
             logger.info("Request Context: {}".format(ctx.request.base_url))
-            html = render_template(http_path[1:] + '.html')
+
         return {
             "statusCode": 200,
-            "body": html,
+            "body": response.data,
             "headers": {
                 'Content-Type': 'text/html',
             }
