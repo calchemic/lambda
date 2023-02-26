@@ -31,6 +31,68 @@ def about():
     return render_template('about.html')
 
 @tracer.capture_method
+@app.route('/campaigns')
+def campaigns():
+    tracer.put_annotation(key="campaigns", value="campaigns-page")
+    return render_template('campaigns.html')
+
+potential_targets = [
+    {
+        "name": "John Doe",
+        "company": "Acme Inc.",
+        "email": "john.doe@acme.com",
+        "phone": "+1 (555) 123-4567",
+        "ip_address": "127.0.0.1",
+        "device_type": "Windows 10 build 1809",
+        "mobile_device_type": "Android 10"
+    },
+    {
+        "name": "Jane Smith",
+        "company": "XYZ Corporation",
+        "email": "jane.smith@xyzcorp.com",
+        "phone": "+1 (555) 234-5678",
+        "ip_address": "10.10.10.10",
+        "device_type": "MacOS 13.1",
+        "mobile_device_type": "iOS 16.1"
+    }
+]
+
+@tracer.capture_method
+@app.route('/targets')
+def targets():
+    tracer.put_annotation(key="targets", value="targets-page")
+    return render_template('targets.html', potential_targets=potential_targets)
+
+potential_implants = [
+    {
+        "id": 1,
+        "target": "John Doe",
+        "implant_version": "1.0",
+        "os_version": "Windows 10",
+        "current_user": "jdoe",
+        "av_edr": "Windows Defender",
+        "lifetime": "24 hours"
+    },
+    {
+        "id": 2,
+        "target": "Jane Smith",
+        "implant_version": "1.1",
+        "os_version": "macOS Big Sur",
+        "current_user": "jsmith",
+        "av_edr": "Sophos",
+        "lifetime": "48 hours"
+    }
+]
+
+@tracer.capture_method
+@app.route('/implants')
+def implants():
+    tracer.put_annotation(key="implants", value="implants-page")
+    logger.info("Implants Page")
+    logger.info(implants)
+    return render_template('implants.html', potential_implants=potential_implants)
+
+@tracer.capture_method
 @app.route('/index')
 def index():
     logger.info("Index Page")
@@ -109,6 +171,7 @@ def lambda_handler(event, context):
                 pass
             ctx = app.test_request_context(base_url="https:"+base_url, path=http_path, method=http_method, headers=http_headers, data=http_body)
             ctx.push()
+            logger.info("Request Context: {}".format(ctx))
             if request.url_rule != None:
                 pass
             else:

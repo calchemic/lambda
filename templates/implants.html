@@ -1,0 +1,25 @@
+{% extends 'base.html' %} {% block title %}Live Implants{% endblock %} {% block content %}
+<h1>Live Implants</h1>
+<table>
+    <tr>
+        <th>Implant ID</th>
+        <th>Associated Target</th>
+        <th>Implant Version</th>
+        <th>OS Version</th>
+        <th>OS Current User</th>
+        <th>Installed AV/EDR</th>
+        <th>Implant Lifetime</th>
+    </tr>
+    {% for implant in potential_implants %}
+    <tr>
+        <td>{{ implant.id }}</td>
+        <td>{{ implant.target }}</td>
+        <td>{{ implant.implant_version }}</td>
+        <td>{{ implant.os_version }}</td>
+        <td>{{ implant.current_user }}</td>
+        <td>{{ implant.av_edr }}</td>
+        <td>{{ implant.lifetime }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
