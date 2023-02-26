@@ -1,14 +1,18 @@
-{% extends 'base.html' %} {% block title %}Live Implants{% endblock %} {% block content %}
-<h1>Live Implants</h1>
+{% extends 'base.html' %} {% block title %}Implants{% endblock %} {% block content %}
+<h1>Implants</h1>
+<div class="search-box">
+    <label for="search-input">Search:</label>
+    <input type="text" id="search-input" placeholder="Search implants...">
+</div>
 <table>
     <tr>
-        <th>Implant ID</th>
-        <th>Associated Target</th>
+        <th>ID</th>
+        <th>Target</th>
         <th>Implant Version</th>
         <th>OS Version</th>
-        <th>OS Current User</th>
-        <th>Installed AV/EDR</th>
-        <th>Implant Lifetime</th>
+        <th>Current User</th>
+        <th>AV/EDR</th>
+        <th>Lifetime</th>
     </tr>
     {% for implant in potential_implants %}
     <tr>
@@ -22,4 +26,16 @@
     </tr>
     {% endfor %}
 </table>
+{% endblock %} {% block scripts %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#search-input").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("table tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
 {% endblock %}
