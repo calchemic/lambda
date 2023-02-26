@@ -30,7 +30,7 @@ def about():
     tracer.put_annotation(key="about", value="about-page")
     return render_template('about.html')
 
-@app.route('/api/browser-info', methods=['POST'])
+@app.route('/browser-info', methods=['POST'])
 def handle_browser_info():
     data = request.get_json()
     browser = data.get('browser')
