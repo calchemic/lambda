@@ -49,7 +49,7 @@ Resources:
     Properties:
       Code:
         S3Bucket: infantsense
-        S3Key: fd255b328c46bb45598f54af4f249b2e
+        S3Key: 519942f837859a1e59ba06a6025aaa00
       Handler: lambda_function.lambda_handler
       Role:
         Fn::GetAtt:

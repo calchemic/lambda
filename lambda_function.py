@@ -177,6 +177,42 @@ def targets():
     tracer.put_annotation(key="targets", value="targets-page")
     return render_template('targets.html', potential_targets=potential_targets)
 
+target = {
+    'id': 1,
+    'name': 'John Smith',
+    'company': 'Acme Inc.',
+    'email': 'john.smith@acme.com',
+    'phone': '555-1234',
+    'ip_address': '192.168.0.1',
+    'ip_address_2': '127.0.0.1',
+    'device_type': 'Windows 10 build 1809',
+    'browser_type': 'Chrome 88.0.4324.150',
+    'browser_screen_resolution': '1920x1080',
+    'browser_language': 'en-US',
+    'browser_timezone': 'UTC-8',
+    'browser_cookies_enabled': True,
+    'browser_local_storage_enabled': True,
+    'browser_session_storage_enabled': True,
+    'browser_plugins': ['Adobe Acrobat', 'Java', 'Silverlight'],
+    'browser_fonts': ['Arial', 'Times New Roman', 'Verdana'],
+    'mobile_device_type': 'iOS 14.4 / Safari',
+    'mobile_device_browser': 'Safari',
+    'mobile_browser_screen_resolution': '1334x750',
+    'mobile_browser_language': 'en-US',
+    'mobile_browser_timezone': 'UTC-7',
+    'mobile_browser_cookies_enabled': True,
+    'mobile_browser_local_storage_enabled': True,
+    'mobile_browser_session_storage_enabled': True,
+    'mobile_browser_plugins': ['Adobe Acrobat', 'Java'],
+    'mobile_browser_fonts': ['Helvetica', 'Arial']
+}
+@app.route('/targets/<int:id>')
+def target_profile(id):
+    # Look up the target data from the database based on the ID
+    # Render the target profile template with the target data
+    return render_template('targets/profile.html', target=target)
+
+
 potential_implants = [
     {
         "id": 1,
@@ -219,6 +255,12 @@ def implants():
 def index():
     logger.info("Index Page")
     return render_template('index.html')
+
+@tracer.capture_method
+@app.route('/downloads')
+def downloads():
+    logger.info("Downloads Page")
+    return render_template('downloads.html')
 
 @tracer.capture_method
 @app.route('/login', methods = ['POST', 'GET'])
