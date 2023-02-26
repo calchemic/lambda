@@ -29,6 +29,79 @@ logger = Logger()
 def about():
     tracer.put_annotation(key="about", value="about-page")
     return render_template('about.html')
+class User:
+    def __init__(self, name, email, phone, address, organizations, campaigns, targets, implants, total_organizations, total_campaigns, total_targets, total_implants):
+        self.name = name
+        self.email = email
+        self.phone = phone
+        self.address = address
+        self.organizations = organizations
+        self.campaigns = campaigns
+        self.targets = targets
+        self.implants = implants
+        self.total_organizations = total_organizations
+        self.total_campaigns = total_campaigns
+        self.total_targets = total_targets
+        self.total_implants = total_implants
+
+class Organization:
+    def __init__(self, name):
+        self.name = name
+
+class Campaign:
+    def __init__(self, name):
+        self.name = name
+
+class Target:
+    def __init__(self, name):
+        self.name = name
+
+class Implant:
+    def __init__(self, name):
+        self.name = name
+
+organizations = [
+    Organization('ABC Inc.'),
+    Organization('XYZ Corp.')
+]
+
+campaigns = [
+    Campaign('Campaign 1'),
+    Campaign('Campaign 2'),
+    Campaign('Campaign 3')
+]
+
+targets = [
+    Target('Target 1'),
+    Target('Target 2'),
+    Target('Target 3'),
+    Target('Target 4')
+]
+
+implants = [
+    Implant('Implant 1'),
+    Implant('Implant 2'),
+    Implant('Implant 3')
+]
+
+user = User(
+    'John Doe',
+    'john.doe@example.com',
+    '123-456-7890',
+    '123 Main St, Anytown USA',
+    organizations,
+    campaigns,
+    targets,
+    implants,
+    len(organizations),
+    len(campaigns),
+    len(targets),
+    len(implants)
+)
+
+@app.route('/profile')
+def profile():
+    return render_template('profile.html', user=user)
 
 @tracer.capture_method
 @app.route('/campaigns')
