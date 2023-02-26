@@ -13,6 +13,10 @@
         <th>Current User</th>
         <th>Endpoint Protection</th>
         <th>Lifetime</th>
+        <th>First Callback</th>
+        <th>Last Seen On</th>
+        <th>Load Commands</th>
+        <th>Command History</th>
     </tr>
     {% for implant in potential_implants %}
     <tr>
@@ -23,6 +27,10 @@
         <td>{{ implant.current_user }}</td>
         <td>{{ implant.av_edr }}</td>
         <td>{{ implant.lifetime }}</td>
+        <td>{{ implant.first_callback }}</td>
+        <td>{{ implant.last_seen }}</td>
+        <td>{{ implant.load_payloads }}</td>
+        <td>{{ implant.command_history }}</td>
     </tr>
     {% endfor %}
 </table>

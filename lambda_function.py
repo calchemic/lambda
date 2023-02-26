@@ -185,7 +185,11 @@ potential_implants = [
         "os_version": "Windows 10",
         "current_user": "jdoe",
         "av_edr": "Windows Defender",
-        "lifetime": "24 hours"
+        "lifetime": "24 hours",
+        "first_callback":"2021-10-01 12:00:00",
+        "last_seen":"2021-10-01 12:00:00",
+        "load_payloads":"none",
+        "command_history": "none"
     },
     {
         "id": 2,
@@ -194,7 +198,11 @@ potential_implants = [
         "os_version": "macOS Big Sur",
         "current_user": "jsmith",
         "av_edr": "Sophos",
-        "lifetime": "48 hours"
+        "lifetime": "48 hours",
+        "first_callback":"2021-10-01 12:00:00",
+        "last_seen":"2021-10-01 12:00:00",
+        "load_payloads":"none",
+        "command_history": "none"
     }
 ]
 
