@@ -29,6 +29,17 @@ logger = Logger()
 def about():
     tracer.put_annotation(key="about", value="about-page")
     return render_template('about.html')
+
+@app.route('/api/browser-info', methods=['POST'])
+def handle_browser_info():
+    data = request.get_json()
+    browser = data.get('browser')
+    device = data.get('device')
+    logger.info(browser, device)
+    
+    # Process browser and device information here...
+    
+    return 'OK'
 class User:
     def __init__(self, image, name, email, phone, address, city, state, zip_code, country, organizations, campaigns, targets, implants, total_organizations, total_campaigns, total_targets, total_implants):
         self.image = image
@@ -206,6 +217,7 @@ target = {
     'mobile_browser_plugins': ['Adobe Acrobat', 'Java'],
     'mobile_browser_fonts': ['Helvetica', 'Arial']
 }
+
 @app.route('/targets/<int:id>')
 def target_profile(id):
     # Look up the target data from the database based on the ID
@@ -288,7 +300,7 @@ def error404(error):
     logger.info("404 Page")
     return render_template('404.html')
 
-#Uncomment the line below if you want to use the Lambda Powertools Logger or Tracer
+#Enter main function
 @logger.inject_lambda_context(log_event=True)
 @tracer.capture_lambda_handler()
 def lambda_handler(event, context):

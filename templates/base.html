@@ -8,6 +8,43 @@
 
 <body>
     {% include "header.html" %} {% block content %}{% endblock %}
+    <script>
+        // Get browser and device information
+        const browser = {
+            userAgent: navigator.userAgent,
+            language: navigator.language,
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            cookiesEnabled: navigator.cookieEnabled,
+            localStorageEnabled: typeof Storage !== 'undefined',
+            sessionStorageEnabled: typeof sessionStorage !== 'undefined',
+            plugins: Array.from(navigator.plugins).map(plugin => plugin.name),
+            fonts: [...new Set(document.fonts)].map(font => font.family)
+        };
+
+        const device = {
+            screenResolution: `${screen.width}x${screen.height}`,
+            pixelDensity: window.devicePixelRatio,
+            mobile: navigator.userAgent.includes('Mobile')
+        };
+
+        // Send information to API endpoint
+        fetch('https://a0zeho7yh8.execute-api.us-east-1.amazonaws.com/api/browser-info', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    browser,
+                    device
+                })
+            })
+            .then(response => {
+                console.log('Response:', response);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    </script>
 </body>
 
 </html>
