@@ -30,11 +30,16 @@ def about():
     tracer.put_annotation(key="about", value="about-page")
     return render_template('about.html')
 class User:
-    def __init__(self, name, email, phone, address, organizations, campaigns, targets, implants, total_organizations, total_campaigns, total_targets, total_implants):
+    def __init__(self, image, name, email, phone, address, city, state, zip_code, country, organizations, campaigns, targets, implants, total_organizations, total_campaigns, total_targets, total_implants):
+        self.image = image
         self.name = name
         self.email = email
         self.phone = phone
         self.address = address
+        self.city = city
+        self.state = state
+        self.zip_code = zip_code
+        self.country = country
         self.organizations = organizations
         self.campaigns = campaigns
         self.targets = targets
@@ -85,10 +90,15 @@ implants = [
 ]
 
 user = User(
+    'profile.png',
     'John Doe',
     'john.doe@example.com',
     '123-456-7890',
-    '123 Main St, Anytown USA',
+    '123 Main St.',
+    'Anytown',
+    'TX',
+    '12345',
+    'USA',
     organizations,
     campaigns,
     targets,
