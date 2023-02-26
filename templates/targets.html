@@ -2,6 +2,7 @@
 <h1>Target Profiles</h1>
 <table>
     <tr>
+        <th>Target ID</th>
         <th>Name</th>
         <th>Company</th>
         <th>Email</th>
@@ -12,6 +13,7 @@
     </tr>
     {% for target in potential_targets %}
     <tr>
+        <td>{{ target.id }}</td>
         <td>{{ target.name }}</td>
         <td>{{ target.company }}</td>
         <td>{{ target.email }}</td>

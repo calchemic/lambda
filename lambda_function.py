@@ -38,6 +38,7 @@ def campaigns():
 
 potential_targets = [
     {
+        "id": "240722b44c974973aef89654ff647d5b",
         "name": "John Doe",
         "company": "Acme Inc.",
         "email": "john.doe@acme.com",
@@ -47,6 +48,7 @@ potential_targets = [
         "mobile_device_type": "Android 10"
     },
     {
+        "id": "5ce3b427779c43c59f1610a084c1a55a",
         "name": "Jane Smith",
         "company": "XYZ Corporation",
         "email": "jane.smith@xyzcorp.com",
