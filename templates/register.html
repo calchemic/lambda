@@ -1,13 +1,51 @@
 {% extends "base.html" %} {% block content %}
 
-<h1>Register</h1>
+
 <div class="form-container"></div>
+<h1>Register</h1>
 <form class="register-form" method="POST" action="{{ url_for('register') }}">
+
     <label for="username">Username</label>
     <input type="text" id="username" name="username" required>
 
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="first_name">First Name</label>
+    <input type="text" id="first_name" name="first_name" required>
+
+    <label for="last_name">Last Name</label>
+    <input type="text" id="last_name" name="last_name" required>
+
     <label for="password">Password</label>
     <input type="password" id="password" name="password" required>
+
+    <label for="confirm_password">Confirm Password</label>
+    <input type="password" id="confirm_password" name="confirm_password" required>
+
+    <label for="organization">Organization</label>
+    <input type="text" id="organization" name="organization" required>
+
+    <label for="phone">Phone</label>
+    <input type="text" id="phone" name="phone" required>
+
+    <label for="address">Address</label>
+    <input type="text" id="address" name="address" required>
+
+    <label for="city">City</label>
+    <input type="text" id="city" name="city" required>
+
+    <label for="state">State</label>
+    <input type="text" id="state" name="state" required>
+
+    <label for="zip_code">Zip Code</label>
+    <input type="text" id="zip_code" name="zip_code" required>
+
+    <label for="country">Country</label>
+    <input type="text" id="country" name="country" required>
+
+    <label for="role">Role</label>
+    <input type="text" id="role" name="role" required>
 
     <input type="submit" value="Register">
 </form>

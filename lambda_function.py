@@ -36,6 +36,35 @@ def campaigns():
     tracer.put_annotation(key="campaigns", value="campaigns-page")
     return render_template('campaigns.html')
 
+potential_reports = [
+    {
+        'id': 1,
+        'organization': 'ABC Inc.',
+        'start_date': '2022-01-01',
+        'end_date': '2022-03-31',
+        'campaigns': 10,
+        'targets': 100,
+        'implants': 500,
+        'grade': 'A'
+    },
+    {
+        'id': 2,
+        'organization': 'XYZ Corp.',
+        'start_date': '2022-04-01',
+        'end_date': '2022-06-30',
+        'campaigns': 5,
+        'targets': 50,
+        'implants': 250,
+        'grade': 'B'
+    }
+]
+
+@tracer.capture_method
+@app.route('/reports')
+def reports():
+    tracer.put_annotation(key="reports", value="reports-page")
+    return render_template('reports.html', potential_reports=potential_reports)
+
 potential_targets = [
     {
         "id": "240722b44c974973aef89654ff647d5b",

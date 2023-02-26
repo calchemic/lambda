@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>{% block title %}StinkBait{% endblock %}</title>
 </head>
 
@@ -23,6 +24,36 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+    }
+    
+    .header-buttons {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+    }
+    
+    .btn-primary {
+        background-color: royalblue;
+        color: white;
+    }
+    
+    .btn-secondary {
+        background-color: #ffc107;
+        color: #000000;
+    }
+    
+    .btn-secondary:hover {
+        background-color: #ffc107;
+        color: #000000;
+    }
+    
+    .header-buttons a:hover {
+        opacity: 0.8;
+    }
+    
+    .header-buttons a:active {
+        background-color: #d8c828;
+        border-color: #d8c828;
     }
     
     .header-title {
@@ -98,7 +129,19 @@
         margin: 0 auto;
     }
     
-    .register-form,
+    .register-form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: 0.25rem solid royalblue;
+        border-radius: 5%;
+        background-color: #000000;
+        padding: 0;
+        width: 40rem;
+        margin: 0 auto;
+    }
+    
     .login-form {
         display: flex;
         flex-direction: column;

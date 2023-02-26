@@ -2,14 +2,17 @@
     <a href="{{ url_for('index') }}">
         <h1 class="header-title">StinkBait</h1>
     </a>
+    <div class="header-buttons">
+        <a href="{{ url_for('login') }}" class="btn btn-primary">Login</a>
+        <a href="{{ url_for('register') }}" class="btn btn-secondary">Register</a>
+    </div>
     <nav>
         <ul>
-            <li><a href="{{ url_for('about') }}">About</a></li>
-            <li><a href="{{ url_for('login') }}">Login</a></li>
-            <li><a href="{{ url_for('register') }}">Register</a></li>
             <li><a href="{{ url_for('campaigns') }}">Campaigns</a></li>
             <li><a href="{{ url_for('targets') }}">Targets</a></li>
             <li><a href="{{ url_for('implants') }}">Implants</a></li>
+            <li><a href="{{ url_for('reports') }}">Reports</a></li>
+            <li><a href="{{ url_for('about') }}">About</a></li>
         </ul>
     </nav>
 </header>
