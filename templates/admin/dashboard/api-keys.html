@@ -1,0 +1,40 @@
+{% extends 'base.html' %} {% block content %}
+<h1>API Keys</h1>
+
+{% if message %}
+<p>{{ message }}</p>
+{% endif %} {% if openai_key %}
+<h2>OpenAI</h2>
+<form method="post" action="{{ url_for('update_openai_key') }}">
+    <label for="openai_key">API Key:</label>
+    <input type="text" id="openai_key" name="openai_key" value="{{ openai_key }}">
+    <button type="submit">Update</button>
+    <button type="button" onclick="document.location='{{ url_for('delete_openai_key') }}'">Delete</button>
+</form>
+{% else %}
+<h2>OpenAI</h2>
+<form method="post" action="{{ url_for('add_openai_key') }}">
+    <label for="openai_key">API Key:</label>
+    <input type="text" id="openai_key" name="openai_key" required>
+    <button type="submit">Add Key</button>
+</form>
+{% endif %} {% if github_key %}
+<h2>Github</h2>
+<form method="post" action="{{ url_for('update_github_key') }}">
+    <label for="github_key">API Key:</label>
+    <input type="text" id="github_key" name="github_key" value="{{ github_key }}">
+    <button type="submit">Update</button>
+    <button type="button" onclick="document.location='{{ url_for('delete_github_key') }}'">Delete</button>
+</form>
+{% else %}
+<h2>Github</h2>
+<form method="post" action="{{ url_for('add_github_key') }}">
+    <label for="github_key">API Key:</label>
+    <input type="text" id="github_key" name="github_key" required>
+    <button type="submit">Add Key</button>
+</form>
+{% endif %}
+
+<!-- Add forms for other providers as necessary -->
+
+{% endblock %}

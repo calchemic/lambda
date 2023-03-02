@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import urllib3
 import json
+import boto3
 from aws_lambda_powertools import Logger, Tracer
 from aws_lambda_powertools.event_handler import APIGatewayRestResolver
 from aws_lambda_powertools.logging import correlation_paths
@@ -13,6 +14,13 @@ xray_recorder.configure(service='My First Serverless App')
 # Instrument the Flask application
 
 #trigger = APIGatewayRestResolver()
+
+
+# Set boto3 clients for various services the lambda function will utilize
+ssm = boto3.client('ssm')
+s3 = boto3.client('s3')
+s3resource = boto3.resource('s3')
+ddb = boto3.client('dynamodb')
 
 # Import Flask
 from flask import Flask, request, jsonify, render_template
@@ -42,8 +50,102 @@ def handle_browser_info():
     logger.info(canvasHash)
     logger.info(nav)
     # Process browser and device information here...
-    
     return 'OK'
+
+@app.route('/admin/dashboard')
+def admin_dashboard():
+    #TODO: Return Dashboard of various Administrator configuration options
+    # Should include things like managing api keys for non-aws services, registering/managing domains, certificates, and email servers (SMTP)
+    pass
+
+@app.route('/admin/dashboard/api-keys')
+def api_key_management():
+    #TODO implement methods to add/update and delete API Keys using SSM Parameter store Secure String option to store the keys.
+    pass
+
+# ######### POTENTIAL CODE FOR API KEY ROUTES - UNTESTED, BUT ROUGHLY CORRECT ##########
+# ######### Define the route for updating the OpenAI API key ###########################
+# @app.route('/update_openai_key', methods=['POST'])
+# def update_openai_key():
+#     # Get the new API key value from the form
+#     openai_key = request.form['openai_key']
+
+#     # Store the new API key value in SSM Parameter Store
+#     ssm.put_parameter(Name='/api_keys/openai', Value=openai_key, Type='SecureString', Overwrite=True)
+
+#     # Return a message indicating success
+#     message = 'OpenAI API key updated successfully.'
+#     return render_template('api_keys.html', message=message)
+
+# # Define the route for deleting the OpenAI API key
+# @app.route('/delete_openai_key', methods=['GET'])
+# def delete_openai_key():
+#     # Delete the OpenAI API key from SSM Parameter Store
+#     ssm.delete_parameter(Name='/api_keys/openai')
+
+#     # Return a message indicating success
+#     message = 'OpenAI API key deleted successfully.'
+#     return render_template('api_keys.html', message=message)
+
+# # Define the route for adding the OpenAI API key
+# @app.route('/add_openai_key', methods=['POST'])
+# def add_openai_key():
+#     # Get the new API key value from the form
+#     openai_key = request.form['openai_key']
+
+#     # Store the new API key value in SSM Parameter Store
+#     ssm.put_parameter(Name='/api_keys/openai', Value=openai_key, Type='SecureString')
+
+#     # Return a message indicating success
+#     message = 'OpenAI API key added successfully.'
+#     return render_template('api_keys.html', message=message)
+
+# # Define the route for updating the Github API key
+# @app.route('/update_github_key', methods=['POST'])
+# def update_github_key():
+#     # Get the new API key value from the form
+#     github_key = request.form['github_key']
+
+#     # Store the new API key value in SSM Parameter Store
+#     ssm.put_parameter(Name='/api_keys/github', Value=github_key, Type='SecureString', Overwrite=True)
+
+#     # Return a message indicating success
+#     message = 'Github API key updated successfully.'
+#     return render_template('api_keys.html', message=message)
+
+# # Define the route for deleting the Github API key
+# @app.route('/delete_github_key', methods=['GET'])
+# def delete_github_key():
+#     # Delete the Github API key from SSM Parameter Store
+#     ssm.delete_parameter(Name='/api_keys/github')
+
+#     # Return a message indicating success
+#     message = 'Github API key deleted successfully.'
+#     return render_template('api_keys.html', message=message)
+
+# # Define the route for adding the Github API key
+# @app.route('/add_github_key', methods=['POST'])
+# def add_github_key():
+#     # Get the new API key value from the form
+#     github_key = request.form['github_key']
+
+#     # Store the new API key value in SSM Parameter Store
+#     ssm.put_parameter(Name='/api_keys/github', Value=github_key, Type='SecureString')
+
+#     # Return a message indicating success
+#     message = 'Github API key added successfully.'
+#     return render_template('api_keys.html', message=message)
+
+# # Define the route for displaying the API keys
+# @app.route('/api_keys', methods=['GET'])
+# def api_keys():
+#     # Check whether the OpenAI API key exists in SSM Parameter Store
+#     openai_key_exists = False
+#     try
+# ##################### END UNTESTED CODE FOR API KEY ROUTES #######################
+# ##################################################################################
+
+
 class User:
     def __init__(self, image, name, email, phone, address, city, state, zip_code, country, organizations, campaigns, targets, implants, total_organizations, total_campaigns, total_targets, total_implants):
         self.image = image
