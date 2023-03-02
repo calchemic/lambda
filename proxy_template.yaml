@@ -1,5 +1,11 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Resources:
+  MyKeyPair:
+    Type: AWS::EC2::KeyPair
+    Properties:
+      KeyName: my-key-pair
+      PublicKeyMaterial: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDUhXTWkQzOdzVBE0XNb0cqdPfBX+6F2l21axK6citaCkkAOAAHOLYQWZnqFF+R1f3LGxotWH4pX4Ar3y41N8eOqKMdSk5Bui+J8H1XAANFfIebN3Rd3hu542KYSzkmJbqy54maAD3H37c5lap4ePR3E+8O/DQDMzM7f/flkdYXJn7BrbO9sMgFLIjBc363BEv2V0QFB3dW+np+Clkok+iFB7LV18F5GpeQz+FaK64b35FKd7l9uQPvcfU4moCuvz//vZkQfF3fX6eJDM3YeGoRMChyaLeD4A68U36uJEUVXhVplISlQnVhGnr2eE1Y45ziHosPt0urBGb0v/1fDMb7vT1OcoZbW1HZ3liXM7juESK/hKOSV6X/KQRd9sijw3V5Knb89RG2UNF9uPtER6Cx4Eod3q1c8+jxdF/QmMse8sLbEqNOavI6v8acJC6L+386pni+uewwr2pMNeYn0Vd5eJ61h6B5Pq7RtWepLYvrB+zBeCANnHrIYsOoRcHlm1U=
+        wes@Wesleys-MacBook-Air.local
   MyApiGateway:
     Type: AWS::ApiGateway::RestApi
     Properties:
@@ -49,7 +55,7 @@ Resources:
     Properties:
       Code:
         S3Bucket: infantsense
-        S3Key: 422d5cb00bcda693955bd52341d8111b
+        S3Key: d5109394e7f13a0ddde76a3b1d7bdc5b
       Handler: lambda_function.lambda_handler
       Role:
         Fn::GetAtt:
@@ -116,8 +122,92 @@ Resources:
       Principal: apigateway.amazonaws.com
       SourceArn:
         Fn::Sub: arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${MyApiGateway}/*/*/*
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+  VPCGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId:
+        Ref: VPC
+      InternetGatewayId:
+        Ref: InternetGateway
+  Subnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:
+        Ref: VPC
+      CidrBlock: 10.0.1.0/24
+      MapPublicIpOnLaunch: true
+  RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: VPC
+  SubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: Subnet
+      RouteTableId:
+        Ref: RouteTable
+  Route:
+    Type: AWS::EC2::Route
+    DependsOn: VPCGatewayAttachment
+    Properties:
+      RouteTableId:
+        Ref: RouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: InternetGateway
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable SSH and HTTP traffic
+      VpcId:
+        Ref: VPC
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: '22'
+        ToPort: '22'
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: '3389'
+        ToPort: '3389'
+        CidrIp: 0.0.0.0/0
+  ElasticIP:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+      InstanceId:
+        Ref: EC2Instance
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-0557a15b87f6559cf
+      KeyName:
+        Ref: MyKeyPair
+      SecurityGroupIds:
+      - Ref: SecurityGroup
+      SubnetId:
+        Ref: Subnet
+      UserData:
+        Fn::Base64:
+          Fn::Sub: "#!/bin/bash\nsudo apt-get update\nsudo apt-get -y install mingw-w64\n\
+            curl https://sliver.sh/install|sudo bash\n"
 Outputs:
   ApiEndpoint:
     Value:
       Fn::Sub: https://${MyApiGateway}.execute-api.${AWS::Region}.amazonaws.com
     Description: Endpoint URL for API Gateway
+  PublicIp:
+    Value:
+      Fn::GetAtt:
+      - EC2Instance
+      - PublicIp

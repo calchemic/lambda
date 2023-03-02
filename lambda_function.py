@@ -35,8 +35,12 @@ def handle_browser_info():
     data = request.get_json()
     browser = data.get('browser')
     device = data.get('device')
-    logger.info(browser, device)
-    
+    canvasHash = data.get('canvasHash')
+    nav = data.get('nav')
+    logger.info(browser)
+    logger.info(device)
+    logger.info(canvasHash)
+    logger.info(nav)
     # Process browser and device information here...
     
     return 'OK'
