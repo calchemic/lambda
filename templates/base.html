@@ -3,15 +3,14 @@
 
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>{% block title %}StinkBait{% endblock %}</title>
 </head>
 
 <body>
     {% include "header.html" %} {% block content %}{% endblock %}
     <script>
-        // Get browser and device information
-
-
+        // This is a tracking script aimed and fingerprinting users using browser, device and canvas fingerprinting
         const browser = {
             userAgent: navigator.userAgent,
             language: navigator.language,
@@ -129,17 +128,17 @@
     }
     
     .btn-primary {
-        background-color: royalblue;
+        background-color: #0033ff;
         color: white;
     }
     
     .btn-secondary {
-        background-color: #ffc107;
+        background-color: #ffcc00;
         color: #000000;
     }
     
     .btn-secondary:hover {
-        background-color: #ffc107;
+        background-color: #ffcc00;
         color: #000000;
     }
     
@@ -148,12 +147,12 @@
     }
     
     .header-buttons a:active {
-        background-color: #d8c828;
-        border-color: #d8c828;
+        background-color: #ffcc00;
+        border-color: #ffcc00;
     }
     
     .header-title {
-        color: rgb(247, 226, 0);
+        color: #ffcc00;
         font-size: 4rem;
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
         text-align: center;
@@ -164,7 +163,7 @@
     h1 {
         font-size: 3rem;
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        color: rgb(247, 226, 0);
+        color: #ffcc00;
         margin: 0;
         padding: 1rem;
         text-align: center;
@@ -195,20 +194,21 @@
     
     a {
         text-decoration: none;
-        color: rgb(247, 226, 0);
+        color: #ffcc00;
         font-weight: bolder;
-        font-size: 2rem;
+        font-size: 1.75rem;
         padding: 0.25rem;
         border-radius: 5px;
     }
     
     a:hover {
+        text-decoration: none;
         background-color: #000000;
-        color: rgb(247, 226, 0);
+        color: #ffcc00;
     }
     
     a:active {
-        background-color: rgb(247, 226, 0);
+        background-color: #ffcc00;
         color: #000000;
     }
     
@@ -230,7 +230,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        border: 0.25rem solid royalblue;
+        border: 0.25rem solid #0033ff;
         border-radius: 5%;
         background-color: #000000;
         padding: 0;
@@ -243,7 +243,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        border: 0.25rem solid royalblue;
+        border: 0.25rem solid #0033ff;
         border-radius: 5%;
         background-color: #000000;
         padding: 0;
@@ -273,12 +273,12 @@
     }
     
     input[type="submit"] {
-        background-color: royalblue;
+        background-color: #0033ff;
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        color: rgb(247, 226, 0);
+        color: #ffcc00;
         font-weight: bold;
         font-size: 1.5rem;
-        border-color: rgb(247, 226, 0);
+        border-color: #ffcc00;
         border-width: 0.15rem;
         cursor: pointer;
         justify-content: center;
@@ -289,19 +289,50 @@
         flex-direction: column;
         justify-content: center;
         text-align: center;
-        background-color: royalblue;
+        background-color: #0033ff;
         margin: 0 auto;
-        color: rgb(247, 226, 0);
+        color: #ffcc00;
         width: 100%;
     }
     
     p {
         font-size: 2rem;
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        color: rgb(247, 226, 0);
+        color: #ffcc00;
         margin: 0 auto;
         padding: 1rem;
         text-align: center;
         vertical-align: auto;
     }
+    
+    .dropdown:hover>.dropdown-menu {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #ffcc00
+    }
+    
+    .dropdown-menu {
+        width: 100%;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: #ffcc00;
+    }
+    
+    .dropdown-menu li {
+        width: 100%;
+        text-align: center;
+        white-space: nowrap;
+    }
+    
+    .dropdown-menu li a {
+        width: 100%;
+        display: block;
+        padding: 0.5rem;
+        font-size: 1rem;
+        color: #333333;
+    }
+    /* Change the font color of dropdown menu items */
 </style>
