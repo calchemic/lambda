@@ -1,8 +1,6 @@
-name: 'Deploy Stinkbait via CloudFormation'
+name: 'Deploy Stinkbait'
 
-# **What it does**: Renders the content of every page and check all internal links.
-# **Why we have it**: To make sure all links connect correctly.
-# **Who does it impact**: Docs content.
+# **What it does**: Deploys Stinkbait using Cloudformation.
 
 on:
   workflow_dispatch:
