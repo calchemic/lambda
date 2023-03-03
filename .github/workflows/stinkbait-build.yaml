@@ -22,46 +22,25 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  check-links:
-    runs-on: ${{ fromJSON('["ubuntu-latest", "self-hosted"]')[github.repository == 'github/docs-internal'] }}
+  link-checker:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Setup node
-        uses: actions/setup-node@v3
+        uses: actions/checkout@v2
         with:
-          node-version: 16.13.x
-          cache: npm
+          fetch-depth: 0
 
-      - name: Install
-        run: npm ci
+      - name: Zip the Repo Templates
+        run: zip -r lambda.zip templates
 
-      # Creates file "$/files.json", among others
-      - name: Gather files changed
-        uses: trilom/file-changes-action@a6ca26c14274c33b15e6499323aac178af06ad4b
-        with:
-          fileOutput: 'json'
+      - name: Zip the Repo Static Files
+        run: zip -r lambda.zip static
 
-      # For verification
-      - name: Show files changed
-        run: cat $HOME/files.json
+      - name: Zip the Lambda Function
+        run: zip -r lambda.zip lambda_function.py
 
-      - name: Link check (warnings, changed files)
-        run: |
-          ./script/rendered-content-link-checker.mjs \
-            --language en \
-            --max 100 \
-            --check-anchors \
-            --check-images \
-            --verbose \
-            --list $HOME/files.json
+      - name: Upload the Lambda Function
+        run: aws cloudformation package --template-file template.yaml --s3-bucket stinkbait --output-template-file packaged-template.yaml --region us-east-1
 
-      - name: Link check (critical, all files)
-        run: |
-          ./script/rendered-content-link-checker.mjs \
-            --language en \
-            --exit \
-            --verbose \
-            --check-images \
-            --level critical
+      - name: Deploy the Lambda Function
+        run: aws cloudformation deploy --template-file packaged-template.yaml --stack-name stinkbait --capabilities CAPABILITY_IAM --region us-east-1
