@@ -1,6 +1,7 @@
 <header>
     <a href="{{ url_for('index') }}">
         <h1 class="header-title">StinkBait</h1>
+        <img src="{{url_for('static', filename='img/stinkbait.png')}}">
     </a>
     <div class="header-buttons">
         <a href="{{ url_for('login') }}" class="btn btn-primary">Login</a>
@@ -12,13 +13,11 @@
                 <a href="{{ url_for('campaigns') }}" class="dropdown-toggle">Campaigns</a>
                 <ul class="dropdown-menu">
                     <li><a href="#">Campaigns Dashboard</a></li>
-                    <li><a href="#">Create Phishing Campaign</a></li>
-                    <li><a href="#">Create Campaign Site</a></li>
-                    <li><a href="#">Create Campaign Email</a></li>
-                    <li><a href="#">Create Campaign Landing Page</a></li>
-                    <li><a href="#">Campaign Site Dashboard</a></li>
-                    <li><a href="#">Campaign Email Dashboard</a></li>
-                    <li><a href="#">Campaign Landing Page Dashboard</a></li>
+                    <li><a href="#">Launch Phishing Campaign</a></li>
+                    <li><a href="#">Domain Management</a></li>
+                    <li><a href="#">Email Development</a></li>
+                    <li><a href="#">Landing Page Development</a></li>
+                    <li><a href="#">Decoy Development</a></li>
                 </ul>
             </li>
             <li class="dropdown">

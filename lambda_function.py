@@ -23,20 +23,13 @@ s3resource = boto3.resource('s3')
 ddb = boto3.client('dynamodb')
 
 # Import Flask
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, send_file
 app = Flask(__name__)
 XRayMiddleware(app, xray_recorder)
 
 # Initialize the AWS Lambda Powertools
 tracer = Tracer()
 logger = Logger()
-
-# Define Flask routes
-@tracer.capture_method
-@app.route('/about')
-def about():
-    tracer.put_annotation(key="about", value="about-page")
-    return render_template('about.html')
 
 @app.route('/browser-info', methods=['POST'])
 def handle_browser_info():
@@ -144,8 +137,6 @@ def api_key_management():
 #     try
 # ##################### END UNTESTED CODE FOR API KEY ROUTES #######################
 # ##################################################################################
-
-
 class User:
     def __init__(self, image, name, email, phone, address, city, state, zip_code, country, organizations, campaigns, targets, implants, total_organizations, total_campaigns, total_targets, total_implants):
         self.image = image
