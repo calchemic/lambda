@@ -1,4 +1,4 @@
-name: 'Link Checker: All English'
+name: 'Deploy Stinkbait via CloudFormation'
 
 # **What it does**: Renders the content of every page and check all internal links.
 # **Why we have it**: To make sure all links connect correctly.
