@@ -26,24 +26,24 @@ jobs:
       #     npm ci
       #     # cd ./web-platform/src/getPricesPlanAllCoursesFunc
 
-      - name: Make artifacts
-        run: mkdir -p ./artifacts
+      # - name: Make artifacts
+      #   run: mkdir -p ./artifacts
 
-      - name: Copy stack file into artifacts
-        run: cp -r ./ ./artifacts
+      # - name: Copy stack file into artifacts
+      #   run: cp -r  ./artifacts
 
       - name: Install zip
         run: |
           sudo apt-get update
           sudo apt-get install -y zip
       - name: Create Zips templates
-        run: zip -r ./artifacts/templates.zip
+        run: zip -r ./templates.zip
         # run: for f in ./packages; do zip -r ./artifacts/web-platform/$(basename $f).zip $f;done;
       - name: Create Zips static
-        run: zip -r ./artifacts/static.zip
+        run: zip -r ./static.zip
 
       - name: Create Zips lambda
-        run: zip -r ./artifacts/lambda_function.zip
+        run: zip -r ./lambda_function.zip
 
       - uses: actions/upload-artifact@v3
         with:
@@ -56,8 +56,12 @@ jobs:
           role-to-assume: arn:aws:iam::486694884707:role/github-action-role
           aws-region: us-east-1
 
+      # - name: Upload to S3
+      #   run: for f in ./artifacts/*.zip;do aws s3 cp $f s3://traingrclambdafunctiontest;done;
+
       - name: Upload to S3
-        run: for f in ./artifacts/*.zip;do aws s3 cp $f s3://traingrclambdafunctiontest;done;
+        run: aws s3 cp ./packages.zip s3://traingrclambdafunctiontest
+
   # deploy-stack:
   #   permissions:
   #     id-token: write
