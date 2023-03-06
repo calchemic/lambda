@@ -1,0 +1,52 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Email Template Generator</h1>
+{% if message %}
+<div class="alert alert-info">{{ message }}</div>
+{% endif %}
+<form method="POST" enctype="multipart/form-data" action="{{ url_for('send_email') }}">
+    <div class="form-group">
+        <label for="to">To</label>
+        <input type="email" name="to" id="to" class="form-control" required>
+        <small class="form-text text-muted">Separate multiple recipients with a comma.</small>
+    </div>
+    <div class="form-group">
+        <label for="subject">Subject</label>
+        <input type="text" name="subject" id="subject" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="body">Body</label>
+        <textarea name="body" id="body" class="form-control" required></textarea>
+    </div>
+    <div class="form-group">
+        <label for="attachments">Attachments</label>
+        <div class="dropzone" id="attachments-dropzone">
+            <span class="dz-message">Drag and drop files here or click to upload.</span>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Send Email</button>
+</form>
+{% endblock %} {% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"></script>
+<script>
+    Dropzone.options.attachmentsDropzone = {
+        paramName: 'attachment',
+        maxFilesize: 10,
+        addRemoveLinks: true,
+        dictRemoveFile: 'Remove',
+        dictFileTooBig: 'File is too big ({{filesize}}MB). Max filesize: {{maxFilesize}}MB.',
+        init: function() {
+            this.on('success', function(file, response) {
+                file.serverId = response.serverId;
+            });
+            this.on('removedfile', function(file) {
+                if (file.serverId !== undefined) {
+                    $.ajax({
+                        url: '/remove-attachment/' + file.serverId,
+                        method: 'DELETE'
+                    });
+                }
+            });
+        }
+    };
+</script>
+{% endblock %}

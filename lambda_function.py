@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
+import io
+import os
 import urllib3
 import json
+import base64
 import boto3
 from aws_lambda_powertools import Logger, Tracer
 from aws_lambda_powertools.event_handler import APIGatewayRestResolver
@@ -10,7 +13,7 @@ from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
 from aws_xray_sdk.core import patcher, xray_recorder
 patcher.patch(('requests',))
 # Configure the X-Ray recorder to generate segments with our service name
-xray_recorder.configure(service='My First Serverless App')
+xray_recorder.configure(service='Stinkbait App')
 # Instrument the Flask application
 
 #trigger = APIGatewayRestResolver()
@@ -23,14 +26,25 @@ s3resource = boto3.resource('s3')
 ddb = boto3.client('dynamodb')
 
 # Import Flask
-from flask import Flask, request, jsonify, render_template, send_file, flash, redirect, url_for, session, logging
-app = Flask(__name__)
+from flask import Flask, request, jsonify, render_template, send_file, flash, redirect, url_for, session, logging, send_from_directory
+app = Flask(__name__, static_url_path='/static')
 XRayMiddleware(app, xray_recorder)
+
 
 # Initialize the AWS Lambda Powertools
 tracer = Tracer()
 logger = Logger()
 
+# Static image file route
+@app.route('/static/img/<path:path>')
+def send_static(path):
+    logger.info('Sending static image file: ' + path)
+    full_path = os.path.join('static', 'img', path)
+    logger.info('Full path: ' + full_path)
+    return send_file(full_path, mimetype='image/png')
+
+
+# Browser tracking route
 @app.route('/browser-info', methods=['POST'])
 def handle_browser_info():
     data = request.get_json()
@@ -45,12 +59,14 @@ def handle_browser_info():
     # Process browser and device information here...
     return 'OK'
 
+# Admin Dashboard route
 @app.route('/admin/dashboard')
 def admin_dashboard():
     #TODO: Return Dashboard of various Administrator configuration options
     # Should include things like managing api keys for non-aws services, registering/managing domains, certificates, and email servers (SMTP)
     pass
 
+# API Key Management Admin Dashboard route
 @app.route('/admin/dashboard/api-keys')
 def api_key_management():
     #TODO implement methods to add/update and delete API Keys using SSM Parameter store Secure String option to store the keys.
@@ -217,10 +233,12 @@ user = User(
     len(implants)
 )
 
+# Stinkbait User Profile Page
 @app.route('/profile')
 def profile():
     return render_template('/profile/profile.html', user=user)
 
+# Stinkbait User Password Reset Page
 @app.route('/profile/reset-password', methods=['GET', 'POST'])
 def reset_password():
     if request.method == 'POST':
@@ -242,6 +260,7 @@ def reset_password():
         # If the request method is GET, render the password reset form template
         return render_template('profile/password_reset.html')
 
+# Org profile page, needs to be moved under targets
 @app.route('/org-profile/<org_id>')
 def org_profile(org_id):
     # Retrieve the organization's data from your database using the org_id parameter
@@ -250,8 +269,7 @@ def org_profile(org_id):
     # Pass the organization's data to the org-profile.html template
     return render_template('/profile/org-profile.html') #, **org_data)
 
-
-
+# Campaign profile page
 @tracer.capture_method
 @app.route('/campaigns')
 def campaigns():
@@ -281,6 +299,7 @@ potential_reports = [
     }
 ]
 
+# Reports page
 @tracer.capture_method
 @app.route('/reports')
 def reports():
@@ -310,6 +329,7 @@ potential_targets = [
     }
 ]
 
+# Targets page
 @tracer.capture_method
 @app.route('/targets')
 def targets():
@@ -346,6 +366,7 @@ target = {
     'mobile_browser_fonts': ['Helvetica', 'Arial']
 }
 
+# Target profile page
 @app.route('/targets/<int:id>')
 def target_profile(id):
     # Look up the target data from the database based on the ID
@@ -382,6 +403,7 @@ potential_implants = [
     }
 ]
 
+# Implants Dashboard page
 @tracer.capture_method
 @app.route('/implants')
 def implants():
@@ -390,12 +412,14 @@ def implants():
     logger.info(implants)
     return render_template('implants.html', potential_implants=potential_implants)
 
+# Index page
 @tracer.capture_method
 @app.route('/index')
 def index():
     logger.info("Index Page")
     return render_template('index.html')
 
+# Downloads page
 @tracer.capture_method
 @app.route('/downloads')
 def downloads():
@@ -475,7 +499,6 @@ def lambda_handler(event, context):
                 pass
             ctx = app.test_request_context(base_url="https:"+base_url, path=http_path, method=http_method, headers=http_headers, data=http_body)
             ctx.push()
-            logger.info("Request Context: {}".format(ctx))
             if request.url_rule != None:
                 pass
             else:
@@ -485,16 +508,21 @@ def lambda_handler(event, context):
                 response = app.make_response(rv)
             else:
                 # do the main dispatch
-                rv = app.dispatch_request()
+                rv = app.full_dispatch_request()
+                rv.direct_passthrough = False
                 response = app.make_response(rv)
-
-        return {
-            "statusCode": 200,
-            "body": response.data,
-            "headers": {
-                'Content-Type': 'text/html',
+            headers = dict(response.headers)
+            content_type = headers.get('Content-Type', '')
+            # Check headers for content type and if it is an image, encode it as base64
+            if content_type.startswith('image/'):
+                data = base64.b64encode(response.data).decode('utf-8')
+                response.data = data
+                logger.info(response.data)
+            return {
+                "statusCode": 200,
+                "body": response.data,
+                "headers": headers
             }
-        }
     except Exception as e:
         logger.error("Exception: {}".format(e))
         with app.app_context():

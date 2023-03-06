@@ -12,6 +12,8 @@ Resources:
       Name: MyApiGateway
       Parameters:
         endpointConfigurationTypes: REGIONAL
+      BinaryMediaTypes:
+      - '*/*'
   MyApiResource:
     Type: AWS::ApiGateway::Resource
     Properties:
@@ -55,7 +57,7 @@ Resources:
     Properties:
       Code:
         S3Bucket: infantsense
-        S3Key: 6522b3730a2c3c90f7a32bd85e794dd4
+        S3Key: 2a6ff490cdaf086955f6f44c82d63233
       Handler: lambda_function.lambda_handler
       Role:
         Fn::GetAtt:

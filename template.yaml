@@ -14,7 +14,9 @@ Resources:
       Name: MyApiGateway
       Parameters:
           endpointConfigurationTypes: REGIONAL
-
+      BinaryMediaTypes:
+        - "*/*"
+        
   MyApiResource:
     Type: AWS::ApiGateway::Resource
     Properties:
