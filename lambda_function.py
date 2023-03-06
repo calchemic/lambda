@@ -23,7 +23,7 @@ s3resource = boto3.resource('s3')
 ddb = boto3.client('dynamodb')
 
 # Import Flask
-from flask import Flask, request, jsonify, render_template, send_file
+from flask import Flask, request, jsonify, render_template, send_file, flash, redirect, url_for, session, logging
 app = Flask(__name__)
 XRayMiddleware(app, xray_recorder)
 
@@ -219,7 +219,38 @@ user = User(
 
 @app.route('/profile')
 def profile():
-    return render_template('profile.html', user=user)
+    return render_template('/profile/profile.html', user=user)
+
+@app.route('/profile/reset-password', methods=['GET', 'POST'])
+def reset_password():
+    if request.method == 'POST':
+        # Get the email, new password, and confirm new password from the form data
+        email = request.form['email']
+        password = request.form['password']
+        confirm_password = request.form['confirm_password']
+
+        # Verify that the new password and confirm password fields match
+        if password != confirm_password:
+            flash('Passwords do not match. Please try again.', 'error')
+            return redirect(url_for('reset_password'))
+
+        # TODO: Perform password reset logic here
+
+        flash('Your password has been reset!', 'success')
+        return redirect(url_for('login'))
+    elif request.method == 'GET':
+        # If the request method is GET, render the password reset form template
+        return render_template('profile/password_reset.html')
+
+@app.route('/org-profile/<org_id>')
+def org_profile(org_id):
+    # Retrieve the organization's data from your database using the org_id parameter
+    # org_data = get_org_data(org_id)
+
+    # Pass the organization's data to the org-profile.html template
+    return render_template('/profile/org-profile.html') #, **org_data)
+
+
 
 @tracer.capture_method
 @app.route('/campaigns')

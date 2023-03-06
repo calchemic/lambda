@@ -1,0 +1,12 @@
+{% extends 'base.html' %} {% block header %} {% include 'header.html' %} {% endblock %} {% block content %}
+<h1>{{ org_name }}</h1>
+<img src="{{ org_logo }}" alt="{{ org_name }} Logo">
+<p>Domains: {{ domains|join(', ') }}</p>
+<p>Email Pattern: {{ email_pattern }}</p>
+<p>Headquarters Address: {{ hq_address }}, {{ city }}, {{ state }} {{ zip }}, {{ country }}</p>
+<p>Phone: {{ phone }}</p>
+<p>Subsidiaries: {{ subsidiaries|join(', ') }}</p>
+<p>Targets: {{ targets|join(', ') }}</p>
+<p>Campaigns: {{ campaigns|join(', ') }}</p>
+<p>Implants: {{ implants|join(', ') }}</p>
+{% endblock %}

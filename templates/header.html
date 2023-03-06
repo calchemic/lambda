@@ -10,9 +10,18 @@
     <nav>
         <ul>
             <li class="dropdown">
-                <a href="{{ url_for('campaigns') }}" class="dropdown-toggle">Campaigns</a>
+                <a href="{{ url_for('targets') }}" class="dropdown-toggle">Targets</a>
                 <ul class="dropdown-menu">
-                    <li><a href="#">Campaigns Dashboard</a></li>
+                    <li><a href="#">Organizations Dashboard</a></li>
+                    <li><a href="#">Create a Target Organization</a></li>
+                    <li><a href="#">Targets Dashboard</a></li>
+                    <li><a href="#">Create a Target Profile</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle">Campaigns</a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ url_for('campaigns') }}">Campaigns Dashboard</a></li>
                     <li><a href="#">Launch Phishing Campaign</a></li>
                     <li><a href="#">Domain Management</a></li>
                     <li><a href="#">Email Development</a></li>
@@ -21,33 +30,28 @@
                 </ul>
             </li>
             <li class="dropdown">
-                <a href="{{ url_for('targets') }}" class="dropdown-toggle">Targets</a>
+                <a href="#" class="dropdown-toggle">Implants</a>
                 <ul class="dropdown-menu">
-                    <li><a href="#">Targets Dashboard</a></li>
-                    <li><a href="#">Create a Target Profile</a></li>
-                </ul>
-            </li>
-            <li class="dropdown">
-                <a href="{{ url_for('implants') }}" class="dropdown-toggle">Implants</a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Implants Dashboard</a></li>
+                    <li><a href="{{ url_for('implants') }}">Implants Dashboard</a></li>
                     <li><a href="#">Create Implant Pipeline</a></li>
                     <li><a href="#">Stage Implant</a></li>
                 </ul>
             </li>
             <li class="dropdown">
-                <a href="{{ url_for('reports') }}" class="dropdown-toggle">Reporting</a>
+                <a href="#" class="dropdown-toggle">Reporting</a>
                 <ul class="dropdown-menu">
-                    <li><a href="#">Reports Dashboard</a></li>
+                    <li><a href="{{ url_for('reports') }}">Reports Dashboard</a></li>
                     <li><a href="#">Create a Report</a></li>
                     <li><a href="#">KPI Dashboard</a></li>
                 </ul>
             </li>
             <li class="dropdown">
-                <a href="{{ url_for('profile') }}" class="dropdown-toggle">Profile</a>
+                <a href="#" class="dropdown-toggle">Profile</a>
                 <ul class="dropdown-menu">
-                    <li><a href="#">User Profile</a></li>
-                    <li><a href="#">Org Profile</a></li>
+                    <li><a href="{{ url_for('profile') }}">User Profile</a></li>
+                    <li><a href="{{ url_for('reset_password') }}">Password Reset</a></li>
+                    <li><a href="#">Settings</a></li>
+                    <li><a href="#">Logout</a></li>
                 </ul>
             </li>
         </ul>
