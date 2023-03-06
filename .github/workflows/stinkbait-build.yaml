@@ -43,24 +43,24 @@ jobs:
         run: zip -r static.zip static/
 
       - name: Create Zips lambda
-        run: zip -r lambda_function.zip
+        run: zip -r lambda_function.zip lambda_function.py
 
-      - uses: actions/upload-artifact@v3
-        with:
-          name: lambda
-          path: ./artifacts
+      # - uses: actions/upload-artifact@v3
+      #   with:
+      #     name: lambda
+      #     path: ./artifacts
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1-node16
-        with:
-          role-to-assume: arn:aws:iam::486694884707:role/github-action-role
-          aws-region: us-east-1
+      # - name: Configure AWS Credentials
+      #   uses: aws-actions/configure-aws-credentials@v1-node16
+      #   with:
+      #     role-to-assume: arn:aws:iam::486694884707:role/github-action-role
+      #     aws-region: us-east-1
+
+      # # - name: Upload to S3
+      # #   run: for f in ./artifacts/*.zip;do aws s3 cp $f s3://traingrclambdafunctiontest;done;
 
       # - name: Upload to S3
-      #   run: for f in ./artifacts/*.zip;do aws s3 cp $f s3://traingrclambdafunctiontest;done;
-
-      - name: Upload to S3
-        run: aws s3 cp ./packages.zip s3://traingrclambdafunctiontest
+      #   run: aws s3 cp ./packages.zip s3://traingrclambdafunctiontest
 
   # deploy-stack:
   #   permissions:
