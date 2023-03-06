@@ -37,10 +37,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y zip
       - name: Create Zips templates
-        run: zip -r templates.zip
+        run: zip -r templates.zip templates/
         # run: for f in ./packages; do zip -r ./artifacts/web-platform/$(basename $f).zip $f;done;
       - name: Create Zips static
-        run: zip -r static.zip
+        run: zip -r static.zip static/
 
       - name: Create Zips lambda
         run: zip -r lambda_function.zip
