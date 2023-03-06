@@ -1,41 +1,124 @@
-name: 'Deploy Stinkbait'
-
-# **What it does**: Deploys Stinkbait using Cloudformation.
+name: Deploy Stinkbait
 
 on:
-  workflow_dispatch:
   push:
     branches:
-      - main
+      - "main"
   pull_request:
-
-permissions:
-  contents: read
-  # Needed for the 'trilom/file-changes-action' action
-  pull-requests: read
-
-# This allows a subsequently queued workflow run to interrupt previous runs
-concurrency:
-  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
-  cancel-in-progress: true
-
+    branches:
+      - "main"
 jobs:
-  link-checker:
+  build:
+    permissions:
+      id-token: write
+      contents: read
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Zip the Repo Templates
-        run: zip -r lambda.zip templates
+      - uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: npm install
+        env:
+          CI: true
+      #   run: |
+      #     cd ./web-platform/src/getPricesPlanAllCoursesFunc
+      #     npm ci
+      - name: Make artifacts
+        run: mkdir -p ./artifacts
 
-      - name: Zip the Repo Static Files
-        run: zip -r lambda.zip static
+      - name: Copy stack file into artifacts
+        run: cp -r ./ ./artifacts
 
-      - name: Zip the Lambda Function
-        run: zip -r lambda.zip lambda_function.py
+      - name: Install zip
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y zip
+      - name: Create Zips templates
+        run: zip -r ./artifacts/templates.zip
+        # run: for f in ./packages; do zip -r ./artifacts/web-platform/$(basename $f).zip $f;done;
+      - name: Create Zips static
+        run: zip -r ./artifacts/static.zip
 
-      - name: Upload the Lambda Function
-        run: aws cloudformation package --template-file template.yaml --s3-bucket stinkbait --output-template-file packaged-template.yaml --region us-east-1
+      - name: Create Zips lambda
+        run: zip -r ./artifacts/lambda_function.zip
 
-      - name: Deploy the Lambda Function
-        run: aws cloudformation deploy --template-file packaged-template.yaml --stack-name stinkbait --capabilities CAPABILITY_IAM --region us-east-1
+      - uses: actions/upload-artifact@v3
+        with:
+          name: lambda
+          path: ./artifacts
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          role-to-assume: arn:aws:iam::486694884707:role/github-action-role
+          aws-region: us-east-1
+
+      - name: Upload to S3
+        run: for f in ./artifacts/*.zip;do aws s3 cp $f s3://traingrclambdafunctiontest;done;
+  # deploy-stack:
+  #   permissions:
+  #     id-token: write
+  #     contents: read
+  #   runs-on: ubuntu-latest
+  #   needs: build
+  #   steps:
+  #     - uses: actions/download-artifact@v3
+  #       with:
+  #         name: lambda
+  #         path: artifacts
+
+  #     - name: Configure AWS Credentials
+  #       uses: aws-actions/configure-aws-credentials@v1-node16
+  #       with:
+  #         role-to-assume: arn:aws:iam::486694884707:role/github-action-role
+  #         aws-region: us-east-1
+
+  #     - name: Deploy to AWS CloudFormation
+  #       uses: aws-actions/aws-cloudformation-github-deploy@v1.1.0
+  #       with:
+  #         name: quiz-response-cloudformation
+  #         template: artifacts/web-platform/cloudformation/quizStack.yaml
+  #         no-fail-on-empty-changeset: "1"
+# name: 'Deploy Stinkbait'
+
+# # **What it does**: Deploys Stinkbait using Cloudformation.
+
+# on:
+#   workflow_dispatch:
+#   push:
+#     branches:
+#       - main
+#   pull_request:
+
+# permissions:
+#   contents: read
+#   # Needed for the 'trilom/file-changes-action' action
+#   pull-requests: read
+
+# # This allows a subsequently queued workflow run to interrupt previous runs
+# concurrency:
+#   group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+#   cancel-in-progress: true
+
+# jobs:
+#   link-checker:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v3
+#       - name: Zip the Repo Templates
+#         run: zip -r lambda.zip templates
+
+#       - name: Zip the Repo Static Files
+#         run: zip -r lambda.zip static
+
+#       - name: Zip the Lambda Function
+#         run: zip -r lambda.zip lambda_function.py
+
+#       - name: Upload the Lambda Function
+#         run: aws cloudformation package --template-file template.yaml --s3-bucket stinkbait --output-template-file packaged-template.yaml --region us-east-1
+
+#       - name: Deploy the Lambda Function
+#         run: aws cloudformation deploy --template-file packaged-template.yaml --stack-name stinkbait --capabilities CAPABILITY_IAM --region us-east-1
