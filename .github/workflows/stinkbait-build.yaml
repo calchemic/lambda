@@ -37,13 +37,13 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y zip
       - name: Create Zips templates
-        run: zip -r ./templates.zip
+        run: zip -r templates.zip
         # run: for f in ./packages; do zip -r ./artifacts/web-platform/$(basename $f).zip $f;done;
       - name: Create Zips static
-        run: zip -r ./static.zip
+        run: zip -r static.zip
 
       - name: Create Zips lambda
-        run: zip -r ./lambda_function.zip
+        run: zip -r lambda_function.zip
 
       - uses: actions/upload-artifact@v3
         with:
