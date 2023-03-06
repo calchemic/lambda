@@ -22,9 +22,9 @@ jobs:
       - name: npm install
         env:
           CI: true
-      #   run: |
-      #     cd ./web-platform/src/getPricesPlanAllCoursesFunc
-      #     npm ci
+        run: |
+          npm ci
+          # cd ./web-platform/src/getPricesPlanAllCoursesFunc
       - name: Make artifacts
         run: mkdir -p ./artifacts
 
