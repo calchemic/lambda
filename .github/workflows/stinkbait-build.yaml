@@ -19,12 +19,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-      - name: npm install
-        env:
-          CI: true
-        run: |
-          npm ci
-          # cd ./web-platform/src/getPricesPlanAllCoursesFunc
+      # - name: npm install
+      #   env:
+      #     CI: true
+      #   run: |
+      #     npm ci
+      #     # cd ./web-platform/src/getPricesPlanAllCoursesFunc
+
       - name: Make artifacts
         run: mkdir -p ./artifacts
 
