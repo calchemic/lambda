@@ -50,14 +50,14 @@ jobs:
       #     name: lambda
       #     path: ./artifacts
 
-      # - name: Configure AWS Credentials
-      #   uses: aws-actions/configure-aws-credentials@v1-node16
-      #   with:
-      #     role-to-assume: arn:aws:iam::486694884707:role/github-action-role
-      #     aws-region: us-east-1
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          role-to-assume: arn:aws:iam::486694884707:role/github-action-role
+          aws-region: us-east-1
 
       # # - name: Upload to S3
-      # #   run: for f in ./artifacts/*.zip;do aws s3 cp $f s3://traingrclambdafunctiontest;done;
+      # #   run: for f in ./*.zip;do aws s3 cp $f s3://traingrclambdafunctiontest;done;
 
       # - name: Upload to S3
       #   run: aws s3 cp ./packages.zip s3://traingrclambdafunctiontest
