@@ -1,0 +1,48 @@
+<form class=form-container method="POST" action="{{ url_for('create') }}">
+    <label for="org_name">Organization Name*</label>
+    <input type="text" id="org_name" name="org_name" required>
+    <br>
+    <label for="org_logo">Organization Logo</label>
+    <input type="text" id="org_logo" name="org_logo">
+    <br>
+    <label for="domains">Domains (comma-separated)</label>
+    <input type="text" id="domains" name="domains">
+    <br>
+    <label for="email_pattern">Email Pattern</label>
+    <input type="text" id="email_pattern" name="email_pattern">
+    <br>
+    <label for="hq_address">HQ Address</label>
+    <input type="text" id="hq_address" name="hq_address">
+    <br>
+    <label for="city">City</label>
+    <input type="text" id="city" name="city">
+    <br>
+    <label for="state">State</label>
+    <input type="text" id="state" name="state">
+    <br>
+    <label for="zip">Zip Code</label>
+    <input type="text" id="zip" name="zip">
+    <br>
+    <label for="country">Country</label>
+    <input type="text" id="country" name="country">
+    <br>
+    <label for="phone">Phone Number</label>
+    <input type="text" id="phone" name="phone">
+    <br>
+    <label for="subsidiaries">Subsidiaries (comma-separated)</label>
+    <input type="text" id="subsidiaries" name="subsidiaries">
+    <br>
+    <label for="targets">Targets (comma-separated)</label>
+    <input type="text" id="targets" name="targets">
+    <br>
+    <label for="campaigns">Campaigns (comma-separated)</label>
+    <input type="text" id="campaigns" name="campaigns">
+    <br>
+    <label for="implants">Implants (comma-separated)</label>
+    <input type="text" id="implants" name="implants">
+    <br>
+    <label for="public_co">Public Company</label>
+    <input type="checkbox" id="public_co" name="public_co" value="true">
+    <br>
+    <input type="submit" value="Create">
+</form>

@@ -5,15 +5,59 @@ from flask import Flask, render_template, request, send_file
 #########################################################################################
 ###################################  Targets Routes  ####################################
 #########################################################################################
-# Org profile page, needs to be moved under targets
+# Org Profile page for a specific organization
 @app.route('/targets/orgs/<org_id>')
 def org_profile(org_id):
     # Retrieve the organization's data from your database using the org_id parameter
     # org_data = get_org_data(org_id)
 
     # Pass the organization's data to the org-profile.html template
-    return render_template('/profile/org-profile.html') #, **org_data)
+    return render_template('/targets/org-profile.html') #, **org_data)
 
+# Create a new organization
+@app.route('/targets/orgs/new', methods=['GET', 'POST'])
+def new_org_profile():
+    if request.method == 'POST':
+        pass
+    #     db = client['your_database_name']
+    #     org_id = uuid.uuid4().hex
+    #     org_name = request.form['org_name']
+    #     org_logo = request.form.get('org_logo', '')
+    #     domains = request.form.getlist('domains')
+    #     email_pattern = request.form.get('email_pattern', '')
+    #     hq_address = request.form.get('hq_address', '')
+    #     city = request.form.get('city', '')
+    #     state = request.form.get('state', '')
+    #     zip_code = request.form.get('zip', '')
+    #     country = request.form.get('country', '')
+    #     phone = request.form.get('phone', '')
+    #     subsidiaries = request.form.getlist('subsidiaries')
+    #     targets = request.form.getlist('targets')
+    #     campaigns = request.form.getlist('campaigns')
+    #     implants = request.form.getlist('implants')
+    #     public_co = request.form.get('public_co', 'false')
+    #     organization = {
+    #         'org_id': org_id,
+    #         'org_name': org_name,
+    #         'org_logo': org_logo,
+    #         'domains': domains,
+    #         'email_pattern': email_pattern,
+    #         'hq_address': hq_address,
+    #         'city': city,
+    #         'state': state,
+    #         'zip': zip_code,
+    #         'country': country,
+    #         'phone': phone,
+    #         'subsidiaries': subsidiaries,
+    #         'targets': targets,
+    #         'campaigns': campaigns,
+    #         'implants': implants,
+    #         'public_co': public_co
+    #     }
+    #     db['your_collection_name'].insert_one(organization)
+    #     return redirect(url_for('index'))
+    else:
+        return render_template('targets/org_profile_new.html')
 
 potential_targets = [
     {
