@@ -16,7 +16,7 @@ def org_profile(org_id):
 
 # Create a new organization
 @app.route('/targets/orgs/new', methods=['GET', 'POST'])
-def new_org_profile():
+def target_org_new():
     if request.method == 'POST':
         pass
     #     db = client['your_database_name']
@@ -57,7 +57,7 @@ def new_org_profile():
     #     db['your_collection_name'].insert_one(organization)
     #     return redirect(url_for('index'))
     else:
-        return render_template('targets/org_profile_new.html')
+        return render_template('targets/new_org.html')
 
 potential_targets = [
     {

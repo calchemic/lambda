@@ -1,4 +1,5 @@
-<form class=form-container method="POST" action="{{ url_for('create') }}">
+{% extends 'base.html' %} {% block title %}Create New Organization{% endblock %} {% block content %}
+<form method="POST" action="{{ url_for('target_org_new') }}">
     <label for="org_name">Organization Name*</label>
     <input type="text" id="org_name" name="org_name" required>
     <br>
@@ -46,3 +47,4 @@
     <br>
     <input type="submit" value="Create">
 </form>
+{% endblock %}
