@@ -5,6 +5,16 @@ from flask import Flask, render_template, request, send_file
 #########################################################################################
 ###################################  Targets Routes  ####################################
 #########################################################################################
+# Org profile page, needs to be moved under targets
+@app.route('/targets/orgs/<org_id>')
+def org_profile(org_id):
+    # Retrieve the organization's data from your database using the org_id parameter
+    # org_data = get_org_data(org_id)
+
+    # Pass the organization's data to the org-profile.html template
+    return render_template('/profile/org-profile.html') #, **org_data)
+
+
 potential_targets = [
     {
         "id": "240722b44c974973aef89654ff647d5b",
@@ -30,10 +40,10 @@ potential_targets = [
 
 # Targets page
 @tracer.capture_method
-@app.route('/targets')
-def targets():
+@app.route('/targets/subjects/dashboard')
+def target_subjects_dashboard():
     tracer.put_annotation(key="targets", value="targets-page")
-    return render_template('targets.html', potential_targets=potential_targets)
+    return render_template('targets/subject_dashboard.html', potential_targets=potential_targets)
 
 target = {
     'id': 1,
@@ -66,11 +76,11 @@ target = {
 }
 
 # Target profile page
-@app.route('/targets/<int:id>')
+@app.route('/targets/subjects/<int:id>')
 def target_profile(id):
     # Look up the target data from the database based on the ID
     # Render the target profile template with the target data
-    return render_template('targets/profile.html', target=target)
+    return render_template('targets/subject_profile.html', target=target)
 
 #########################################################################################
 ###############################  End Targets Routes  ####################################
@@ -301,8 +311,8 @@ def api_key_management():
 #################################  Campaigns Routes  ####################################
 #########################################################################################
 
-@app.route('/campaigns/email', methods=['GET', 'POST'])
-def send_email():
+@app.route('/campaigns/email/template', methods=['GET', 'POST'])
+def email_template():
     if request.method == 'POST':
         to = request.form['to']
         subject = request.form['subject']
@@ -314,6 +324,38 @@ def send_email():
         return render_template('campaigns/email_template.html', message=message)
     else:
         return render_template('campaigns/email_template.html')
+    
+@app.route('/campaigns/email/preview', methods=['GET', 'POST'])
+def preview_email():
+    #TODO: Implement preview email functionality
+    pass
+
+@app.route('/campaigns/email/send', methods=['GET', 'POST'])
+def send_email():
+    pass
+
+@app.route('/campaigns/dns-cert-manager', methods=['GET', 'POST'])
+def dns_cert_manager():
+    # if request.method == 'POST':
+    #     if 'register_dns' in request.form:
+    #         dns_domain = request.form['dns_domain']
+    #         dns_domains.add(dns_domain)
+    #         message = f'DNS domain "{dns_domain}" registered successfully!'
+    #     elif 'import_dns' in request.form:
+    #         dns_domains.update(request.form['dns_domains'].split())
+    #         message = 'DNS domains imported successfully!'
+    #     elif 'create_certificate' in request.form:
+    #         domains = request.form['domains'].split()
+    #         certificate_name = request.form['certificate_name']
+    #         certificates[certificate_name] = domains
+    #         message = f'TLS certificate "{certificate_name}" created successfully!'
+    #     elif 'delete_certificate' in request.form:
+    #         certificate_name = request.form['certificate_name']
+    #         del certificates[certificate_name]
+    #         message = f'TLS certificate "{certificate_name}" deleted successfully!'
+    # else:
+    #     message = None
+    return render_template('campaigns/dns_cert_manager.html') #, dns_domains=dns_domains, certificates=certificates, message=message)
 
 #########################################################################################
 ###############################  End Campaigns Routes  ##################################
@@ -342,17 +384,6 @@ def handle_browser_info():
     # Process browser and device information here...
     return 'OK'
 
-
-
-
-# Org profile page, needs to be moved under targets
-@app.route('/org-profile/<org_id>')
-def org_profile(org_id):
-    # Retrieve the organization's data from your database using the org_id parameter
-    # org_data = get_org_data(org_id)
-
-    # Pass the organization's data to the org-profile.html template
-    return render_template('/profile/org-profile.html') #, **org_data)
 
 # Campaign profile page
 @tracer.capture_method

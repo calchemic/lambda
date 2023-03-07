@@ -1,0 +1,36 @@
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Domains</th>
+            <th>Email Pattern</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Country</th>
+            <th>Phone</th>
+            <th>Subsidiaries</th>
+            <th>Targets</th>
+            <th>Campaigns</th>
+            <th>Implants</th>
+            <th>Public Company</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for organization in organizations %}
+        <tr>
+            <td>{{ organization['org_name'] }}</td>
+            <td>{{ ', '.join(organization['domains']) }}</td>
+            <td>{{ organization['email_pattern'] }}</td>
+            <td>{{ organization['city'] }}</td>
+            <td>{{ organization['state'] }}</td>
+            <td>{{ organization['country'] }}</td>
+            <td>{{ organization['phone'] }}</td>
+            <td>{{ ', '.join(organization['subsidiaries']) }}</td>
+            <td>{{ ', '.join(organization['targets']) }}</td>
+            <td>{{ ', '.join(organization['campaigns']) }}</td>
+            <td>{{ ', '.join(organization['implants']) }}</td>
+            <td>{{ organization['public_co'] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

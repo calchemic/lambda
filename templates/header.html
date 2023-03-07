@@ -9,11 +9,11 @@
     <nav>
         <ul>
             <li class="dropdown">
-                <a href="{{ url_for('targets') }}" class="dropdown-toggle">Targets</a>
+                <a href="#" class="dropdown-toggle">Targets</a>
                 <ul class="dropdown-menu">
                     <li><a href="#">Organizations Dashboard</a></li>
                     <li><a href="#">Create a Target Organization</a></li>
-                    <li><a href="#">Targets Dashboard</a></li>
+                    <li><a href="{{ url_for('target_subjects_dashboard') }}">Targets Dashboard</a></li>
                     <li><a href="#">Create a Target Profile</a></li>
                 </ul>
             </li>
@@ -22,8 +22,8 @@
                 <ul class="dropdown-menu">
                     <li><a href="{{ url_for('campaigns') }}">Campaigns Dashboard</a></li>
                     <li><a href="#">Launch Phishing Campaign</a></li>
-                    <li><a href="#">Domain Management</a></li>
-                    <li><a href="{{url_for('send_email')}}">Email Development</a></li>
+                    <li><a href="{{url_for('dns_cert_manager')}}">Domain Management</a></li>
+                    <li><a href="{{url_for('email_template')}}">Email Development</a></li>
                     <li><a href="#">Landing Page Development</a></li>
                     <li><a href="#">Decoy Development</a></li>
                 </ul>
