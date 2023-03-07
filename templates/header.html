@@ -6,7 +6,7 @@
     <nav>
         <ul>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle">Targets</a>
+                <a href="#">Targets</a>
                 <ul class="dropdown-menu">
                     <li><a href="#">Organizations Dashboard</a></li>
                     <li><a href="{{ url_for('new_org_profile') }}">Create a Target Organization</a></li>
@@ -15,7 +15,7 @@
                 </ul>
             </li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle">Campaigns</a>
+                <a href="#">Campaigns</a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ url_for('campaigns') }}">Campaigns Dashboard</a></li>
                     <li><a href="#">Launch Phishing Campaign</a></li>
@@ -31,7 +31,7 @@
                 </a>
             </li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle">Implants</a>
+                <a href="#">Implants</a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ url_for('implants') }}">Live Implants Dashboard</a></li>
                     <li><a href="#">Create Implant Pipeline</a></li>
@@ -39,22 +39,22 @@
                 </ul>
             </li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle">Reporting</a>
+                <a href="#">Reporting</a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ url_for('reports') }}">Reports Dashboard</a></li>
                     <li><a href="#">Create a Report</a></li>
                     <li><a href="#">KPI Dashboard</a></li>
                 </ul>
             </li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle">Profile</a>
+            <!-- <li class="dropdown">
+                <a href="#">Profile</a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ url_for('profile') }}">User Profile</a></li>
                     <li><a href="{{ url_for('reset_password') }}">Password Reset</a></li>
                     <li><a href="#">Settings</a></li>
                     <li><a href="#">Logout</a></li>
                 </ul>
-            </li>
+            </li> -->
         </ul>
     </nav>
 </header>
