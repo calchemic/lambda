@@ -483,13 +483,13 @@ def lambda_handler(event, context):
     allow_check = allow(event, context)
     logger.info(allow_check[1])
 
-    if allow_check[0] == True:
-        pass
-    elif allow_check[0] == False:
-        return {
-            'statusCode': 403,
-            'body': 'Forbidden'
-        }
+    # if allow_check[0] == True:
+    #     pass
+    # elif allow_check[0] == False:
+    #     return {
+    #         'statusCode': 403,
+    #         'body': 'Forbidden'
+    #     }
     try:
         with app.app_context():
             if http_path == '/':
