@@ -60,7 +60,7 @@ jobs:
       - name: Configure AWS Credential
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
-          role-to-assume: arn:aws:iam::486694884707:role/github-action-role
+          role-to-assume: arn:aws:iam::225609042289:role/github-action-role
           aws-region: us-east-1
 
       - name: lambda-response-cloudformation
