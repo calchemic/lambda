@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>DNS Domain and Certificate Manager</title>
+</head>
+
+<body>
+    <h1>DNS Domain and Certificate Manager</h1>
+
+    {% if message %}
+    <p>{{ message }}</p>
+    {% endif %}
+
+    <h2>Register DNS Domain</h2>
+    <form method="POST" action="{{ url_for('register_dns') }}">
+        <label for="dns_domain">DNS Domain:</label>
+        <input type="text" name="dns_domain" required>
+        <button type="submit">Register</button>
+    </form>
+
+    <h2>Import DNS Domains</h2>
+    <form method="POST" action="{{ url_for('import_dns') }}">
+        <label for="dns_domains">DNS Domains (one per line):</label>
+        <textarea name="dns_domains" required></textarea>
+        <button type="submit">Import</button>
+    </form>
+
+    <h2>Create TLS Certificate</h2>
+    <form method="POST" action="{{ url_for('create_certificate') }}">
+        <label for="domains">Domains (comma-separated):</label>
+        <input type="text" name="domains" required>
+        <label for="certificate_name">Certificate Name:</label>
+        <input type="text" name="certificate_name" required>
+        <button type="submit">Create</button>
+    </form>
+
+    <h2>Delete TLS Certificate</h2>
+    <form method="POST" action="{{ url_for('delete_certificate') }}">
+        <label for="certificate_name">Certificate Name:</label>
+        <select name="certificate_name" required>
+        {% for certificate_name in certificates %}
+          <option value="{{ certificate_name }}">{{ certificate_name }}</option>
+        {% endfor %}
+      </select>
+        <button type="submit">Delete</button>
+    </form>
+
+    {% if dns_domains %}
+    <h2>DNS Domains</h2>
+    <ul>
+        {% for dns_domain in dns_domains %}
+        <li>{{ dns_domain }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %} {% if certificates %}
+    <h2>TLS Certificates</h2>
+    <ul>
+        {% for certificate_name, domains in certificates.items() %}
+        <li>{{ certificate_name }}: {{ ", ".join(domains) }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+</body>
+
+</html>
