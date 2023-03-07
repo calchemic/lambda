@@ -37,12 +37,26 @@ XRayMiddleware(app, xray_recorder)
 tracer = Tracer()
 logger = Logger()
 
+
+@app.route('/campaigns/email', methods=['GET', 'POST'])
+def send_email():
+    if request.method == 'POST':
+        to = request.form['to']
+        subject = request.form['subject']
+        body = request.form['body']
+        attachments = request.files.getlist('attachment')
+        # Code to send email goes here
+        # ...
+        message = 'Template Uploaded!'
+        return render_template('campaigns/email_template.html', message=message)
+    else:
+        return render_template('campaigns/email_template.html')
+
 # Static image file route
 @app.route('/static/img/<path:path>')
 def send_static(path):
-    logger.info('Sending static image file: ' + path)
     full_path = os.path.join('static', 'img', path)
-    logger.info('Full path: ' + full_path)
+    logger.info('Image Path: ' + full_path)
     return send_file(full_path)
 
 

@@ -3,30 +3,33 @@
 {% if message %}
 <div class="alert alert-info">{{ message }}</div>
 {% endif %}
-<form method="POST" enctype="multipart/form-data" action="{{ url_for('send_email') }}">
-    <div class="form-group">
-        <label for="to">To</label>
-        <input type="email" name="to" id="to" class="form-control" required>
-        <small class="form-text text-muted">Separate multiple recipients with a comma.</small>
-    </div>
-    <div class="form-group">
-        <label for="subject">Subject</label>
-        <input type="text" name="subject" id="subject" class="form-control" required>
-    </div>
-    <div class="form-group">
-        <label for="body">Body</label>
-        <textarea name="body" id="body" class="form-control" required></textarea>
-    </div>
-    <div class="form-group">
-        <label for="attachments">Attachments</label>
-        <div class="dropzone" id="attachments-dropzone">
-            <span class="dz-message">Drag and drop files here or click to upload.</span>
+<div class="form-container">
+    <form method="POST" enctype="multipart/form-data" action="{{ url_for('send_email') }}">
+        <div class="form-group">
+            <label for="to">To</label>
+            <input type="email" name="to" id="to" class="form-control" required>
+            <small class="form-text text-muted">Separate multiple recipients with a comma.</small>
         </div>
-    </div>
-    <button type="submit" class="btn btn-primary">Send Email</button>
-</form>
+        <div class="form-group">
+            <label for="subject">Subject</label>
+            <input type="text" name="subject" id="subject" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="body">Body</label>
+            <textarea name="body" id="body" class="form-control" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="attachments">Attachments</label>
+            <div class="dropzone" id="attachmentsDropzone">
+                <span class="dz-message">Drag and drop files here or click to upload.</span>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Send Email</button>
+    </form>
+</div>
 {% endblock %} {% block scripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     Dropzone.options.attachmentsDropzone = {
         paramName: 'attachment',
