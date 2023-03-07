@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+
+# External Imports
 import io
 import os
 import urllib3
@@ -14,9 +16,9 @@ from aws_xray_sdk.core import patcher, xray_recorder
 patcher.patch(('requests',))
 # Configure the X-Ray recorder to generate segments with our service name
 xray_recorder.configure(service='Stinkbait App')
-# Instrument the Flask application
 
-#trigger = APIGatewayRestResolver()
+# Internal Imports
+from allow import allow
 
 
 # Set boto3 clients for various services the lambda function will utilize
@@ -41,7 +43,7 @@ def send_static(path):
     logger.info('Sending static image file: ' + path)
     full_path = os.path.join('static', 'img', path)
     logger.info('Full path: ' + full_path)
-    return send_file(full_path, mimetype='image/png')
+    return send_file(full_path)
 
 
 # Browser tracking route
@@ -52,10 +54,10 @@ def handle_browser_info():
     device = data.get('device')
     canvasHash = data.get('canvasHash')
     nav = data.get('nav')
-    logger.info(browser)
-    logger.info(device)
-    logger.info(canvasHash)
-    logger.info(nav)
+    # logger.info(browser)
+    # logger.info(device)
+    # logger.info(canvasHash)
+    # logger.info(nav)
     # Process browser and device information here...
     return 'OK'
 
@@ -464,33 +466,16 @@ def lambda_handler(event, context):
     http_headers = event['headers']
     http_body = event['body']
     base_url = '/' + event['requestContext']['stage']
+    allow_check = allow(event, context)
+    logger.info(allow_check[1])
 
-    # # parse event data for source IP and user agent
-    # event_source_ip = event['requestContext']['identity']['sourceIp']
-    # event_user_agent = event['requestContext']['identity']['userAgent']
-
-    # # IP Allow List
-    # if event_source_ip not in ['71.78.212.171']:
-    #     return {
-    #         "statusCode": 403,
-    #         "body": "Forbidden",
-    #         "headers": {
-    #             'Content-Type': 'text/html',
-    #         }
-    #     }
-    # else:
-    #     pass
-
-    # if event_user_agent not in ['Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36']:
-    #     return {
-    #         "statusCode": 403,
-    #         "body": "Forbidden",
-    #         "headers": {
-    #             'Content-Type': 'text/html',
-    #         }
-    #     }
-    
-    # Render the requested page
+    if allow_check[0] == True:
+        pass
+    elif allow_check[0] == False:
+        return {
+            'statusCode': 403,
+            'body': 'Forbidden'
+        }
     try:
         with app.app_context():
             if http_path == '/':
@@ -515,14 +500,19 @@ def lambda_handler(event, context):
             content_type = headers.get('Content-Type', '')
             # Check headers for content type and if it is an image, encode it as base64
             if content_type.startswith('image/'):
-                data = base64.b64encode(response.data).decode('utf-8')
-                response.data = data
-                logger.info(response.data)
-            return {
-                "statusCode": 200,
-                "body": response.data,
-                "headers": headers
-            }
+                data = base64.b64encode(response.data)
+                return {
+                    'headers': { "Content-Type": "image/png" },
+                    'statusCode': 200,
+                    'body': data.decode('utf-8'),
+                    'isBase64Encoded': True
+                }
+            else:
+                return {
+                    "statusCode": 200,
+                    "body": response.data,
+                    "headers": headers
+                }
     except Exception as e:
         logger.error("Exception: {}".format(e))
         with app.app_context():
