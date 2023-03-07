@@ -19,36 +19,19 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-      # - name: npm install
-      #   env:
-      #     CI: true
-      #   run: |
-      #     npm ci
-      #     # cd ./web-platform/src/getPricesPlanAllCoursesFunc
-
-      # - name: Make artifacts
-      #   run: mkdir -p ./artifacts
-
-      # - name: Copy stack file into artifacts
-      #   run: cp -r  ./artifacts
-
-      - name: Install zip
+     
+      - name: Install the zip
         run: |
           sudo apt-get update
           sudo apt-get install -y zip
-      - name: Create Zips templates
+      - name: Create Zip
         run: zip -r templates.zip templates/
-        # run: for f in ./packages; do zip -r ./artifacts/web-platform/$(basename $f).zip $f;done;
-      - name: Create Zips static
+
+      - name: Create Zip
         run: zip -r static.zip static/
 
-      - name: Create Zips lambda
+      - name: Create Zip
         run: zip -r lambda_function.zip lambda_function.py
-
-      # - uses: actions/upload-artifact@v3
-      #   with:
-      #     name: lambda
-      #     path: ./artifacts
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
@@ -56,74 +39,32 @@ jobs:
           role-to-assume: arn:aws:iam::486694884707:role/github-action-role
           aws-region: us-east-1
 
-      # # - name: Upload to S3
-      # #   run: for f in ./*.zip;do aws s3 cp $f s3://traingrclambdafunctiontest;done;
+      - name: Upload to S3
+        run: aws s3 cp templates.zip s3://traingrclambdafunctiontest/
 
-      # - name: Upload to S3
-      #   run: aws s3 cp ./packages.zip s3://traingrclambdafunctiontest
+      - name: Upload to S3
+        run: aws s3 cp static.zip s3://traingrclambdafunctiontest/
 
-  # deploy-stack:
-  #   permissions:
-  #     id-token: write
-  #     contents: read
-  #   runs-on: ubuntu-latest
-  #   needs: build
-  #   steps:
-  #     - uses: actions/download-artifact@v3
-  #       with:
-  #         name: lambda
-  #         path: artifacts
+      - name: Upload to S3
+        run: aws s3 cp lambda_function.zip s3://traingrclambdafunctiontest/
 
-  #     - name: Configure AWS Credentials
-  #       uses: aws-actions/configure-aws-credentials@v1-node16
-  #       with:
-  #         role-to-assume: arn:aws:iam::486694884707:role/github-action-role
-  #         aws-region: us-east-1
+  deploy-stack:
+    permissions:
+      id-token: write
+      contents: read
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
 
-  #     - name: Deploy to AWS CloudFormation
-  #       uses: aws-actions/aws-cloudformation-github-deploy@v1.1.0
-  #       with:
-  #         name: quiz-response-cloudformation
-  #         template: artifacts/web-platform/cloudformation/quizStack.yaml
-  #         no-fail-on-empty-changeset: "1"
-# name: 'Deploy Stinkbait'
+      - uses: actions/checkout@v3
+      - name: Configure AWS Credential
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          role-to-assume: arn:aws:iam::486694884707:role/github-action-role
+          aws-region: us-east-1
 
-# # **What it does**: Deploys Stinkbait using Cloudformation.
-
-# on:
-#   workflow_dispatch:
-#   push:
-#     branches:
-#       - main
-#   pull_request:
-
-# permissions:
-#   contents: read
-#   # Needed for the 'trilom/file-changes-action' action
-#   pull-requests: read
-
-# # This allows a subsequently queued workflow run to interrupt previous runs
-# concurrency:
-#   group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
-#   cancel-in-progress: true
-
-# jobs:
-#   link-checker:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v3
-#       - name: Zip the Repo Templates
-#         run: zip -r lambda.zip templates
-
-#       - name: Zip the Repo Static Files
-#         run: zip -r lambda.zip static
-
-#       - name: Zip the Lambda Function
-#         run: zip -r lambda.zip lambda_function.py
-
-#       - name: Upload the Lambda Function
-#         run: aws cloudformation package --template-file template.yaml --s3-bucket stinkbait --output-template-file packaged-template.yaml --region us-east-1
-
-#       - name: Deploy the Lambda Function
-#         run: aws cloudformation deploy --template-file packaged-template.yaml --stack-name stinkbait --capabilities CAPABILITY_IAM --region us-east-1
+      - name: lambda-response-cloudformation
+        run: aws cloudformation package --template-file template.yaml --s3-bucket traingrclambdafunctiontest --output-template-file proxy_templ.yaml --region us-east-1
+      - name: Deploy the Lambda Function
+        run:
+          aws cloudformation deploy --template-file proxy_template.yaml --stack-name testStack --capabilities CAPABILITY_NAMED_IAM
