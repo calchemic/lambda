@@ -20,20 +20,6 @@ for table_name in tables['TableNames']:
         break
 logger.info(users_table)
 
-# TODO: This is a hack to get the campaigns table name.  Need to find a better way to do this. Maybe use a tag? Needs to be dynamic based on the environment stage - but have to pass that from the lambda handler function.
-for table_name in tables['TableNames']:
-    if table_name.endswith('campaigns'):
-        campaigns_table = ddb.Table(table_name)
-        break
-logger.info(campaigns_table)
-
-# TODO: This is a hack to get the implants table name.  Need to find a better way to do this. Maybe use a tag? Needs to be dynamic based on the environment stage - but have to pass that from the lambda handler function.
-for table_name in tables['TableNames']:
-    if table_name.endswith('implants'):
-        implants_table = ddb.Table(table_name)
-        break
-logger.info(implants_table)
-
 # TODO: This is a hack to get the target-orgs table name.  Need to find a better way to do this. Maybe use a tag? Needs to be dynamic based on the environment stage - but have to pass that from the lambda handler function.
 for table_name in tables['TableNames']:
     if table_name.endswith('target-orgs'):
@@ -48,13 +34,25 @@ for table_name in tables['TableNames']:
         break
 logger.info(target_subjects_table)
 
+# TODO: This is a hack to get the campaigns table name.  Need to find a better way to do this. Maybe use a tag? Needs to be dynamic based on the environment stage - but have to pass that from the lambda handler function.
 for table_name in tables['TableNames']:
-    if table_name.endswith('target-implants'):
-        target_implants_table = ddb.Table(table_name)
+    if table_name.endswith('campaigns'):
+        campaigns_table = ddb.Table(table_name)
         break
-logger.info(target_implants_table)
+logger.info(campaigns_table)
 
+# TODO: This is a hack to get the implants table name.  Need to find a better way to do this. Maybe use a tag? Needs to be dynamic based on the environment stage - but have to pass that from the lambda handler function.
+for table_name in tables['TableNames']:
+    if table_name.endswith('implants'):
+        implants_table = ddb.Table(table_name)
+        break
+logger.info(implants_table)
 
+for table_name in tables['TableNames']:
+    if table_name.endswith('reports'):
+        reports_table = ddb.Table(table_name)
+        break
+logger.info(reports_table)
 class User:
     def __init__(self, image, name, email, phone, address, city, state, zip_code, country, organizations, campaigns, targets, implants, total_organizations, total_campaigns, total_targets, total_implants):
         self.image = image
@@ -266,7 +264,48 @@ def org_profile(org_id):
 @app.route('/targets/orgs/new', methods=['GET', 'POST'])
 def target_org_new():
     if request.method == 'POST':
-        pass
+        # If the form was submitted, retrieve the organization name from the form data
+        # Request form returned as immutablemultidict - convert to regular dictionary using to_dict()
+        data = request.form.to_dict()
+        # Get the first key in the dictionary, which is the form response body
+        b64message = list(data.keys())[0]
+        # Decode the base64 encoded message
+        try:
+            # Try decoding the message with standard padding
+            message = base64.b64decode(b64message + '==').decode('utf-8')
+        except Exception as e:
+            # If standard padding doesn't work, try decoding the message with no padding
+            logger.info(e)
+            message = base64.b64decode(b64message.replace('-', '+').replace('_', '/') + '==').decode('utf-8')
+        logger.info(message)
+        message_dict = {}
+        for item in message.split('&'):
+            key, value = item.split('=')
+            message_dict[key] = value.replace('+', ' ')
+        logger.info(message_dict)
+        try:
+            response = target_orgs_table.put_item(
+                Item={
+                    'org_name': message_dict['org_name'],
+                    'org_logo': message_dict['org_logo'],
+                    'email_pattern': message_dict['email_pattern'],
+                    'hq_address': message_dict['hq_address'],
+                    'city': message_dict['city'],
+                    'state': message_dict['state'],
+                    'zip_code': message_dict['zip'],
+                    'country': message_dict['country'],
+                    'subsidiaries': message_dict['subsidiaries'],
+                    'domains': message_dict['domains'],
+                    'targets': message_dict['targets'],
+                    'campaigns': message_dict['campaigns'],
+                    'implants': message_dict['implants']
+                }
+            )
+            logger.info(response)
+            return render_template('targets/orgs_dashboard.html')
+        except Exception as e:
+            logger.info(e)
+            return render_template('404.html')
     #     db = client['your_database_name']
     #     org_id = uuid.uuid4().hex
     #     org_name = request.form['org_name']
