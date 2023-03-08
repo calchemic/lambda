@@ -248,6 +248,17 @@ def target_profile(id):
     # Render the target profile template with the target data
     return render_template('targets/subject_profile.html', target=target)
 
+# New target page
+@app.route('/targets/subjects/new', methods=['GET', 'POST'])
+def target_subject_new():
+    if request.method == 'POST':
+        # Get the data from the form
+        # Add the new target to the database
+        # Redirect to the target dashboard page
+        return redirect(url_for('target_subjects_dashboard'))
+    else:
+        return render_template('targets/new_subject.html')
+
 #########################################################################################
 ###############################  End Targets Routes  ####################################
 #########################################################################################
