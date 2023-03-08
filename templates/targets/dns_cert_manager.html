@@ -6,30 +6,32 @@
 {% endif %}
 
 <h2>Register DNS Domain</h2>
-<form method="POST" action="{{ url_for('dns_cert_manager') }}">
+<form class="login-form" method="POST" action="{{ url_for('dns_cert_manager') }}">
     <label for="dns_domain">DNS Domain:</label>
     <input type="text" name="dns_domain" required>
     <button type="submit">Register</button>
 </form>
 
 <h2>Import DNS Domains</h2>
-<form method="POST" action="{{ url_for('dns_cert_manager') }}">
+<form class="login-form" method="POST" action="{{ url_for('dns_cert_manager') }}">
     <label for="dns_domains">DNS Domains (one per line):</label>
     <textarea name="dns_domains" required></textarea>
     <button type="submit">Import</button>
 </form>
 
 <h2>Create TLS Certificate</h2>
-<form method="POST" action="{{ url_for('dns_cert_manager') }}">
+<form class="login-form" method="POST" action="{{ url_for('dns_cert_manager') }}">
     <label for="domains">Domains (comma-separated):</label>
+    </br>
     <input type="text" name="domains" required>
     <label for="certificate_name">Certificate Name:</label>
+    </br>
     <input type="text" name="certificate_name" required>
     <button type="submit">Create</button>
 </form>
 
 <h2>Delete TLS Certificate</h2>
-<form method="POST" action="{{ url_for('dns_cert_manager') }}">
+<form class="login-form" method="POST" action="{{ url_for('dns_cert_manager') }}">
     <label for="certificate_name">Certificate Name:</label>
     <select name="certificate_name" required>
         {% for certificate_name in certificates %}
