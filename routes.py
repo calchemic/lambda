@@ -1,6 +1,121 @@
 import os
 from lambda_function import logger, tracer, app
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, send_file, redirect, url_for, flash, session
+
+#########################################################################################
+#################################  User Routes  #########################################
+#########################################################################################
+
+class User:
+    def __init__(self, image, name, email, phone, address, city, state, zip_code, country, organizations, campaigns, targets, implants, total_organizations, total_campaigns, total_targets, total_implants):
+        self.image = image
+        self.name = name
+        self.email = email
+        self.phone = phone
+        self.address = address
+        self.city = city
+        self.state = state
+        self.zip_code = zip_code
+        self.country = country
+        self.organizations = organizations
+        self.campaigns = campaigns
+        self.targets = targets
+        self.implants = implants
+        self.total_organizations = total_organizations
+        self.total_campaigns = total_campaigns
+        self.total_targets = total_targets
+        self.total_implants = total_implants
+
+class Organization:
+    def __init__(self, name):
+        self.name = name
+
+class Campaign:
+    def __init__(self, name):
+        self.name = name
+
+class Target:
+    def __init__(self, name):
+        self.name = name
+
+class Implant:
+    def __init__(self, name):
+        self.name = name
+
+organizations = [
+    Organization('ABC Inc.'),
+    Organization('XYZ Corp.')
+]
+
+campaigns = [
+    Campaign('Campaign 1'),
+    Campaign('Campaign 2'),
+    Campaign('Campaign 3')
+]
+
+targets = [
+    Target('Target 1'),
+    Target('Target 2'),
+    Target('Target 3'),
+    Target('Target 4')
+]
+
+implants = [
+    Implant('Implant 1'),
+    Implant('Implant 2'),
+    Implant('Implant 3')
+]
+
+user = User(
+    'profile.png',
+    'John Doe',
+    'john.doe@example.com',
+    '123-456-7890',
+    '123 Main St.',
+    'Anytown',
+    'TX',
+    '12345',
+    'USA',
+    organizations,
+    campaigns,
+    targets,
+    implants,
+    len(organizations),
+    len(campaigns),
+    len(targets),
+    len(implants)
+)
+
+# Stinkbait User Profile Page
+@app.route('/profile')
+def profile():
+    return render_template('/profile/profile.html', user=user)
+
+# Stinkbait User Password Reset Page
+@app.route('/profile/reset-password', methods=['GET', 'POST'])
+def reset_password():
+    if request.method == 'POST':
+        # Get the email, new password, and confirm new password from the form data
+        email = request.form['email']
+        password = request.form['password']
+        confirm_password = request.form['confirm_password']
+
+        # Verify that the new password and confirm password fields match
+        if password != confirm_password:
+            flash('Passwords do not match. Please try again.', 'error')
+            return redirect(url_for('reset_password'))
+
+        # TODO: Perform password reset logic here
+
+        flash('Your password has been reset!', 'success')
+        return redirect(url_for('login'))
+    elif request.method == 'GET':
+        # If the request method is GET, render the password reset form template
+        return render_template('profile/password_reset.html')
+
+#########################################################################################
+#################################  End User Routes  #####################################
+#########################################################################################
 
 #########################################################################################
 ###################################  Targets Routes  ####################################
@@ -129,122 +244,6 @@ def target_profile(id):
 #########################################################################################
 ###############################  End Targets Routes  ####################################
 #########################################################################################
-
-#########################################################################################
-#################################  User Routes  #########################################
-#########################################################################################
-
-class User:
-    def __init__(self, image, name, email, phone, address, city, state, zip_code, country, organizations, campaigns, targets, implants, total_organizations, total_campaigns, total_targets, total_implants):
-        self.image = image
-        self.name = name
-        self.email = email
-        self.phone = phone
-        self.address = address
-        self.city = city
-        self.state = state
-        self.zip_code = zip_code
-        self.country = country
-        self.organizations = organizations
-        self.campaigns = campaigns
-        self.targets = targets
-        self.implants = implants
-        self.total_organizations = total_organizations
-        self.total_campaigns = total_campaigns
-        self.total_targets = total_targets
-        self.total_implants = total_implants
-
-class Organization:
-    def __init__(self, name):
-        self.name = name
-
-class Campaign:
-    def __init__(self, name):
-        self.name = name
-
-class Target:
-    def __init__(self, name):
-        self.name = name
-
-class Implant:
-    def __init__(self, name):
-        self.name = name
-
-organizations = [
-    Organization('ABC Inc.'),
-    Organization('XYZ Corp.')
-]
-
-campaigns = [
-    Campaign('Campaign 1'),
-    Campaign('Campaign 2'),
-    Campaign('Campaign 3')
-]
-
-targets = [
-    Target('Target 1'),
-    Target('Target 2'),
-    Target('Target 3'),
-    Target('Target 4')
-]
-
-implants = [
-    Implant('Implant 1'),
-    Implant('Implant 2'),
-    Implant('Implant 3')
-]
-
-user = User(
-    'profile.png',
-    'John Doe',
-    'john.doe@example.com',
-    '123-456-7890',
-    '123 Main St.',
-    'Anytown',
-    'TX',
-    '12345',
-    'USA',
-    organizations,
-    campaigns,
-    targets,
-    implants,
-    len(organizations),
-    len(campaigns),
-    len(targets),
-    len(implants)
-)
-
-# Stinkbait User Profile Page
-@app.route('/profile')
-def profile():
-    return render_template('/profile/profile.html', user=user)
-
-# Stinkbait User Password Reset Page
-@app.route('/profile/reset-password', methods=['GET', 'POST'])
-def reset_password():
-    if request.method == 'POST':
-        # Get the email, new password, and confirm new password from the form data
-        email = request.form['email']
-        password = request.form['password']
-        confirm_password = request.form['confirm_password']
-
-        # Verify that the new password and confirm password fields match
-        if password != confirm_password:
-            flash('Passwords do not match. Please try again.', 'error')
-            return redirect(url_for('reset_password'))
-
-        # TODO: Perform password reset logic here
-
-        flash('Your password has been reset!', 'success')
-        return redirect(url_for('login'))
-    elif request.method == 'GET':
-        # If the request method is GET, render the password reset form template
-        return render_template('profile/password_reset.html')
-
-#########################################################################################
-#################################  End User Routes  #####################################
-#########################################################################################
-
 
 
 #########################################################################################
