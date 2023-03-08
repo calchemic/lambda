@@ -31,10 +31,24 @@ Resources:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
 
-  TargetsTable:
+  TargetOrgsTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: !Sub ${AppName}-${Environment}-targets
+      TableName: !Sub ${AppName}-${Environment}-target-orgs
+      AttributeDefinitions:
+        - AttributeName: org_name
+          AttributeType: S
+      KeySchema:
+        - AttributeName: org_name
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+
+  TargetSubjectsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub ${AppName}-${Environment}-target-subjects
       AttributeDefinitions:
         - AttributeName: target_email
           AttributeType: S
