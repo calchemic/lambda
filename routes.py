@@ -399,7 +399,7 @@ def dns_cert_manager():
     #         message = f'TLS certificate "{certificate_name}" deleted successfully!'
     # else:
     #     message = None
-    return render_template('campaigns/dns_cert_manager.html') #, dns_domains=dns_domains, certificates=certificates, message=message)
+    return render_template('targets/dns_cert_manager.html') #, dns_domains=dns_domains, certificates=certificates, message=message)
 
 #########################################################################################
 ###############################  End Campaigns Routes  ##################################

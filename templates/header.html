@@ -12,6 +12,7 @@
                     <li><a href="{{ url_for('target_org_new') }}">Create a Target Organization</a></li>
                     <li><a href="{{ url_for('target_subjects_dashboard') }}">Targets Dashboard</a></li>
                     <li><a href="#">Create a Target Profile</a></li>
+                    <li><a href="{{url_for('dns_cert_manager')}}">Domain Management</a></li>
                 </ul>
             </li>
             <li class="dropdown">
@@ -19,7 +20,6 @@
                 <ul class="dropdown-menu">
                     <li><a href="{{ url_for('campaigns') }}">Campaigns Dashboard</a></li>
                     <li><a href="#">Launch Phishing Campaign</a></li>
-                    <li><a href="{{url_for('dns_cert_manager')}}">Domain Management</a></li>
                     <li><a href="{{url_for('email_template')}}">Email Development</a></li>
                     <li><a href="#">Landing Page Development</a></li>
                     <li><a href="#">Decoy Development</a></li>
