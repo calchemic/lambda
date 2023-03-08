@@ -119,6 +119,14 @@ def reset_password():
 #########################################################################################
 ###################################  Targets Routes  ####################################
 #########################################################################################
+# Target Organizations Dashboard
+@app.route('/targets/orgs')
+def target_orgs():
+#    orgs = get_orgs_data()
+    return render_template('targets/orgs_dashboard.html') #, orgs=orgs)
+
+
+
 # Org Profile page for a specific organization
 @app.route('/targets/orgs/<org_id>')
 def org_profile(org_id):

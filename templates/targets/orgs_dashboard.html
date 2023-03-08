@@ -1,13 +1,17 @@
+{% extends 'base.html' %} {% block title %}Organizations Dashboard{% endblock %} {% block content %}
+<h1>Organization Dashboard</h1>
 <table>
     <thead>
         <tr>
-            <th>Name</th>
+            <th>Organization Name</th>
             <th>Domains</th>
             <th>Email Pattern</th>
+            <th>HQ Address</th>
             <th>City</th>
             <th>State</th>
+            <th>Zip Code</th>
             <th>Country</th>
-            <th>Phone</th>
+            <th>Phone Number</th>
             <th>Subsidiaries</th>
             <th>Targets</th>
             <th>Campaigns</th>
@@ -16,21 +20,24 @@
         </tr>
     </thead>
     <tbody>
-        {% for organization in organizations %}
+        {% for org in orgs %}
         <tr>
-            <td>{{ organization['org_name'] }}</td>
-            <td>{{ ', '.join(organization['domains']) }}</td>
-            <td>{{ organization['email_pattern'] }}</td>
-            <td>{{ organization['city'] }}</td>
-            <td>{{ organization['state'] }}</td>
-            <td>{{ organization['country'] }}</td>
-            <td>{{ organization['phone'] }}</td>
-            <td>{{ ', '.join(organization['subsidiaries']) }}</td>
-            <td>{{ ', '.join(organization['targets']) }}</td>
-            <td>{{ ', '.join(organization['campaigns']) }}</td>
-            <td>{{ ', '.join(organization['implants']) }}</td>
-            <td>{{ organization['public_co'] }}</td>
+            <td>{{ org.org_name }}</td>
+            <td>{{ org.domains }}</td>
+            <td>{{ org.email_pattern }}</td>
+            <td>{{ org.hq_address }}</td>
+            <td>{{ org.city }}</td>
+            <td>{{ org.state }}</td>
+            <td>{{ org.zip }}</td>
+            <td>{{ org.country }}</td>
+            <td>{{ org.phone }}</td>
+            <td>{{ org.subsidiaries }}</td>
+            <td>{{ org.targets }}</td>
+            <td>{{ org.campaigns }}</td>
+            <td>{{ org.implants }}</td>
+            <td>{{ org.public_co }}</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+{% endblock %}
