@@ -12,6 +12,8 @@ from flask import Flask, render_template, request, send_file, redirect, url_for,
 ddb = boto3.resource('dynamodb')
 dynamo = boto3.client('dynamodb')
 tables = dynamo.list_tables()
+
+# TODO: This is a hack to get the users table name.  Need to find a better way to do this. Maybe use a tag? Needs to be dynamic based on the environment stage - but have to pass that from the lambda handler function.
 for table_name in tables['TableNames']:
     if table_name.endswith('users'):
         users_table = ddb.Table(table_name)
