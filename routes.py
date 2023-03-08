@@ -121,7 +121,7 @@ def reset_password():
 #########################################################################################
 # Target Organizations Dashboard
 @app.route('/targets/orgs')
-def target_orgs():
+def target_orgs_dashboard():
 #    orgs = get_orgs_data()
     return render_template('targets/orgs_dashboard.html') #, orgs=orgs)
 

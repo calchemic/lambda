@@ -6,13 +6,12 @@
     <nav>
         <ul>
             <li class="dropdown">
-                <a href="{{ url_for('target_orgs') }}">Targets</a>
+                <a href="{{ url_for('target_orgs_dashboard') }}">Targets</a>
                 <ul class="dropdown-menu">
-                    <li><a href="{{ url_for('target_orgs') }}">Organizations Dashboard</a></li>
+                    <li><a href="{{ url_for('target_orgs_dashboard') }}">Organizations Dashboard</a></li>
                     <li><a href="{{ url_for('target_org_new') }}">Create a Target Organization</a></li>
                     <li><a href="{{ url_for('target_subjects_dashboard') }}">Targets Dashboard</a></li>
                     <li><a href="{{ url_for('target_subject_new') }}">Create a Target Profile</a></li>
-                    <li><a href="{{url_for('dns_cert_manager')}}">Domain Management</a></li>
                 </ul>
             </li>
             <li class="dropdown">
@@ -22,6 +21,7 @@
                     <li><a href="{{url_for('email_template')}}">Email Development</a></li>
                     <li><a href="#">Landing Page Development</a></li>
                     <li><a href="#">Decoy Landing Page Development</a></li>
+                    <li><a href="{{url_for('dns_cert_manager')}}">Domain Management</a></li>
                 </ul>
             </li>
             <a href="{{ url_for('index') }}">
