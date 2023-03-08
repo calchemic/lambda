@@ -20,7 +20,7 @@ Resources:
   UserTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: !Sub ${AppName}-${Environment}-user
+      TableName: !Sub ${AppName}-${Environment}-users
       AttributeDefinitions:
         - AttributeName: user_email
           AttributeType: S
@@ -190,6 +190,14 @@ Resources:
             - "logs:PutLogEvents"
             - "xray:PutTraceSegments"
             - "xray:PutTelemetryRecords"
+            Resource: "*"
+      - PolicyName: "DynamoDBAccess"
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+          - Effect: "Allow"
+            Action:
+            - "dynamodb:*"
             Resource: "*"
 
   ApiGatewayInvokePermission:

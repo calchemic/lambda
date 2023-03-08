@@ -15,7 +15,7 @@ from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
 from aws_xray_sdk.core import patcher, xray_recorder
 patcher.patch(('requests',))
 # Configure the X-Ray recorder to generate segments with our service name
-xray_recorder.configure(service='Stinkbait App')
+xray_recorder.configure(service='Stinkbait Core')
 
 # Internal Imports
 from allow import allow
@@ -33,8 +33,8 @@ XRayMiddleware(app, xray_recorder)
 
 
 # Initialize the AWS Lambda Powertools
-tracer = Tracer(service="Stinkbait App")
-logger = Logger(service="Stinkbait App", correlation_id_path=correlation_paths.API_GATEWAY_REST)
+tracer = Tracer(service="Stinkbait Core")
+logger = Logger(service="Stinkbait Core", correlation_id_path=correlation_paths.API_GATEWAY_REST)
 
 from routes import app
 
@@ -53,7 +53,7 @@ def lambda_handler(event, context):
 
     # Check if the request is coming from an allowed IP address and user agent
     allow_check = allow(event, context)
-    logger.info(allow_check[1])
+    #logger.info(allow_check[1])
 
     # # If the request is not coming from an allowed IP address and user agent, return a 403 Forbidden response
     # if allow_check[0] == True:

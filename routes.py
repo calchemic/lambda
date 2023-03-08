@@ -1,10 +1,22 @@
 import os
+import uuid
+import boto3
+import json
+import base64
 from lambda_function import logger, tracer, app
 from flask import Flask, render_template, request, send_file, redirect, url_for, flash, session
 
 #########################################################################################
 #################################  User Routes  #########################################
 #########################################################################################
+ddb = boto3.resource('dynamodb')
+dynamo = boto3.client('dynamodb')
+tables = dynamo.list_tables()
+for table_name in tables['TableNames']:
+    if table_name.endswith('users'):
+        users_table = ddb.Table(table_name)
+        break
+logger.info(users_table)
 class User:
     def __init__(self, image, name, email, phone, address, city, state, zip_code, country, organizations, campaigns, targets, implants, total_organizations, total_campaigns, total_targets, total_implants):
         self.image = image
@@ -111,6 +123,68 @@ def reset_password():
     elif request.method == 'GET':
         # If the request method is GET, render the password reset form template
         return render_template('profile/password_reset.html')
+
+@tracer.capture_method
+@app.route('/register', methods = ['POST', 'GET'])
+def register():
+    logger.info("Register Page")
+    if request.method == 'POST':
+        # Request form returned as immutablemultidict - convert to regular dictionary using to_dict()
+        data = request.form.to_dict()
+        # Get the first key in the dictionary, which is the form response body
+        b64message = list(data.keys())[0]
+        # Decode the base64 encoded message
+        try:
+            # Try decoding the message with standard padding
+            message = base64.b64decode(b64message + '==').decode('utf-8')
+        except Exception as e:
+            # If standard padding doesn't work, try decoding the message with no padding
+            logger.info(e)
+            message = base64.b64decode(b64message.replace('-', '+').replace('_', '/') + '==').decode('utf-8')
+        logger.info(message)
+        message_dict = {}
+        for item in message.split('&'):
+            key, value = item.split('=')
+            message_dict[key] = value.replace('+', ' ')
+        try:
+            response = users_table.put_item(
+                Item={
+                    'username': message_dict['username'],
+                    'user_email': message_dict['email'],
+                    'first_name': message_dict['first_name'],
+                    'last_name': message_dict['last_name'],
+                    'password': message_dict['password'],
+                    'confirm_password': message_dict['confirm_password'],
+                    'organization': message_dict['organization'],
+                    'phone': message_dict['phone'],
+                    'address': message_dict['address'],
+                    'city': message_dict['city'],
+                    'state': message_dict['state'],
+                    'zip_code': message_dict['zip_code'],
+                    'country': message_dict['country'],
+                    'role': message_dict['role']
+                }
+            )
+            logger.info(response)
+            return render_template('login.html')
+        except Exception as e:
+            logger.info(e)
+            return render_template('404.html')
+    elif request.method == 'GET':
+        return render_template('register.html')
+
+
+@tracer.capture_method
+@app.route('/login', methods = ['POST', 'GET'])
+def login():
+    logger.info("Login Page")
+    if request.method == 'POST':
+        return render_template('404.html')
+    elif request.method == 'GET':
+        logger.info("GET")
+        return render_template('login.html')
+    else:
+        pass
 
 #########################################################################################
 #################################  End User Routes  #####################################
@@ -474,7 +548,7 @@ def implants():
 
 # Browser tracking route
 @app.route('/browser-info', methods=['POST'])
-def handle_browser_info():
+def browser_info():
     data = request.get_json()
     browser = data.get('browser')
     device = data.get('device')
@@ -484,7 +558,7 @@ def handle_browser_info():
     # logger.info(device)
     # logger.info(canvasHash)
     # logger.info(nav)
-    # Process browser and device information here...
+    # # Process browser and device information here...
     return 'OK'
 
 potential_reports = [
@@ -525,7 +599,6 @@ def reports():
 @app.route('/static/img/<path:path>')
 def send_static(path):
     full_path = os.path.join('static', 'img', path)
-    logger.info('Image Path: ' + full_path)
     return send_file(full_path)
 
 # Index page
@@ -541,25 +614,6 @@ def index():
 def downloads():
     logger.info("Downloads Page")
     return render_template('downloads.html')
-
-@tracer.capture_method
-@app.route('/login', methods = ['POST', 'GET'])
-def login():
-    logger.info("Login Page")
-    if request.method == 'POST':
-        logger.info(request.form)
-        return render_template('404.html')
-    elif request.method == 'GET':
-        logger.info("GET")
-        return render_template('login.html')
-    else:
-        pass
-
-@tracer.capture_method
-@app.route('/register')
-def register():
-    logger.info("Register Page")
-    return render_template('register.html')
 
 @tracer.capture_method
 @app.route('/404')
