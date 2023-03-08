@@ -378,7 +378,7 @@ def preview_email():
 def send_email():
     pass
 
-@app.route('/campaigns/dns-cert-manager', methods=['GET', 'POST'])
+@app.route('/targets/dns-cert-manager', methods=['GET', 'POST'])
 def dns_cert_manager():
     # if request.method == 'POST':
     #     if 'register_dns' in request.form:
