@@ -5,7 +5,6 @@ from flask import Flask, render_template, request, send_file, redirect, url_for,
 #########################################################################################
 #################################  User Routes  #########################################
 #########################################################################################
-
 class User:
     def __init__(self, image, name, email, phone, address, city, state, zip_code, country, organizations, campaigns, targets, implants, total_organizations, total_campaigns, total_targets, total_implants):
         self.image = image
@@ -353,6 +352,12 @@ def api_key_management():
 #########################################################################################
 #################################  Campaigns Routes  ####################################
 #########################################################################################
+# Campaign profile page
+@tracer.capture_method
+@app.route('/campaigns')
+def campaigns():
+    tracer.put_annotation(key="campaigns", value="campaigns-page")
+    return render_template('campaigns.html')
 
 @app.route('/campaigns/email/template', methods=['GET', 'POST'])
 def email_template():
@@ -404,70 +409,9 @@ def dns_cert_manager():
 ###############################  End Campaigns Routes  ##################################
 #########################################################################################
 
-# Static image file route
-@app.route('/static/img/<path:path>')
-def send_static(path):
-    full_path = os.path.join('static', 'img', path)
-    logger.info('Image Path: ' + full_path)
-    return send_file(full_path)
-
-
-# Browser tracking route
-@app.route('/browser-info', methods=['POST'])
-def handle_browser_info():
-    data = request.get_json()
-    browser = data.get('browser')
-    device = data.get('device')
-    canvasHash = data.get('canvasHash')
-    nav = data.get('nav')
-    # logger.info(browser)
-    # logger.info(device)
-    # logger.info(canvasHash)
-    # logger.info(nav)
-    # Process browser and device information here...
-    return 'OK'
-
-
-# Campaign profile page
-@tracer.capture_method
-@app.route('/campaigns')
-def campaigns():
-    tracer.put_annotation(key="campaigns", value="campaigns-page")
-    return render_template('campaigns.html')
-
-potential_reports = [
-    {
-        'id': 1,
-        'organization': 'ABC Inc.',
-        'start_date': '2022-01-01',
-        'end_date': '2022-03-31',
-        'campaigns': 10,
-        'targets': 100,
-        'implants': 500,
-        'grade': 'A'
-    },
-    {
-        'id': 2,
-        'organization': 'XYZ Corp.',
-        'start_date': '2022-04-01',
-        'end_date': '2022-06-30',
-        'campaigns': 5,
-        'targets': 50,
-        'implants': 250,
-        'grade': 'B'
-    }
-]
-
-# Reports page
-@tracer.capture_method
-@app.route('/reports')
-def reports():
-    tracer.put_annotation(key="reports", value="reports-page")
-    return render_template('reports.html', potential_reports=potential_reports)
-
-
-
-
+#########################################################################################
+#################################  Implants Routes  #####################################
+#########################################################################################
 potential_implants = [
     {
         "id": 1,
@@ -505,12 +449,65 @@ def implants():
     logger.info("Implants Page")
     logger.info(implants)
     return render_template('implants.html', potential_implants=potential_implants)
+#########################################################################################
+################################  End Implants Routes  ##################################
+#########################################################################################
 
+# Browser tracking route
+@app.route('/browser-info', methods=['POST'])
+def handle_browser_info():
+    data = request.get_json()
+    browser = data.get('browser')
+    device = data.get('device')
+    canvasHash = data.get('canvasHash')
+    nav = data.get('nav')
+    # logger.info(browser)
+    # logger.info(device)
+    # logger.info(canvasHash)
+    # logger.info(nav)
+    # Process browser and device information here...
+    return 'OK'
+
+potential_reports = [
+    {
+        'id': 1,
+        'organization': 'ABC Inc.',
+        'start_date': '2022-01-01',
+        'end_date': '2022-03-31',
+        'campaigns': 10,
+        'targets': 100,
+        'implants': 500,
+        'grade': 'A'
+    },
+    {
+        'id': 2,
+        'organization': 'XYZ Corp.',
+        'start_date': '2022-04-01',
+        'end_date': '2022-06-30',
+        'campaigns': 5,
+        'targets': 50,
+        'implants': 250,
+        'grade': 'B'
+    }
+]
+
+# Reports page
+@tracer.capture_method
+@app.route('/reports')
+def reports():
+    tracer.put_annotation(key="reports", value="reports-page")
+    return render_template('reports.html', potential_reports=potential_reports)
 
 #########################################################################################
 ###############################  General App Routes  ####################################
 #########################################################################################
 
+# Static image file route
+@app.route('/static/img/<path:path>')
+def send_static(path):
+    full_path = os.path.join('static', 'img', path)
+    logger.info('Image Path: ' + full_path)
+    return send_file(full_path)
 
 # Index page
 @tracer.capture_method
@@ -551,7 +548,6 @@ def register():
 def error404(error):
     logger.info("404 Page")
     return render_template('404.html')
-
 #########################################################################################
 #############################  End General App Routes  ##################################
 #########################################################################################

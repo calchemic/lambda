@@ -74,7 +74,7 @@ Resources:
         Fn::Sub: ${AppName}-${Environment}-lambda
       Code:
         S3Bucket: infantsense
-        S3Key: d0ea2bb70f556da47bccd5957568714f
+        S3Key: 965b51b2e9bfecbc6f89229623380910
       Handler: lambda_function.lambda_handler
       Role:
         Fn::GetAtt:
