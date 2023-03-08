@@ -126,6 +126,20 @@ def reset_password():
         # If the request method is GET, render the password reset form template
         return render_template('profile/password_reset.html')
 
+
+@app.route('/allow-list', methods=['GET', 'POST'])
+def allow_list():
+    if request.method == 'POST':
+        # # If the form was submitted, retrieve the IP address and User Agent from the form data
+        # ip_address = request.form['ip_address']
+        # user_agent = request.form['user_agent']
+
+        # # Add the IP address and User Agent to the allowed list
+        # allowed.append((ip_address, user_agent))
+        pass
+    # Render the template with the list of allowed IP addresses and User Agents, and the form
+    return render_template('profile/allow_list.html') #, allowed=allowed)
+
 @tracer.capture_method
 @app.route('/register', methods = ['POST', 'GET'])
 def register():
