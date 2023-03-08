@@ -306,43 +306,6 @@ def target_org_new():
         except Exception as e:
             logger.info(e)
             return render_template('404.html')
-    #     db = client['your_database_name']
-    #     org_id = uuid.uuid4().hex
-    #     org_name = request.form['org_name']
-    #     org_logo = request.form.get('org_logo', '')
-    #     domains = request.form.getlist('domains')
-    #     email_pattern = request.form.get('email_pattern', '')
-    #     hq_address = request.form.get('hq_address', '')
-    #     city = request.form.get('city', '')
-    #     state = request.form.get('state', '')
-    #     zip_code = request.form.get('zip', '')
-    #     country = request.form.get('country', '')
-    #     phone = request.form.get('phone', '')
-    #     subsidiaries = request.form.getlist('subsidiaries')
-    #     targets = request.form.getlist('targets')
-    #     campaigns = request.form.getlist('campaigns')
-    #     implants = request.form.getlist('implants')
-    #     public_co = request.form.get('public_co', 'false')
-    #     organization = {
-    #         'org_id': org_id,
-    #         'org_name': org_name,
-    #         'org_logo': org_logo,
-    #         'domains': domains,
-    #         'email_pattern': email_pattern,
-    #         'hq_address': hq_address,
-    #         'city': city,
-    #         'state': state,
-    #         'zip': zip_code,
-    #         'country': country,
-    #         'phone': phone,
-    #         'subsidiaries': subsidiaries,
-    #         'targets': targets,
-    #         'campaigns': campaigns,
-    #         'implants': implants,
-    #         'public_co': public_co
-    #     }
-    #     db['your_collection_name'].insert_one(organization)
-    #     return redirect(url_for('index'))
     else:
         return render_template('targets/new_org.html')
 
