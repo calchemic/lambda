@@ -3,6 +3,13 @@ AWSTemplateFormatVersion: "2010-09-09"
 Description: "Stinkbait Application"
 
 Parameters:
+  AppName:
+    Type: String
+    Description: The name of the application
+    AllowedValues:
+      - stinkbait
+      - eligiblereceiver
+    Default: stinkbait
   Environment:
     Type: String
     Description: The environment name
@@ -11,10 +18,6 @@ Parameters:
       - test
       - prod
     Default: dev
-  AppName:
-    Type: String
-    Description: The name of the application
-    Default: stinkbait
 
 Resources:
   UserTable:
