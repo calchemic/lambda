@@ -19,6 +19,42 @@ for table_name in tables['TableNames']:
         users_table = ddb.Table(table_name)
         break
 logger.info(users_table)
+
+# TODO: This is a hack to get the campaigns table name.  Need to find a better way to do this. Maybe use a tag? Needs to be dynamic based on the environment stage - but have to pass that from the lambda handler function.
+for table_name in tables['TableNames']:
+    if table_name.endswith('campaigns'):
+        campaigns_table = ddb.Table(table_name)
+        break
+logger.info(campaigns_table)
+
+# TODO: This is a hack to get the implants table name.  Need to find a better way to do this. Maybe use a tag? Needs to be dynamic based on the environment stage - but have to pass that from the lambda handler function.
+for table_name in tables['TableNames']:
+    if table_name.endswith('implants'):
+        implants_table = ddb.Table(table_name)
+        break
+logger.info(implants_table)
+
+# TODO: This is a hack to get the target-orgs table name.  Need to find a better way to do this. Maybe use a tag? Needs to be dynamic based on the environment stage - but have to pass that from the lambda handler function.
+for table_name in tables['TableNames']:
+    if table_name.endswith('target-orgs'):
+        target_orgs_table = ddb.Table(table_name)
+        break
+logger.info(target_orgs_table)
+
+# TODO: This is a hack to get the target-subjects table name.  Need to find a better way to do this. Maybe use a tag? Needs to be dynamic based on the environment stage - but have to pass that from the lambda handler function.
+for table_name in tables['TableNames']:
+    if table_name.endswith('target-subjects'):
+        target_subjects_table = ddb.Table(table_name)
+        break
+logger.info(target_subjects_table)
+
+for table_name in tables['TableNames']:
+    if table_name.endswith('target-implants'):
+        target_implants_table = ddb.Table(table_name)
+        break
+logger.info(target_implants_table)
+
+
 class User:
     def __init__(self, image, name, email, phone, address, city, state, zip_code, country, organizations, campaigns, targets, implants, total_organizations, total_campaigns, total_targets, total_implants):
         self.image = image
