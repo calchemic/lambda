@@ -1,3 +1,5 @@
+from lambda_function import logger, tracer, app
+
 def allow(event, context):
     # parse event data for source IP and user agent
     event_source_ip = event['requestContext']['identity']['sourceIp']

@@ -50,9 +50,12 @@ def lambda_handler(event, context):
     http_headers = event['headers']
     http_body = event['body']
     base_url = '/' + event['requestContext']['stage']
+
+    # Check if the request is coming from an allowed IP address and user agent
     allow_check = allow(event, context)
     logger.info(allow_check[1])
 
+    # # If the request is not coming from an allowed IP address and user agent, return a 403 Forbidden response
     # if allow_check[0] == True:
     #     pass
     # elif allow_check[0] == False:
