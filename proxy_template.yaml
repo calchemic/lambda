@@ -6,6 +6,7 @@ Parameters:
     Description: The environment name
     AllowedValues:
     - dev
+    - test
     - prod
     Default: dev
   AppName:
@@ -13,6 +14,76 @@ Parameters:
     Description: The name of the application
     Default: stinkbait
 Resources:
+  UserTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName:
+        Fn::Sub: ${AppName}-${Environment}-user
+      AttributeDefinitions:
+      - AttributeName: user_email
+        AttributeType: S
+      KeySchema:
+      - AttributeName: user_email
+        KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+  TargetsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName:
+        Fn::Sub: ${AppName}-${Environment}-targets
+      AttributeDefinitions:
+      - AttributeName: target_email
+        AttributeType: S
+      KeySchema:
+      - AttributeName: target_email
+        KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+  CampaignsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName:
+        Fn::Sub: ${AppName}-${Environment}-campaigns
+      AttributeDefinitions:
+      - AttributeName: campaign_name
+        AttributeType: S
+      KeySchema:
+      - AttributeName: campaign_name
+        KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+  ImplantsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName:
+        Fn::Sub: ${AppName}-${Environment}-implants
+      AttributeDefinitions:
+      - AttributeName: implant_id
+        AttributeType: S
+      KeySchema:
+      - AttributeName: implant_id
+        KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+  ReportsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName:
+        Fn::Sub: ${AppName}-${Environment}-reports
+      AttributeDefinitions:
+      - AttributeName: report_id
+        AttributeType: S
+      KeySchema:
+      - AttributeName: report_id
+        KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
   MyKeyPair:
     Type: AWS::EC2::KeyPair
     Properties:
@@ -74,7 +145,7 @@ Resources:
         Fn::Sub: ${AppName}-${Environment}-lambda
       Code:
         S3Bucket: infantsense
-        S3Key: 5d4f2b17341418658e5dfe55adcc1f4f
+        S3Key: b3a658b308bfa5b0c3bf3ea6ed43f3fd
       Handler: lambda_function.lambda_handler
       Role:
         Fn::GetAtt:

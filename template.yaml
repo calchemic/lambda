@@ -8,6 +8,7 @@ Parameters:
     Description: The environment name
     AllowedValues:
       - dev
+      - test
       - prod
     Default: dev
   AppName:
@@ -16,6 +17,77 @@ Parameters:
     Default: stinkbait
 
 Resources:
+  UserTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub ${AppName}-${Environment}-user
+      AttributeDefinitions:
+        - AttributeName: user_email
+          AttributeType: S
+      KeySchema:
+        - AttributeName: user_email
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+
+  TargetsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub ${AppName}-${Environment}-targets
+      AttributeDefinitions:
+        - AttributeName: target_email
+          AttributeType: S
+      KeySchema:
+        - AttributeName: target_email
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+
+  CampaignsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub ${AppName}-${Environment}-campaigns
+      AttributeDefinitions:
+        - AttributeName: campaign_name
+          AttributeType: S
+      KeySchema:
+        - AttributeName: campaign_name
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+
+  ImplantsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub ${AppName}-${Environment}-implants
+      AttributeDefinitions:
+        - AttributeName: implant_id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: implant_id
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+
+  ReportsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub ${AppName}-${Environment}-reports
+      AttributeDefinitions:
+        - AttributeName: report_id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: report_id
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+###########################################################################################
+###########################################################################################
   MyKeyPair:
     Type: "AWS::EC2::KeyPair"
     Properties:
@@ -83,7 +155,6 @@ Resources:
     Properties:
       FunctionName: !Ref MyLambda
       Description: v1
-
 
   LambdaExecutionRole:
     Type: "AWS::IAM::Role"
@@ -211,7 +282,7 @@ Resources:
           sudo apt-get -y install mingw-w64
           curl https://sliver.sh/install|sudo bash
 ###########################################################################################
-###################################   Imran Resources   ###################################
+###################################   End Imran Resources   ###############################
 ###########################################################################################
 
 Outputs:
