@@ -28,7 +28,7 @@ ddb = boto3.client('dynamodb')
 
 # Import Flask
 from flask import Flask, request, jsonify, render_template, send_file, flash, redirect, url_for, session, logging, send_from_directory
-app = Flask(__name__, static_url_path='/static')
+app = Flask('stinkbait', template_folder='templates', static_folder='static')
 XRayMiddleware(app, xray_recorder)
 
 
