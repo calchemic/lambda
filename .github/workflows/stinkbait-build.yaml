@@ -28,7 +28,7 @@ jobs:
           sudo apt-get install -y python3-pip
 
       - name: Pip Install Lambda Packages
-        run: pip3 install -r requirements.txt -t ./packages
+        run: pip3 install -r requirements.txt -t ./packages -y 
 
       - name: Change Directory
         run: cd packages
@@ -67,7 +67,7 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::225609042289:role/github-action-role
           aws-region: us-east-1
-      - name: lambda-response-cloudformation
+      - name: Package Lambda Function Code
         run: aws cloudformation package --template-file template.yaml --s3-bucket stinkbait-225609042289 --output-template-file packaged_template.yaml --region us-east-1
-      - name: Deploy the Lambda Function
+      - name: Deploy the CloudFormation Stack
         run: aws cloudformation deploy --template-file proxy_template.yaml --stack-name stinkbait --capabilities CAPABILITY_NAMED_IAM
