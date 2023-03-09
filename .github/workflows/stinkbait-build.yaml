@@ -67,7 +67,9 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::225609042289:role/github-action-role
           aws-region: us-east-1
-      - name: Check CloudFormation stack events
+      - name: Check for "CREATE_FAILED" Cloudformation events
+        run: aws cloudformation delete-stack --stack-name stinkbait
+      - name: Check for "CREATE_FAILED" Cloudformation events
         run: |
           failed_events=$(aws cloudformation describe-stack-events --stack-name stinkbait --query "StackEvents[?ResourceStatus=='CREATE_FAILED']")
           echo "$failed_events" >> failed_events.log
