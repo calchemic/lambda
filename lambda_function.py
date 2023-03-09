@@ -96,7 +96,7 @@ def lambda_handler(event, context):
                 }
             else:
                 return {
-                    "statusCode": 200,
+                    "statusCode": response.status_code,
                     "body": response.data,
                     "headers": headers
                 }

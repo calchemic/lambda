@@ -187,11 +187,11 @@ def register():
         # Decode the base64 encoded message
         try:
             # Try decoding the message with standard padding
-            message = base64.b64decode(b64message + '==').decode('utf-8')
+            message = unquote(base64.b64decode(b64message + '==').decode('utf-8'))
         except Exception as e:
             # If standard padding doesn't work, try decoding the message with no padding
             logger.info(e)
-            message = base64.b64decode(b64message.replace('-', '+').replace('_', '/') + '==').decode('utf-8')
+            message = unquote(base64.b64decode(b64message.replace('-', '+').replace('_', '/') + '==').decode('utf-8'))
         logger.info(message)
         message_dict = {}
         for item in message.split('&'):
@@ -292,11 +292,11 @@ def target_org_new():
         # Decode the base64 encoded message
         try:
     # Try decoding the message with standard padding
-            message = base64.urlsafe_b64decode(b64message + '==').decode('utf-8')
+            message = unquote(base64.b64decode(b64message + '==').decode('utf-8'))
         except Exception as e:
             # If standard padding doesn't work, try decoding the message with no padding
             logger.info(e)
-            message = base64.urlsafe_b64decode(b64message.replace('-', '+').replace('_', '/')).decode('utf-8')
+            message = unquote(base64.b64decode(b64message.replace('-', '+').replace('_', '/')).decode('utf-8'))
         logger.info(message)
         message_dict = {}
         for item in message.split('&'):
@@ -322,7 +322,7 @@ def target_org_new():
                 }
             )
             logger.info(response)
-            return render_template('targets/orgs_dashboard.html')
+            return redirect(url_for('target_orgs_dashboard'), code=302)
         except Exception as e:
             logger.info(e)
             return render_template('404.html')
@@ -400,10 +400,48 @@ def target_profile(id):
 @app.route('/targets/subjects/new', methods=['GET', 'POST'])
 def target_subject_new():
     if request.method == 'POST':
-        # Get the data from the form
-        # Add the new target to the database
-        # Redirect to the target dashboard page
-        return redirect(url_for('target_subjects_dashboard'))
+                # If the form was submitted, retrieve the organization name from the form data
+        # Request form returned as immutablemultidict - convert to regular dictionary using to_dict()
+        data = request.form.to_dict()
+        # Get the first key in the dictionary, which is the form response body
+        b64message = list(data.keys())[0]
+        # Decode the base64 encoded message
+        try:
+    # Try decoding the message with standard padding
+            message = unquote(base64.b64decode(b64message + '==').decode('utf-8'))
+        except Exception as e:
+            # If standard padding doesn't work, try decoding the message with no padding
+            logger.info(e)
+            message = unquote(base64.b64decode(b64message.replace('-', '+').replace('_', '/')).decode('utf-8'))
+        logger.info(message)
+        message_dict = {}
+        for item in message.split('&'):
+            key, value = item.split('=')
+            message_dict[key] = value.replace('+', ' ')
+        logger.info(message_dict)
+        try:
+            # response = target_orgs_table.put_item(
+            #     Item={
+            #         'org_name': message_dict['org_name'],
+            #         'org_logo': message_dict['org_logo'],
+            #         'email_pattern': message_dict['email_pattern'],
+            #         'hq_address': message_dict['hq_address'],
+            #         'city': message_dict['city'],
+            #         'state': message_dict['state'],
+            #         'zip_code': message_dict['zip'],
+            #         'country': message_dict['country'],
+            #         'subsidiaries': message_dict['subsidiaries'],
+            #         'domains': message_dict['domains'],
+            #         'targets': message_dict['targets'],
+            #         'campaigns': message_dict['campaigns'],
+            #         'implants': message_dict['implants']
+            #     }
+            # )
+            # logger.info(response)
+            return redirect(url_for('target_subjects_dashboard'), code=302)
+        except Exception as e:
+            logger.info(e)
+            return render_template('404.html')
     else:
         return render_template('targets/new_subject.html')
 
