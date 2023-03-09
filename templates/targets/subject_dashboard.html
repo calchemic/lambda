@@ -1,26 +1,26 @@
-{% extends 'base.html' %} {% block title %}Target Profiles Summary{% endblock %} {% block content %}
-<h1>Target Profiles</h1>
+{% extends 'base.html' %} {% block title %}Subject Profiles Summary{% endblock %} {% block content %}
+<h1>Subject Profiles</h1>
 <table>
     <tr>
-        <th>Target ID</th>
+        <th>Subject ID</th>
         <th>Name</th>
-        <th>Company</th>
+        <th>Organization</th>
         <th>Email</th>
         <th>Phone</th>
         <th>Primary IP Address</th>
         <th>Device Fingerprint</th>
         <th>Mobile Device Fingerprint</th>
     </tr>
-    {% for target in potential_targets %}
+    {% for subject in subjects %}
     <tr>
-        <td>{{ target.id }}</td>
-        <td>{{ target.name }}</td>
-        <td>{{ target.company }}</td>
-        <td>{{ target.email }}</td>
-        <td>{{ target.phone }}</td>
-        <td>{{ target.ip_address }}</td>
-        <td>{{ target.device_type }}</td>
-        <td>{{ target.mobile_device_type }}</td>
+        <td>{{ subject.id }}</td>
+        <td>{{ subject.name }}</td>
+        <td>{{ subject.company }}</td>
+        <td>{{ subject.email }}</td>
+        <td>{{ subject.phone }}</td>
+        <td>{{ subject.ip_address }}</td>
+        <td>{{ subject.device_type }}</td>
+        <td>{{ subject.mobile_device_type }}</td>
     </tr>
     {% endfor %}
 </table>

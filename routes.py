@@ -6,6 +6,7 @@ import base64
 from lambda_function import logger, tracer, app
 from flask import Flask, render_template, request, send_file, redirect, url_for, flash, session, jsonify
 from urllib.parse import unquote
+import datetime
 
 #########################################################################################
 #################################  User Routes  #########################################
@@ -306,6 +307,7 @@ def target_org_new():
         try:
             response = target_orgs_table.put_item(
                 Item={
+                    'org_id': str(uuid.uuid4()),
                     'org_name': message_dict['org_name'],
                     'org_logo': message_dict['org_logo'],
                     'email_pattern': message_dict['email_pattern'],
@@ -318,7 +320,8 @@ def target_org_new():
                     'domains': message_dict['domains'],
                     'targets': message_dict['targets'],
                     'campaigns': message_dict['campaigns'],
-                    'implants': message_dict['implants']
+                    'implants': message_dict['implants'],
+                    'created_datetime': str(datetime.datetime.utcnow())
                 }
             )
             logger.info(response)
@@ -329,72 +332,33 @@ def target_org_new():
     else:
         return render_template('targets/new_org.html')
 
-potential_targets = [
-    {
-        "id": "240722b44c974973aef89654ff647d5b",
-        "name": "John Doe",
-        "company": "Acme Inc.",
-        "email": "john.doe@acme.com",
-        "phone": "+1 (555) 123-4567",
-        "ip_address": "127.0.0.1",
-        "device_type": "Windows 10 build 1809",
-        "mobile_device_type": "Android 10"
-    },
-    {
-        "id": "5ce3b427779c43c59f1610a084c1a55a",
-        "name": "Jane Smith",
-        "company": "XYZ Corporation",
-        "email": "jane.smith@xyzcorp.com",
-        "phone": "+1 (555) 234-5678",
-        "ip_address": "10.10.10.10",
-        "device_type": "MacOS 13.1",
-        "mobile_device_type": "iOS 16.1"
-    }
-]
-
 # Targets page
 @tracer.capture_method
 @app.route('/targets/subjects/dashboard')
 def target_subjects_dashboard():
     tracer.put_annotation(key="targets", value="targets-page")
-    return render_template('targets/subject_dashboard.html', potential_targets=potential_targets)
-
-target = {
-    'id': 1,
-    'name': 'John Smith',
-    'company': 'Acme Inc.',
-    'email': 'john.smith@acme.com',
-    'phone': '555-1234',
-    'ip_address': '192.168.0.1',
-    'ip_address_2': '127.0.0.1',
-    'device_type': 'Windows 10 build 1809',
-    'browser_type': 'Chrome 88.0.4324.150',
-    'browser_screen_resolution': '1920x1080',
-    'browser_language': 'en-US',
-    'browser_timezone': 'UTC-8',
-    'browser_cookies_enabled': True,
-    'browser_local_storage_enabled': True,
-    'browser_session_storage_enabled': True,
-    'browser_plugins': ['Adobe Acrobat', 'Java', 'Silverlight'],
-    'browser_fonts': ['Arial', 'Times New Roman', 'Verdana'],
-    'mobile_device_type': 'iOS 14.4 / Safari',
-    'mobile_device_browser': 'Safari',
-    'mobile_browser_screen_resolution': '1334x750',
-    'mobile_browser_language': 'en-US',
-    'mobile_browser_timezone': 'UTC-7',
-    'mobile_browser_cookies_enabled': True,
-    'mobile_browser_local_storage_enabled': True,
-    'mobile_browser_session_storage_enabled': True,
-    'mobile_browser_plugins': ['Adobe Acrobat', 'Java'],
-    'mobile_browser_fonts': ['Helvetica', 'Arial']
-}
+    response = target_subjects_table.scan()
+    logger.info(response)
+    subjects = []
+    for item in response['Items']:
+        subject = {}
+        subject['id'] = item.get('id', 'Unknown')
+        subject['name'] = unquote(item.get('name', 'Unknown'))
+        subject['company'] = unquote(item.get('company', 'Unknown'))
+        subject['email'] = unquote(item.get('email', 'Unknown'))
+        subject['phone'] = unquote(item.get('phone', 'Unknown'))
+        subject['ip_address'] = unquote(item.get('ip_address', 'Unknown'))
+        subject['device_type'] = unquote(item.get('device_type', 'Unknown'))
+        subject['mobile_device_type'] = unquote(item.get('mobile_device_type', 'Unknown'))
+        subjects.append(subject)
+    return render_template('targets/subject_dashboard.html', subjects=subjects)
 
 # Target profile page
 @app.route('/targets/subjects/<int:id>')
 def target_profile(id):
     # Look up the target data from the database based on the ID
     # Render the target profile template with the target data
-    return render_template('targets/subject_profile.html', target=target)
+    return render_template('targets/subject_profile.html') #, target=target)
 
 # New target page
 @app.route('/targets/subjects/new', methods=['GET', 'POST'])
@@ -420,24 +384,19 @@ def target_subject_new():
             message_dict[key] = value.replace('+', ' ')
         logger.info(message_dict)
         try:
-            # response = target_orgs_table.put_item(
-            #     Item={
-            #         'org_name': message_dict['org_name'],
-            #         'org_logo': message_dict['org_logo'],
-            #         'email_pattern': message_dict['email_pattern'],
-            #         'hq_address': message_dict['hq_address'],
-            #         'city': message_dict['city'],
-            #         'state': message_dict['state'],
-            #         'zip_code': message_dict['zip'],
-            #         'country': message_dict['country'],
-            #         'subsidiaries': message_dict['subsidiaries'],
-            #         'domains': message_dict['domains'],
-            #         'targets': message_dict['targets'],
-            #         'campaigns': message_dict['campaigns'],
-            #         'implants': message_dict['implants']
-            #     }
-            # )
-            # logger.info(response)
+            response = target_subjects_table.put_item(
+                Item={
+                    'id': str(uuid.uuid4()),
+                    'name': message_dict['name'],
+                    'target_email': message_dict['email'],
+                    'company': message_dict['company'],
+                    'title': message_dict['title'],
+                    'department': message_dict['department'],
+                    'phone': message_dict['phone'],
+                    'created_datetime': str(datetime.datetime.utcnow())
+                }
+            )
+            logger.info(response)
             return redirect(url_for('target_subjects_dashboard'), code=302)
         except Exception as e:
             logger.info(e)
