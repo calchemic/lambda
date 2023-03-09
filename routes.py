@@ -4,7 +4,8 @@ import boto3
 import json
 import base64
 from lambda_function import logger, tracer, app
-from flask import Flask, render_template, request, send_file, redirect, url_for, flash, session
+from flask import Flask, render_template, request, send_file, redirect, url_for, flash, session, jsonify
+from urllib.parse import unquote
 
 #########################################################################################
 #################################  User Routes  #########################################
@@ -246,8 +247,27 @@ def login():
 # Target Organizations Dashboard
 @app.route('/targets/orgs')
 def target_orgs_dashboard():
-#    orgs = get_orgs_data()
-    return render_template('targets/orgs_dashboard.html') #, orgs=orgs)
+    response = target_orgs_table.scan()
+    logger.info(response)
+    orgs = []
+    for item in response['Items']:
+        org = {}
+        org['org_name'] = unquote(item.get('org_name', 'Unknown'))
+        org['domains'] = unquote(item.get('domains', 'Unknown'))
+        org['email_pattern'] = unquote(item.get('email_pattern', 'Unknown'))
+        org['hq_address'] = unquote(item.get('hq_address', 'Unknown'))
+        org['city'] = unquote(item.get('city', 'Unknown'))
+        org['state'] = unquote(item.get('state', 'Unknown'))
+        org['zip'] = unquote(item.get('zip_code', 'Unknown'))
+        org['country'] = unquote(item.get('country', 'Unknown'))
+        org['phone'] = unquote(item.get('phone_number', 'Unknown'))
+        org['subsidiaries'] = unquote(item.get('subsidiaries', 'Unknown'))
+        org['targets'] = unquote(item.get('targets', 'Unknown'))
+        org['campaigns'] = unquote(item.get('campaigns', 'Unknown'))
+        org['implants'] = unquote(item.get('implants', 'Unknown'))
+        org['public_co'] = unquote(item.get('public_company', 'Unknown'))
+        orgs.append(org)
+    return render_template('targets/orgs_dashboard.html', orgs=orgs)
 
 
 
@@ -271,12 +291,12 @@ def target_org_new():
         b64message = list(data.keys())[0]
         # Decode the base64 encoded message
         try:
-            # Try decoding the message with standard padding
-            message = base64.b64decode(b64message + '==').decode('utf-8')
+    # Try decoding the message with standard padding
+            message = base64.urlsafe_b64decode(b64message + '==').decode('utf-8')
         except Exception as e:
             # If standard padding doesn't work, try decoding the message with no padding
             logger.info(e)
-            message = base64.b64decode(b64message.replace('-', '+').replace('_', '/') + '==').decode('utf-8')
+            message = base64.urlsafe_b64decode(b64message.replace('-', '+').replace('_', '/')).decode('utf-8')
         logger.info(message)
         message_dict = {}
         for item in message.split('&'):
