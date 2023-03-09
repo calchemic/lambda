@@ -1,0 +1,33 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Campaigns Dashboard</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Campaign ID</th>
+            <th>Campaign Name</th>
+            <th>Organization Name</th>
+            <th>Targets</th>
+            <th>Subject</th>
+            <th>Message</th>
+            <th>Landing Page URL</th>
+            <th>Landing Page Hosting Provider</th>
+            <th>Created Datetime</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for campaign in campaigns %}
+        <tr>
+            <td>{{ campaign['campaign_id'] }}</td>
+            <td>{{ campaign['campaign_name'] }}</td>
+            <td>{{ campaign['org_name'] }}</td>
+            <td>{{ campaign['targets'] }}</td>
+            <td>{{ campaign['subject'] }}</td>
+            <td>{{ campaign['message'] }}</td>
+            <td>{{ campaign['landing_page_url'] }}</td>
+            <td>{{ campaign['landing_page_hosting_provider'] }}</td>
+            <td>{{ campaign['created_datetime'] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -9,16 +9,32 @@
                 <a href="{{ url_for('target_orgs_dashboard') }}">Targets</a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ url_for('target_org_new') }}">Create a Target Organization</a></li>
-                    <li><a href="{{ url_for('target_subject_new') }}">Create a Target Subject</a></li>
                     <li><a href="{{ url_for('target_orgs_dashboard') }}">Target Organizations</a></li>
+                    <li><a href="{{ url_for('target_subject_new') }}">Create a Target Subject</a></li>
                     <li><a href="{{ url_for('target_subjects_dashboard') }}">Target Subjects</a></li>
 
                 </ul>
             </li>
             <li class="dropdown">
-                <a href="{{ url_for('campaigns') }}">Campaigns</a>
+                <a href="#">Recon</a>
                 <ul class="dropdown-menu">
-                    <li><a href="#">Create Phishing Campaign</a></li>
+                    <li><a href="#">DNS Enumeration</a></li>
+                    <li><a href="#">Email Enumeration</a></li>
+                    <li><a href="#">AWS Principal Enumeration</a></li>
+                    <li><a href="#">Tech Stack Enumeration</a></li>
+                    <li><a href="#">Social Media Enumeration</a></li>
+                    <li><a href="#">Whois Enumeration</a></li>
+                    <li><a href="#">IP Enumeration</a></li>
+                    <li><a href="#">Subdomain Enumeration</a></li>
+                </ul>
+            </li>
+            <a href="{{ url_for('index') }}">
+                <img class="logo" src="{{url_for('static', filename='img/stinkbait.png')}}">
+            </a>
+            <li class="dropdown">
+                <a href="{{ url_for('campaigns_dashboard') }}">Campaigns</a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{url_for('new_campaign')}}">Create Phishing Campaign</a></li>
                     <li><a href="#">Deploy Phishing Campaign</a></li>
                     <li><a href="{{url_for('email_template')}}">Email Development</a></li>
                     <li><a href="#">Landing Page Development</a></li>
@@ -26,9 +42,6 @@
                     <li><a href="{{url_for('dns_cert_manager')}}">Domain Management</a></li>
                 </ul>
             </li>
-            <a href="{{ url_for('index') }}">
-                <img class="logo" src="{{url_for('static', filename='img/stinkbait.png')}}">
-            </a>
             <li class="dropdown">
                 <a href="{{ url_for('implants') }}">Implants</a>
                 <ul class="dropdown-menu">
@@ -39,7 +52,7 @@
                     <li><a href="#">Implant Session Replay</a></li>
                 </ul>
             </li>
-            <li class="dropdown">
+            <!-- <li class="dropdown">
                 <a href="#">Back Office</a>
                 <ul class="dropdown-menu">
                     <li><a href="#">Create a Report</a></li>
@@ -49,7 +62,7 @@
                     <li><a href="{{ url_for('backoffice_documentation') }}">Documentation</a></li>
                     <li><a href="#">Settings</a></li>
                 </ul>
-            </li>
+            </li> -->
             <!-- <li class="dropdown">
                 <a href="#">Profile</a>
                 <ul class="dropdown-menu">

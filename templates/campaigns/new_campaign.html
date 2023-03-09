@@ -1,0 +1,24 @@
+{% extends 'base.html' %} {% block content %}
+<h1>New Campaign</h1>
+<form class="login-form" method="POST" action="{{ url_for('new_campaign') }}">
+    <label for="campaign_name">Campaign Name</label>
+    <input type="text" id="campaign_name" name="campaign_name" required>
+
+    <label for="org_name">Organization Name</label>
+    <input type="text" id="org_name" name="org_name" required>
+
+    <label for="targets">Targets</label>
+    <textarea id="targets" name="targets" required></textarea>
+
+    <label for="subject">Subject</label>
+    <input type="text" id="subject" name="subject" required>
+
+    <label for="landing_page_url">Landing Page URL (optional)</label>
+    <input type="url" id="landing_page_url" name="landing_page_url">
+
+    <label for="landing_page_hosting_provider">Landing Page Hosting Provider (optional)</label>
+    <input type="text" id="landing_page_hosting_provider" name="landing_page_hosting_provider">
+
+    <button type="submit">Create Campaign</button>
+</form>
+{% endblock %}

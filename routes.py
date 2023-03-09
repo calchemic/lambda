@@ -172,46 +172,49 @@ def login():
 @app.route('/targets/orgs/new', methods=['GET', 'POST'])
 def target_org_new():
     if request.method == 'POST':
-        # If the form was submitted, retrieve the organization name from the form data
-        # Request form returned as immutablemultidict - convert to regular dictionary using to_dict()
         data = request.form.to_dict()
-        # Get the first key in the dictionary, which is the form response body
         b64message = list(data.keys())[0]
-        # Decode the base64 encoded message
         try:
-    # Try decoding the message with standard padding
             message = unquote(base64.b64decode(b64message + '==').decode('utf-8'))
         except Exception as e:
-            # If standard padding doesn't work, try decoding the message with no padding
             logger.info(e)
             message = unquote(base64.b64decode(b64message.replace('-', '+').replace('_', '/')).decode('utf-8'))
-        logger.info(message)
         message_dict = {}
         for item in message.split('&'):
             key, value = item.split('=')
             message_dict[key] = value.replace('+', ' ')
-        logger.info(message_dict)
         try:
-            response = target_orgs_table.put_item(
-                Item={
-                    'org_id': str(uuid.uuid4().hex),
-                    'org_name': message_dict['org_name'],
-                    'org_logo': message_dict['org_logo'],
-                    'email_pattern': message_dict['email_pattern'],
-                    'hq_address': message_dict['hq_address'],
-                    'city': message_dict['city'],
-                    'state': message_dict['state'],
-                    'zip_code': message_dict['zip'],
-                    'country': message_dict['country'],
-                    'subsidiaries': message_dict['subsidiaries'],
-                    'domains': message_dict['domains'],
-                    'targets': message_dict['targets'],
-                    'campaigns': message_dict['campaigns'],
-                    'implants': message_dict['implants'],
-                    'created_datetime': str(datetime.datetime.utcnow())
-                }
-            )
-            logger.info(response)
+            item = {
+                'org_id': str(uuid.uuid4().hex),
+                'created_datetime': str(datetime.datetime.utcnow())
+            }
+            if message_dict.get('org_name'):
+                item['org_name'] = message_dict['org_name']
+            if message_dict.get('org_logo'):
+                item['org_logo'] = message_dict['org_logo']
+            if message_dict.get('email_pattern'):
+                item['email_pattern'] = message_dict['email_pattern']
+            if message_dict.get('hq_address'):
+                item['hq_address'] = message_dict['hq_address']
+            if message_dict.get('city'):
+                item['city'] = message_dict['city']
+            if message_dict.get('state'):
+                item['state'] = message_dict['state']
+            if message_dict.get('zip'):
+                item['zip_code'] = message_dict['zip']
+            if message_dict.get('country'):
+                item['country'] = message_dict['country']
+            if message_dict.get('subsidiaries'):
+                item['subsidiaries'] = message_dict['subsidiaries']
+            if message_dict.get('domains'):
+                item['domains'] = message_dict['domains']
+            if message_dict.get('targets'):
+                item['targets'] = message_dict['targets']
+            if message_dict.get('campaigns'):
+                item['campaigns'] = message_dict['campaigns']
+            if message_dict.get('implants'):
+                item['implants'] = message_dict['implants']
+            response = target_orgs_table.put_item(Item=item)
             return redirect(url_for('target_orgs_dashboard'), code=302)
         except Exception as e:
             logger.info(e)
@@ -259,45 +262,42 @@ def org_profile(org_id):
 @app.route('/targets/subjects/new', methods=['GET', 'POST'])
 def target_subject_new():
     if request.method == 'POST':
-        # If the form was submitted, retrieve the subject name from the form data
-        # Request form returned as immutablemultidict - convert to regular dictionary using to_dict()
         data = request.form.to_dict()
-        # Get the first key in the dictionary, which is the form response body
         b64message = list(data.keys())[0]
-        # Decode the base64 encoded message
         try:
-    # Try decoding the message with standard padding
             message = unquote(base64.b64decode(b64message + '==').decode('utf-8'))
         except Exception as e:
-            # If standard padding doesn't work, try decoding the message with no padding
             logger.info(e)
             message = unquote(base64.b64decode(b64message.replace('-', '+').replace('_', '/')).decode('utf-8'))
-        logger.info(message)
         message_dict = {}
         for item in message.split('&'):
             key, value = item.split('=')
             message_dict[key] = value.replace('+', ' ')
-        logger.info(message_dict)
         try:
-            response = target_subjects_table.put_item(
-                Item={
-                    'id': str(uuid.uuid4().hex),
-                    'name': message_dict['name'],
-                    'target_email': message_dict['email'],
-                    'organization': message_dict['organization'],
-                    'title': message_dict['title'],
-                    'department': message_dict['department'],
-                    'phone': message_dict['phone'],
-                    'created_datetime': str(datetime.datetime.utcnow())
-                }
-            )
-            logger.info(response)
+            item = {
+                'id': str(uuid.uuid4().hex),
+                'created_datetime': str(datetime.datetime.utcnow())
+            }
+            if message_dict.get('name'):
+                item['name'] = message_dict['name']
+            if message_dict.get('email'):
+                item['target_email'] = message_dict['email']
+            if message_dict.get('organization'):
+                item['organization'] = message_dict['organization']
+            if message_dict.get('title'):
+                item['title'] = message_dict['title']
+            if message_dict.get('department'):
+                item['department'] = message_dict['department']
+            if message_dict.get('phone'):
+                item['phone'] = message_dict['phone']
+            response = target_subjects_table.put_item(Item=item)
             return redirect(url_for('target_subjects_dashboard'), code=302)
         except Exception as e:
             logger.info(e)
             return render_template('404.html')
     else:
         return render_template('targets/new_subject.html')
+
 
 
 # Targets page
@@ -442,7 +442,64 @@ def api_key_management():
 #################################  Campaigns Routes  ####################################
 #########################################################################################
 
-
+# New Campaign route
+@app.route('/campaigns/new-campaign', methods=['GET', 'POST'])
+def new_campaign():
+    if request.method == 'POST':
+        data = request.form.to_dict()
+        b64message = list(data.keys())[0]
+        try:
+            message = unquote(base64.b64decode(b64message + '==').decode('utf-8'))
+        except Exception as e:
+            logger.info(e)
+            message = unquote(base64.b64decode(b64message.replace('-', '+').replace('_', '/')).decode('utf-8'))
+        message_dict = {}
+        for item in message.split('&'):
+            key, value = item.split('=')
+            message_dict[key] = value.replace('+', ' ')
+        try:
+            item = {
+                'campaign_id': str(uuid.uuid4().hex),
+                'created_datetime': str(datetime.datetime.utcnow())
+            }
+            if message_dict.get('campaign_name'):
+                item['campaign_name'] = message_dict['campaign_name']
+            if message_dict.get('org_name'):
+                item['org_name'] = message_dict['org_name']
+            if message_dict.get('targets'):
+                item['targets'] = message_dict['targets']
+            if message_dict.get('subject'):
+                item['subject'] = message_dict['subject']
+            if message_dict.get('landing_page_url'):
+                item['landing_page_url'] = message_dict['landing_page_url']
+            if message_dict.get('landing_page_hosting_provider'):
+                item['landing_page_hosting_provider'] = message_dict['landing_page_hosting_provider']
+            response = campaigns_table.put_item(Item=item)
+            return redirect(url_for('campaigns_dashboard'), code=302)
+        except Exception as e:
+            logger.info(e)
+            return render_template('404.html')
+    else:
+        return render_template('campaigns/new_campaign.html')
+    
+# Campaign Dashboard route
+@app.route('/campaigns/dashboard')
+def campaigns_dashboard():
+    response = campaigns_table.scan()
+    campaigns = []
+    for item in response['Items']:
+        campaign = {}
+        campaign['campaign_id'] = item.get('campaign_id', 'Unknown')
+        campaign['campaign_name'] = item.get('campaign_name', 'Unknown')
+        campaign['org_name'] = item.get('org_name', 'Unknown')
+        campaign['targets'] = item.get('targets', 'Unknown')
+        campaign['subject'] = item.get('subject', 'Unknown')
+        campaign['message'] = item.get('message', 'Unknown')
+        campaign['landing_page_url'] = item.get('landing_page_url', 'N/A')
+        campaign['landing_page_hosting_provider'] = item.get('landing_page_hosting_provider', 'N/A')
+        campaign['created_datetime'] = item.get('created_datetime', 'Unknown')
+        campaigns.append(campaign)
+    return render_template('campaigns/campaigns_dashboard.html', campaigns=campaigns)
 
 # Campaign profile page
 @tracer.capture_method
