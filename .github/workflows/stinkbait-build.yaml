@@ -68,7 +68,7 @@ jobs:
           role-to-assume: arn:aws:iam::225609042289:role/github-action-role
           aws-region: us-east-1
       - name: Describe Stack Events
-        run: aws cloudformation describe-stack-events --stack-name stinkbait --query 'StackEvents[?ResourceType==`AWS::CloudFormation::Stack` && ResourceStatus==`CREATE_FAILED`]' --output table >> stack_events.txt
+        run: aws cloudformation describe-stack-events --stack-name stinkbait --query 'StackEvents[?ResourceType==`AWS::CloudFormation::Stack` && ResourceStatus==`CREATE_FAILED`]' --output text >> stack_events.txt
       - name: Cat Stack Events
         run: cat stack_events.txt
       - name: Package Lambda Function Code
@@ -76,4 +76,4 @@ jobs:
       - name: Deploy the CloudFormation Stack
         run: aws cloudformation deploy --template-file proxy_template.yaml --stack-name stinkbait --capabilities CAPABILITY_NAMED_IAM
       - name: Get the Stack Output Information
-        run: aws cloudformation describe-stacks --stack-name stinkbait --query "Stacks[0].Outputs" --output table
+        run: aws cloudformation describe-stacks --stack-name stinkbait --query "Stacks[0].Outputs" --output text
