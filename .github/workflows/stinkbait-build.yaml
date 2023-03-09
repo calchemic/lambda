@@ -69,7 +69,7 @@ jobs:
           aws-region: us-east-1
       - name: Check CloudFormation stack events
         run: |
-          failed_events=$(aws cloudformation describe-stack-events --stack-name $STACK_NAME --query "StackEvents[?ResourceStatus=='CREATE_FAILED']")
+          failed_events=$(aws cloudformation describe-stack-events --stack-name stinkbait --query "StackEvents[?ResourceStatus=='CREATE_FAILED']")
           echo "$failed_events" >> failed_events.log
           if [ -n "$failed_events" ]; then
             echo "The following CREATE_FAILED events were found:"
