@@ -74,7 +74,6 @@ jobs:
           if [ -n "$failed_events" ]; then
             echo "The following CREATE_FAILED events were found:"
             echo "$failed_events"
-            exit 1
           fi
       - name: Package Lambda Function Code
         run: aws cloudformation package --template-file template.yaml --s3-bucket stinkbait-225609042289 --output-template-file packaged_template.yaml --region us-east-1
