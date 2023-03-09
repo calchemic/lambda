@@ -17,8 +17,7 @@ patcher.patch(('requests',))
 # Configure the X-Ray recorder to generate segments with our service name
 xray_recorder.configure(service='Stinkbait Core')
 
-# Internal Imports
-from allow import allow
+
 
 # Set boto3 clients for various services the lambda function will utilize
 ssm = boto3.client('ssm')
@@ -28,15 +27,31 @@ ddb = boto3.client('dynamodb')
 
 # Import Flask
 from flask import Flask, request, jsonify, render_template, send_file, flash, redirect, url_for, session, logging, send_from_directory
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 app = Flask('stinkbait', template_folder='templates', static_folder='static')
+app.secret_key = 'd424a54531e64a0a850bc054d1b6d49b'
 XRayMiddleware(app, xray_recorder)
-
 
 # Initialize the AWS Lambda Powertools
 tracer = Tracer(service="Stinkbait Core")
 logger = Logger(service="Stinkbait Core", correlation_id_path=correlation_paths.API_GATEWAY_REST)
 
-from routes import app
+# Initialize the Flask Login Manager
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+# Internal Imports
+from allow import allow
+from routes import app, User
+
+
+# Flask-Login user loader
+@login_manager.user_loader
+def load_user(user_id):
+    return User.get(user_id)
+
+
+
 
 #Enter main function
 @logger.inject_lambda_context(log_event=True)

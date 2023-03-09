@@ -33,10 +33,10 @@ Resources:
     Properties:
       TableName: !Sub ${AppName}-${Environment}-users
       AttributeDefinitions:
-        - AttributeName: user_email
+        - AttributeName: username
           AttributeType: S
       KeySchema:
-        - AttributeName: user_email
+        - AttributeName: username
           KeyType: HASH
       ProvisionedThroughput:
         ReadCapacityUnits: 1

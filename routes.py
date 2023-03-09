@@ -4,15 +4,15 @@ import boto3
 import json
 import base64
 import subprocess
+import datetime
+import hashlib
 from shlex import quote
-from lambda_function import logger, tracer, app
+from lambda_function import logger, tracer, app, login_manager, UserMixin, login_user, login_required, logout_user, current_user
 from flask import Flask, render_template, request, send_file, redirect, url_for, flash, session, jsonify
 from urllib.parse import unquote
-import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 
-#########################################################################################
-#################################  User Routes  #########################################
-#########################################################################################
+
 ddb = boto3.resource('dynamodb')
 dynamo = boto3.client('dynamodb')
 tables = dynamo.list_tables()
@@ -22,41 +22,76 @@ for table_name in tables['TableNames']:
     if table_name.endswith('users'):
         users_table = ddb.Table(table_name)
         break
-logger.info(users_table)
+#logger.info(users_table)
 
 # TODO: This is a hack to get the target-orgs table name.  Need to find a better way to do this. Maybe use a tag? Needs to be dynamic based on the environment stage - but have to pass that from the lambda handler function.
 for table_name in tables['TableNames']:
     if table_name.endswith('target-orgs'):
         target_orgs_table = ddb.Table(table_name)
         break
-logger.info(target_orgs_table)
+#logger.info(target_orgs_table)
 
 # TODO: This is a hack to get the target-subjects table name.  Need to find a better way to do this. Maybe use a tag? Needs to be dynamic based on the environment stage - but have to pass that from the lambda handler function.
 for table_name in tables['TableNames']:
     if table_name.endswith('target-subjects'):
         target_subjects_table = ddb.Table(table_name)
         break
-logger.info(target_subjects_table)
+#logger.info(target_subjects_table)
 
 # TODO: This is a hack to get the campaigns table name.  Need to find a better way to do this. Maybe use a tag? Needs to be dynamic based on the environment stage - but have to pass that from the lambda handler function.
 for table_name in tables['TableNames']:
     if table_name.endswith('campaigns'):
         campaigns_table = ddb.Table(table_name)
         break
-logger.info(campaigns_table)
+#logger.info(campaigns_table)
 
 # TODO: This is a hack to get the implants table name.  Need to find a better way to do this. Maybe use a tag? Needs to be dynamic based on the environment stage - but have to pass that from the lambda handler function.
 for table_name in tables['TableNames']:
     if table_name.endswith('implants'):
         implants_table = ddb.Table(table_name)
         break
-logger.info(implants_table)
+#logger.info(implants_table)
 
 for table_name in tables['TableNames']:
     if table_name.endswith('reports'):
         reports_table = ddb.Table(table_name)
         break
-logger.info(reports_table)
+#logger.info(reports_table)
+
+
+
+class User(UserMixin):
+    def __init__(self, user_id, username, password_hash, role):
+        self.id = user_id
+        self.username = username
+        self.password_hash = password_hash
+        self.role = role
+
+    def __repr__(self):
+        return '<User {}>'.format(self.username)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+    @staticmethod
+    def get(user_id):
+        response = users_table.get_item(Key={'username': user_id})
+        if 'Item' not in response:
+            return None
+        item = response['Item']
+        return User(item['user_id'], item['username'], item['password_hash'], item['role'])
+
+
+
+
+
+
+
+
+
+#########################################################################################
+#################################  User Routes  #########################################
+#########################################################################################
 
 # Stinkbait User Profile Page
 @app.route('/profile')
@@ -98,7 +133,6 @@ def allow_list():
     # Render the template with the list of allowed IP addresses and User Agents, and the form
     return render_template('profile/allow_list.html') #, allowed=allowed)
 
-@tracer.capture_method
 @app.route('/register', methods = ['POST', 'GET'])
 def register():
     logger.info("Register Page")
@@ -121,14 +155,17 @@ def register():
             key, value = item.split('=')
             message_dict[key] = value.replace('+', ' ')
         try:
+            password = message_dict['password']
+            hash_object = hashlib.sha256(password.encode())
+            password_hash = hash_object.hexdigest()
             response = users_table.put_item(
                 Item={
+                    'user_id': str(uuid.uuid4().hex),
                     'username': message_dict['username'],
                     'user_email': message_dict['email'],
                     'first_name': message_dict['first_name'],
                     'last_name': message_dict['last_name'],
-                    'password': message_dict['password'],
-                    'confirm_password': message_dict['confirm_password'],
+                    'password': password_hash,
                     'organization': message_dict['organization'],
                     'phone': message_dict['phone'],
                     'address': message_dict['address'],
@@ -136,7 +173,9 @@ def register():
                     'state': message_dict['state'],
                     'zip_code': message_dict['zip_code'],
                     'country': message_dict['country'],
-                    'role': message_dict['role']
+                    'role': message_dict['role'],
+                    'created_at': str(datetime.datetime.now()),
+                    'status': 'active'
                 }
             )
             logger.info(response)
@@ -147,13 +186,43 @@ def register():
     elif request.method == 'GET':
         return render_template('register.html')
 
-
 @tracer.capture_method
 @app.route('/login', methods = ['POST', 'GET'])
 def login():
     logger.info("Login Page")
     if request.method == 'POST':
-        return render_template('404.html')
+        data = request.form.to_dict()
+        b64message = list(data.keys())[0]
+        try:
+            message = unquote(base64.b64decode(b64message + '==').decode('utf-8'))
+        except Exception as e:
+            logger.info(e)
+            message = unquote(base64.b64decode(b64message.replace('-', '+').replace('_', '/')).decode('utf-8'))
+        message_dict = {}
+        for item in message.split('&'):
+            key, value = item.split('=')
+            message_dict[key] = value.replace('+', ' ')
+
+        username = message_dict['username']
+        password = message_dict['password']
+
+        response = users_table.get_item(Key={'username': username})
+        user_data = response.get('Item', None)
+        if not user_data:
+            logger.info(f'If Not User Data: {user_data}')
+            return render_template('login.html', message="Invalid username or password")
+        hash_object = hashlib.sha256(password.encode())
+        password_hash = hash_object.hexdigest()
+        pw_hash = user_data['password']
+        if password_hash != pw_hash:
+            logger.info(f'If Password != User Data: {pw_hash}')
+            return render_template('login.html', message="Invalid username or password")
+        logger.info(user_data)
+        user = User(username=user_data['username'], password_hash=user_data['password'], role=user_data['role'], user_id=user_data['user_id'])
+        login_user(user)
+        next = request.args.get('next')
+        return redirect(next or url_for('target_orgs_dashboard'))
+    
     elif request.method == 'GET':
         logger.info("GET")
         return render_template('login.html')
