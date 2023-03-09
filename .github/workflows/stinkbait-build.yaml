@@ -24,29 +24,35 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y zip
-      - name: Create Zip
-        run: zip -r templates.zip templates/
+          sudo apt-get install -y python3
+          sudo apt-get install -y python3-pip
+
+      - name: Pip Install Lambda Packages
+        run: pip3 install -r requirements.txt -t ./packages
+
+      - name: Change Directory
+        run: cd packages
+
+      - name: Zip Packages
+        run: zip -r ../lambda.zip .
+
+      - name: Change Directory
+        run: cd ..
 
       - name: Create Zip
-        run: zip -r static.zip static/
+        run: zip -r lambda.zip templates/
 
       - name: Create Zip
-        run: zip -r lambda_function.zip lambda_function.py routes.py allow.py
+        run: zip -r lambda.zip static/
+
+      - name: Create Zip
+        run: zip -r lambda.zip lambda_function.py routes.py allow.py
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
           role-to-assume: arn:aws:iam::225609042289:role/github-action-role
           aws-region: us-east-1
-
-      - name: Upload to S3
-        run: aws s3 cp templates.zip s3://stinkbait-225609042289/
-
-      - name: Upload to S3
-        run: aws s3 cp static.zip s3://stinkbait-225609042289/
-
-      - name: Upload to S3
-        run: aws s3 cp lambda_function.zip s3://stinkbait-225609042289/
 
   deploy-stack:
     permissions:
