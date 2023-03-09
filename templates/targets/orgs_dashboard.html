@@ -3,6 +3,7 @@
 <table>
     <thead>
         <tr>
+            <th>Organization ID</th>
             <th>Organization Name</th>
             <th>Domains</th>
             <th>Email Pattern</th>
@@ -13,6 +14,7 @@
     <tbody>
         {% for org in orgs %}
         <tr>
+            <td>{{ org.org_id }}</td>
             <td>{{ org.org_name }}</td>
             <td>{{ org.domains }}</td>
             <td>{{ org.email_pattern }}</td>

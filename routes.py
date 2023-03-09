@@ -245,41 +245,6 @@ def login():
 #########################################################################################
 ###################################  Targets Routes  ####################################
 #########################################################################################
-# Target Organizations Dashboard
-@app.route('/targets/orgs')
-def target_orgs_dashboard():
-    response = target_orgs_table.scan()
-    logger.info(response)
-    orgs = []
-    for item in response['Items']:
-        org = {}
-        org['org_name'] = unquote(item.get('org_name', 'Unknown'))
-        org['domains'] = unquote(item.get('domains', 'Unknown'))
-        org['email_pattern'] = unquote(item.get('email_pattern', 'Unknown'))
-        org['hq_address'] = unquote(item.get('hq_address', 'Unknown'))
-        org['city'] = unquote(item.get('city', 'Unknown'))
-        org['state'] = unquote(item.get('state', 'Unknown'))
-        org['zip'] = unquote(item.get('zip_code', 'Unknown'))
-        org['country'] = unquote(item.get('country', 'Unknown'))
-        org['phone'] = unquote(item.get('phone_number', 'Unknown'))
-        org['subsidiaries'] = unquote(item.get('subsidiaries', 'Unknown'))
-        org['targets'] = unquote(item.get('targets', 'Unknown'))
-        org['campaigns'] = unquote(item.get('campaigns', 'Unknown'))
-        org['implants'] = unquote(item.get('implants', 'Unknown'))
-        org['public_co'] = unquote(item.get('public_company', 'Unknown'))
-        orgs.append(org)
-    return render_template('targets/orgs_dashboard.html', orgs=orgs)
-
-
-
-# Org Profile page for a specific organization
-@app.route('/targets/orgs/<org_id>')
-def org_profile(org_id):
-    # Retrieve the organization's data from your database using the org_id parameter
-    # org_data = get_org_data(org_id)
-
-    # Pass the organization's data to the org-profile.html template
-    return render_template('/targets/org-profile.html') #, **org_data)
 
 # Create a new organization
 @app.route('/targets/orgs/new', methods=['GET', 'POST'])
@@ -332,33 +297,41 @@ def target_org_new():
     else:
         return render_template('targets/new_org.html')
 
-# Targets page
-@tracer.capture_method
-@app.route('/targets/subjects/dashboard')
-def target_subjects_dashboard():
-    tracer.put_annotation(key="targets", value="targets-page")
-    response = target_subjects_table.scan()
+# Target Organizations Dashboard
+@app.route('/targets/orgs')
+def target_orgs_dashboard():
+    response = target_orgs_table.scan()
     logger.info(response)
-    subjects = []
+    orgs = []
     for item in response['Items']:
-        subject = {}
-        subject['id'] = item.get('id', 'Unknown')
-        subject['name'] = unquote(item.get('name', 'Unknown'))
-        subject['organization'] = unquote(item.get('organization', 'Unknown'))
-        subject['email'] = unquote(item.get('email', 'Unknown'))
-        subject['phone'] = unquote(item.get('phone', 'Unknown'))
-        subject['ip_address'] = unquote(item.get('ip_address', 'Unknown'))
-        subject['device_type'] = unquote(item.get('device_type', 'Unknown'))
-        subject['mobile_device_type'] = unquote(item.get('mobile_device_type', 'Unknown'))
-        subjects.append(subject)
-    return render_template('targets/subject_dashboard.html', subjects=subjects)
+        org = {}
+        org['org_id'] = item.get('org_id', 'Unknown')
+        org['org_name'] = unquote(item.get('org_name', 'Unknown'))
+        org['domains'] = unquote(item.get('domains', 'Unknown'))
+        org['email_pattern'] = unquote(item.get('email_pattern', 'Unknown'))
+        org['hq_address'] = unquote(item.get('hq_address', 'Unknown'))
+        org['city'] = unquote(item.get('city', 'Unknown'))
+        org['state'] = unquote(item.get('state', 'Unknown'))
+        org['zip'] = unquote(item.get('zip_code', 'Unknown'))
+        org['country'] = unquote(item.get('country', 'Unknown'))
+        org['phone'] = unquote(item.get('phone_number', 'Unknown'))
+        org['subsidiaries'] = unquote(item.get('subsidiaries', 'Unknown'))
+        org['targets'] = unquote(item.get('targets', 'Unknown'))
+        org['campaigns'] = unquote(item.get('campaigns', 'Unknown'))
+        org['implants'] = unquote(item.get('implants', 'Unknown'))
+        org['public_co'] = unquote(item.get('public_company', 'Unknown'))
+        orgs.append(org)
+    return render_template('targets/orgs_dashboard.html', orgs=orgs)
 
-# Target profile page
-@app.route('/targets/subjects/<int:id>')
-def target_profile(id):
-    # Look up the target data from the database based on the ID
-    # Render the target profile template with the target data
-    return render_template('targets/subject_profile.html') #, target=target)
+# Org Profile page for a specific organization
+@app.route('/targets/orgs/<org_id>')
+def org_profile(org_id):
+    # Retrieve the organization's data from your database using the org_id parameter
+    # org_data = get_org_data(org_id)
+
+    # Pass the organization's data to the org-profile.html template
+    return render_template('/targets/org-profile.html') #, **org_data)
+
 
 # New target page
 @app.route('/targets/subjects/new', methods=['GET', 'POST'])
@@ -403,6 +376,36 @@ def target_subject_new():
             return render_template('404.html')
     else:
         return render_template('targets/new_subject.html')
+
+
+# Targets page
+@tracer.capture_method
+@app.route('/targets/subjects/dashboard')
+def target_subjects_dashboard():
+    tracer.put_annotation(key="targets", value="targets-page")
+    response = target_subjects_table.scan()
+    logger.info(response)
+    subjects = []
+    for item in response['Items']:
+        subject = {}
+        subject['id'] = item.get('id', 'Unknown')
+        subject['name'] = unquote(item.get('name', 'Unknown'))
+        subject['organization'] = unquote(item.get('organization', 'Unknown'))
+        subject['email'] = unquote(item.get('email', 'Unknown'))
+        subject['phone'] = unquote(item.get('phone', 'Unknown'))
+        subject['ip_address'] = unquote(item.get('ip_address', 'Unknown'))
+        subject['device_type'] = unquote(item.get('device_type', 'Unknown'))
+        subject['mobile_device_type'] = unquote(item.get('mobile_device_type', 'Unknown'))
+        subjects.append(subject)
+    return render_template('targets/subject_dashboard.html', subjects=subjects)
+
+# Target profile page
+@app.route('/targets/subjects/<int:id>')
+def target_profile(id):
+    # Look up the target data from the database based on the ID
+    # Render the target profile template with the target data
+    return render_template('targets/subject_profile.html') #, target=target)
+
 
 #########################################################################################
 ###############################  End Targets Routes  ####################################
