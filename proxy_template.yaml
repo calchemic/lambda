@@ -16,6 +16,11 @@ Parameters:
     - test
     - prod
     Default: dev
+Conditions:
+  ShouldCreateC2:
+    Fn::Equals:
+    - Ref: Environment
+    - prod
 Resources:
   UserTable:
     Type: AWS::DynamoDB::Table
@@ -240,14 +245,17 @@ Resources:
         Fn::Sub: arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${MyApiGateway}/*/*/*
   VPC:
     Type: AWS::EC2::VPC
+    Condition: ShouldCreateC2
     Properties:
       CidrBlock: 10.0.0.0/16
       EnableDnsSupport: true
       EnableDnsHostnames: true
   InternetGateway:
     Type: AWS::EC2::InternetGateway
+    Condition: ShouldCreateC2
   VPCGatewayAttachment:
     Type: AWS::EC2::VPCGatewayAttachment
+    Condition: ShouldCreateC2
     Properties:
       VpcId:
         Ref: VPC
@@ -255,6 +263,7 @@ Resources:
         Ref: InternetGateway
   Subnet:
     Type: AWS::EC2::Subnet
+    Condition: ShouldCreateC2
     Properties:
       VpcId:
         Ref: VPC
@@ -262,11 +271,13 @@ Resources:
       MapPublicIpOnLaunch: true
   RouteTable:
     Type: AWS::EC2::RouteTable
+    Condition: ShouldCreateC2
     Properties:
       VpcId:
         Ref: VPC
   SubnetRouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
+    Condition: ShouldCreateC2
     Properties:
       SubnetId:
         Ref: Subnet
@@ -274,6 +285,7 @@ Resources:
         Ref: RouteTable
   Route:
     Type: AWS::EC2::Route
+    Condition: ShouldCreateC2
     DependsOn: VPCGatewayAttachment
     Properties:
       RouteTableId:
@@ -283,6 +295,7 @@ Resources:
         Ref: InternetGateway
   SecurityGroup:
     Type: AWS::EC2::SecurityGroup
+    Condition: ShouldCreateC2
     Properties:
       GroupDescription: Enable SSH and HTTP traffic
       VpcId:
@@ -298,12 +311,14 @@ Resources:
         CidrIp: 0.0.0.0/0
   ElasticIP:
     Type: AWS::EC2::EIP
+    Condition: ShouldCreateC2
     Properties:
       Domain: vpc
       InstanceId:
         Ref: EC2Instance
   EC2Instance:
     Type: AWS::EC2::Instance
+    Condition: ShouldCreateC2
     Properties:
       InstanceType: t2.micro
       ImageId: ami-0557a15b87f6559cf
@@ -323,7 +338,11 @@ Outputs:
       Fn::Sub: https://${MyApiGateway}.execute-api.${AWS::Region}.amazonaws.com
     Description: Endpoint URL for API Gateway
   PublicIp:
+    Condition: ShouldCreateC2
     Value:
-      Fn::GetAtt:
-      - EC2Instance
-      - PublicIp
+      Fn::If:
+      - ShouldCreateC2
+      - Fn::GetAtt:
+        - EC2Instance
+        - PublicIp
+      - Ref: AWS::NoValue
