@@ -67,8 +67,10 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::225609042289:role/github-action-role
           aws-region: us-east-1
-      - name: Package Lambda Function Code
-        run: aws cloudformation describe-stack-events --stack-name stinkbait --query 'StackEvents[?ResourceType==`AWS::CloudFormation::Stack` && ResourceStatus==`CREATE_FAILED`]' --output table
+      - name: Describe Stack Events
+        run: aws cloudformation describe-stack-events --stack-name stinkbait --query 'StackEvents[?ResourceType==`AWS::CloudFormation::Stack` && ResourceStatus==`CREATE_FAILED`]' --output table >> stack_events.txt
+      - name: Cat Stack Events
+        run: cat stack_events.txt
       - name: Package Lambda Function Code
         run: aws cloudformation package --template-file template.yaml --s3-bucket stinkbait-225609042289 --output-template-file packaged_template.yaml --region us-east-1
       - name: Deploy the CloudFormation Stack
