@@ -3,5 +3,5 @@ flask-login
 urllib3 
 aws_lambda_powertools 
 aws-xray-sdk 
-openai 
-langchain
+#openai 
+#langchain
