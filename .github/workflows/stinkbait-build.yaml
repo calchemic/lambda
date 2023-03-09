@@ -31,7 +31,7 @@ jobs:
         run: zip -r static.zip static/
 
       - name: Create Zip
-        run: zip -r lambda_function.zip lambda_function.py
+        run: zip -r lambda_function.zip lambda_function.py routes.py allow.py
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
