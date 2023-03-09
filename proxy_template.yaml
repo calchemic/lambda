@@ -1,20 +1,21 @@
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 Description: Stinkbait Application
+
 Parameters:
   AppName:
     Type: String
     Description: The name of the application
     AllowedValues:
-    - stinkbait
-    - eligiblereceiver
+      - stinkbait
+      - eligiblereceiver
     Default: stinkbait
   Environment:
     Type: String
     Description: The environment name
     AllowedValues:
-    - dev
-    - test
-    - prod
+      - dev
+      - test
+      - prod
     Default: dev
 Resources:
   UserTable:
@@ -23,11 +24,11 @@ Resources:
       TableName:
         Fn::Sub: ${AppName}-${Environment}-users
       AttributeDefinitions:
-      - AttributeName: user_email
-        AttributeType: S
+        - AttributeName: user_email
+          AttributeType: S
       KeySchema:
-      - AttributeName: user_email
-        KeyType: HASH
+        - AttributeName: user_email
+          KeyType: HASH
       ProvisionedThroughput:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
@@ -37,11 +38,11 @@ Resources:
       TableName:
         Fn::Sub: ${AppName}-${Environment}-target-orgs
       AttributeDefinitions:
-      - AttributeName: org_name
-        AttributeType: S
+        - AttributeName: org_name
+          AttributeType: S
       KeySchema:
-      - AttributeName: org_name
-        KeyType: HASH
+        - AttributeName: org_name
+          KeyType: HASH
       ProvisionedThroughput:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
@@ -51,11 +52,11 @@ Resources:
       TableName:
         Fn::Sub: ${AppName}-${Environment}-target-subjects
       AttributeDefinitions:
-      - AttributeName: target_email
-        AttributeType: S
+        - AttributeName: target_email
+          AttributeType: S
       KeySchema:
-      - AttributeName: target_email
-        KeyType: HASH
+        - AttributeName: target_email
+          KeyType: HASH
       ProvisionedThroughput:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
@@ -65,11 +66,11 @@ Resources:
       TableName:
         Fn::Sub: ${AppName}-${Environment}-campaigns
       AttributeDefinitions:
-      - AttributeName: campaign_name
-        AttributeType: S
+        - AttributeName: campaign_name
+          AttributeType: S
       KeySchema:
-      - AttributeName: campaign_name
-        KeyType: HASH
+        - AttributeName: campaign_name
+          KeyType: HASH
       ProvisionedThroughput:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
@@ -79,11 +80,11 @@ Resources:
       TableName:
         Fn::Sub: ${AppName}-${Environment}-implants
       AttributeDefinitions:
-      - AttributeName: implant_id
-        AttributeType: S
+        - AttributeName: implant_id
+          AttributeType: S
       KeySchema:
-      - AttributeName: implant_id
-        KeyType: HASH
+        - AttributeName: implant_id
+          KeyType: HASH
       ProvisionedThroughput:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
@@ -93,11 +94,11 @@ Resources:
       TableName:
         Fn::Sub: ${AppName}-${Environment}-reports
       AttributeDefinitions:
-      - AttributeName: report_id
-        AttributeType: S
+        - AttributeName: report_id
+          AttributeType: S
       KeySchema:
-      - AttributeName: report_id
-        KeyType: HASH
+        - AttributeName: report_id
+          KeyType: HASH
       ProvisionedThroughput:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
@@ -105,7 +106,8 @@ Resources:
     Type: AWS::EC2::KeyPair
     Properties:
       KeyName: my-key-pair
-      PublicKeyMaterial: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDUhXTWkQzOdzVBE0XNb0cqdPfBX+6F2l21axK6citaCkkAOAAHOLYQWZnqFF+R1f3LGxotWH4pX4Ar3y41N8eOqKMdSk5Bui+J8H1XAANFfIebN3Rd3hu542KYSzkmJbqy54maAD3H37c5lap4ePR3E+8O/DQDMzM7f/flkdYXJn7BrbO9sMgFLIjBc363BEv2V0QFB3dW+np+Clkok+iFB7LV18F5GpeQz+FaK64b35FKd7l9uQPvcfU4moCuvz//vZkQfF3fX6eJDM3YeGoRMChyaLeD4A68U36uJEUVXhVplISlQnVhGnr2eE1Y45ziHosPt0urBGb0v/1fDMb7vT1OcoZbW1HZ3liXM7juESK/hKOSV6X/KQRd9sijw3V5Knb89RG2UNF9uPtER6Cx4Eod3q1c8+jxdF/QmMse8sLbEqNOavI6v8acJC6L+386pni+uewwr2pMNeYn0Vd5eJ61h6B5Pq7RtWepLYvrB+zBeCANnHrIYsOoRcHlm1U=
+      PublicKeyMaterial:
+        ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDUhXTWkQzOdzVBE0XNb0cqdPfBX+6F2l21axK6citaCkkAOAAHOLYQWZnqFF+R1f3LGxotWH4pX4Ar3y41N8eOqKMdSk5Bui+J8H1XAANFfIebN3Rd3hu542KYSzkmJbqy54maAD3H37c5lap4ePR3E+8O/DQDMzM7f/flkdYXJn7BrbO9sMgFLIjBc363BEv2V0QFB3dW+np+Clkok+iFB7LV18F5GpeQz+FaK64b35FKd7l9uQPvcfU4moCuvz//vZkQfF3fX6eJDM3YeGoRMChyaLeD4A68U36uJEUVXhVplISlQnVhGnr2eE1Y45ziHosPt0urBGb0v/1fDMb7vT1OcoZbW1HZ3liXM7juESK/hKOSV6X/KQRd9sijw3V5Knb89RG2UNF9uPtER6Cx4Eod3q1c8+jxdF/QmMse8sLbEqNOavI6v8acJC6L+386pni+uewwr2pMNeYn0Vd5eJ61h6B5Pq7RtWepLYvrB+zBeCANnHrIYsOoRcHlm1U=
         wes@Wesleys-MacBook-Air.local
   MyApiGateway:
     Type: AWS::ApiGateway::RestApi
@@ -115,17 +117,17 @@ Resources:
       Parameters:
         endpointConfigurationTypes: REGIONAL
       BinaryMediaTypes:
-      - '*/*'
+        - "*/*"
   MyApiResource:
     Type: AWS::ApiGateway::Resource
     Properties:
       RestApiId:
         Ref: MyApiGateway
-      PathPart: '{proxy+}'
+      PathPart: "{proxy+}"
       ParentId:
         Fn::GetAtt:
-        - MyApiGateway
-        - RootResourceId
+          - MyApiGateway
+          - RootResourceId
   MyApiMethod:
     Type: AWS::ApiGateway::Method
     Properties:
@@ -138,15 +140,15 @@ Resources:
       Integration:
         Type: AWS_PROXY
         IntegrationResponses:
-        - StatusCode: 200
+          - StatusCode: 200
         IntegrationHttpMethod: POST
         Uri:
           Fn::Sub:
-          - arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaFuncNameArn}/invocations
-          - LambdaFuncNameArn:
-              Fn::GetAtt:
-              - MyLambda
-              - Arn
+            - arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaFuncNameArn}/invocations
+            - LambdaFuncNameArn:
+                Fn::GetAtt:
+                  - MyLambda
+                  - Arn
   MyApiDeployment:
     Type: AWS::ApiGateway::Deployment
     DependsOn: MyApiMethod
@@ -161,13 +163,13 @@ Resources:
       FunctionName:
         Fn::Sub: ${AppName}-${Environment}-lambda
       Code:
-        S3Bucket: infantsense
-        S3Key: 47d4215e6b7dc5186462c62df32c28ee
+        S3Bucket: stinkbait-225609042289
+        S3Key: 462ee242a6f1c20a25b041b007a4e10a
       Handler: lambda_function.lambda_handler
       Role:
         Fn::GetAtt:
-        - LambdaExecutionRole
-        - Arn
+          - LambdaExecutionRole
+          - Arn
       Runtime: python3.9
       Timeout: 15
       MemorySize: 128
@@ -189,52 +191,67 @@ Resources:
       RoleName:
         Fn::Sub: ${AppName}-${Environment}-lambda-execution-role
       AssumeRolePolicyDocument:
-        Version: '2012-10-17'
+        Version: "2012-10-17"
         Statement:
-        - Effect: Allow
-          Principal:
-            Service: lambda.amazonaws.com
-          Action:
-          - sts:AssumeRole
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
       ManagedPolicyArns:
-      - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
       Policies:
-      - PolicyName: LambdaS3Access
-        PolicyDocument:
-          Version: '2012-10-17'
-          Statement:
-          - Effect: Allow
-            Action:
-            - s3:GetObject
-            Resource: arn:aws:s3:::my_bucket/*
-      - PolicyName: LambdaCloudWatchLogs
-        PolicyDocument:
-          Version: '2012-10-17'
-          Statement:
-          - Effect: Allow
-            Action:
-            - logs:CreateLogGroup
-            - logs:CreateLogStream
-            - logs:PutLogEvents
-            - xray:PutTraceSegments
-            - xray:PutTelemetryRecords
-            Resource: '*'
-      - PolicyName: DynamoDBAccess
-        PolicyDocument:
-          Version: '2012-10-17'
-          Statement:
-          - Effect: Allow
-            Action:
-            - dynamodb:*
-            Resource: '*'
+        - PolicyName: LambdaS3Access
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                Resource: arn:aws:s3:::my_bucket/*
+        - PolicyName: LambdaCloudWatchLogs
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                  - xray:PutTraceSegments
+                  - xray:PutTelemetryRecords
+                Resource: "*"
+        - PolicyName: DynamoDBAccess
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - dynamodb:*
+                Resource: "*"
+        - PolicyName: GateWayFullAccess
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - execute-api:Invoke
+                  - execute-api:ManageConnections
+                  - apigateway:*
+                Resource:
+                  - arn:aws:execute-api:*:*:*
   ApiGatewayInvokePermission:
     Type: AWS::Lambda::Permission
     Properties:
       FunctionName:
         Fn::GetAtt:
-        - MyLambda
-        - Arn
-      Action: lambda:InvokeFunction
+          - MyLambda
+          - Arn
+      Action:
+        lambda:InvokeFunction
+        # - lambda:InvokeFunction
+        # - dynamodb:*
+        # - apigateway:*
       Principal: apigateway.amazonaws.com
       SourceArn:
         Fn::Sub: arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${MyApiGateway}/*/*/*
@@ -288,14 +305,14 @@ Resources:
       VpcId:
         Ref: VPC
       SecurityGroupIngress:
-      - IpProtocol: tcp
-        FromPort: '22'
-        ToPort: '22'
-        CidrIp: 0.0.0.0/0
-      - IpProtocol: tcp
-        FromPort: '3389'
-        ToPort: '3389'
-        CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: "22"
+          ToPort: "22"
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: "3389"
+          ToPort: "3389"
+          CidrIp: 0.0.0.0/0
   ElasticIP:
     Type: AWS::EC2::EIP
     Properties:
@@ -310,12 +327,13 @@ Resources:
       KeyName:
         Ref: MyKeyPair
       SecurityGroupIds:
-      - Ref: SecurityGroup
+        - Ref: SecurityGroup
       SubnetId:
         Ref: Subnet
       UserData:
         Fn::Base64:
-          Fn::Sub: "#!/bin/bash\nsudo apt-get update\nsudo apt-get -y install mingw-w64\n\
+          Fn::Sub:
+            "#!/bin/bash\nsudo apt-get update\nsudo apt-get -y install mingw-w64\n\
             curl https://sliver.sh/install|sudo bash\n"
 Outputs:
   ApiEndpoint:
@@ -325,5 +343,5 @@ Outputs:
   PublicIp:
     Value:
       Fn::GetAtt:
-      - EC2Instance
-      - PublicIp
+        - EC2Instance
+        - PublicIp
