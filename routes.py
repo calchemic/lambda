@@ -307,7 +307,7 @@ def target_org_new():
         try:
             response = target_orgs_table.put_item(
                 Item={
-                    'org_id': str(uuid.uuid4()),
+                    'org_id': str(uuid.uuid4().hex),
                     'org_name': message_dict['org_name'],
                     'org_logo': message_dict['org_logo'],
                     'email_pattern': message_dict['email_pattern'],
@@ -344,7 +344,7 @@ def target_subjects_dashboard():
         subject = {}
         subject['id'] = item.get('id', 'Unknown')
         subject['name'] = unquote(item.get('name', 'Unknown'))
-        subject['company'] = unquote(item.get('company', 'Unknown'))
+        subject['organization'] = unquote(item.get('organization', 'Unknown'))
         subject['email'] = unquote(item.get('email', 'Unknown'))
         subject['phone'] = unquote(item.get('phone', 'Unknown'))
         subject['ip_address'] = unquote(item.get('ip_address', 'Unknown'))
@@ -364,7 +364,7 @@ def target_profile(id):
 @app.route('/targets/subjects/new', methods=['GET', 'POST'])
 def target_subject_new():
     if request.method == 'POST':
-                # If the form was submitted, retrieve the organization name from the form data
+        # If the form was submitted, retrieve the subject name from the form data
         # Request form returned as immutablemultidict - convert to regular dictionary using to_dict()
         data = request.form.to_dict()
         # Get the first key in the dictionary, which is the form response body
@@ -386,10 +386,10 @@ def target_subject_new():
         try:
             response = target_subjects_table.put_item(
                 Item={
-                    'id': str(uuid.uuid4()),
+                    'id': str(uuid.uuid4().hex),
                     'name': message_dict['name'],
                     'target_email': message_dict['email'],
-                    'company': message_dict['company'],
+                    'organization': message_dict['organization'],
                     'title': message_dict['title'],
                     'department': message_dict['department'],
                     'phone': message_dict['phone'],
