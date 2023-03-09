@@ -3,6 +3,8 @@ import uuid
 import boto3
 import json
 import base64
+import subprocess
+from shlex import quote
 from lambda_function import logger, tracer, app
 from flask import Flask, render_template, request, send_file, redirect, url_for, flash, session, jsonify
 from urllib.parse import unquote
@@ -55,90 +57,11 @@ for table_name in tables['TableNames']:
         reports_table = ddb.Table(table_name)
         break
 logger.info(reports_table)
-class User:
-    def __init__(self, image, name, email, phone, address, city, state, zip_code, country, organizations, campaigns, targets, implants, total_organizations, total_campaigns, total_targets, total_implants):
-        self.image = image
-        self.name = name
-        self.email = email
-        self.phone = phone
-        self.address = address
-        self.city = city
-        self.state = state
-        self.zip_code = zip_code
-        self.country = country
-        self.organizations = organizations
-        self.campaigns = campaigns
-        self.targets = targets
-        self.implants = implants
-        self.total_organizations = total_organizations
-        self.total_campaigns = total_campaigns
-        self.total_targets = total_targets
-        self.total_implants = total_implants
-
-class Organization:
-    def __init__(self, name):
-        self.name = name
-
-class Campaign:
-    def __init__(self, name):
-        self.name = name
-
-class Target:
-    def __init__(self, name):
-        self.name = name
-
-class Implant:
-    def __init__(self, name):
-        self.name = name
-
-organizations = [
-    Organization('ABC Inc.'),
-    Organization('XYZ Corp.')
-]
-
-campaigns = [
-    Campaign('Campaign 1'),
-    Campaign('Campaign 2'),
-    Campaign('Campaign 3')
-]
-
-targets = [
-    Target('Target 1'),
-    Target('Target 2'),
-    Target('Target 3'),
-    Target('Target 4')
-]
-
-implants = [
-    Implant('Implant 1'),
-    Implant('Implant 2'),
-    Implant('Implant 3')
-]
-
-user = User(
-    'profile.png',
-    'John Doe',
-    'john.doe@example.com',
-    '123-456-7890',
-    '123 Main St.',
-    'Anytown',
-    'TX',
-    '12345',
-    'USA',
-    organizations,
-    campaigns,
-    targets,
-    implants,
-    len(organizations),
-    len(campaigns),
-    len(targets),
-    len(implants)
-)
 
 # Stinkbait User Profile Page
 @app.route('/profile')
 def profile():
-    return render_template('/profile/profile.html', user=user)
+    return render_template('/profile/profile.html') #, user=user)
 
 # Stinkbait User Password Reset Page
 @app.route('/profile/reset-password', methods=['GET', 'POST'])
@@ -161,7 +84,6 @@ def reset_password():
     elif request.method == 'GET':
         # If the request method is GET, render the password reset form template
         return render_template('profile/password_reset.html')
-
 
 @app.route('/allow-list', methods=['GET', 'POST'])
 def allow_list():
@@ -519,6 +441,9 @@ def api_key_management():
 #########################################################################################
 #################################  Campaigns Routes  ####################################
 #########################################################################################
+
+
+
 # Campaign profile page
 @tracer.capture_method
 @app.route('/campaigns')
@@ -616,25 +541,38 @@ def implants():
     logger.info("Implants Page")
     logger.info(implants)
     return render_template('implants.html', potential_implants=potential_implants)
+
+# Implant Shell Routes
+@app.route('/implants/shell-session')
+def shell_session():
+    return render_template('implants/shell_session.html')
+
+# Implant Shell Send Command Route
+# TODO: Currently - the JS in shell_session.html is sending the command and data to this route; but something isn't correct. Needs troubleshooting.
+@app.route('/implants/shell-session/send-command', methods=['GET', 'POST'])
+def send_command():
+    try:
+        # Set predefined commands here, only commands in this list can be executed
+        if (request.form['command'] == "dmesg"):
+            stdout, stderr  = subprocess.Popen(["dmesg"], stderr=subprocess.PIPE, stdout=subprocess.PIPE).communicate()
+        elif (request.form['command'] == "ls"):
+            stdout, stderr  = subprocess.Popen(["ls", "-la", quote(request.form['data']) if request.form['data'] else './' ], stderr=subprocess.PIPE, stdout=subprocess.PIPE).communicate()
+        else:
+            stdout, stderr = (b"command not found", b"")
+        data = {}
+        data['command'] = request.form['command']
+        data['data'] = request.form['data']
+        data['result'] = stdout.decode('utf-8') + "\n" + stderr.decode('utf-8')
+        return (json.dumps(data))
+    except Exception as e: print(e)
 #########################################################################################
 ################################  End Implants Routes  ##################################
 #########################################################################################
 
-# Browser tracking route
-@app.route('/browser-info', methods=['POST'])
-def browser_info():
-    data = request.get_json()
-    browser = data.get('browser')
-    device = data.get('device')
-    canvasHash = data.get('canvasHash')
-    nav = data.get('nav')
-    # logger.info(browser)
-    # logger.info(device)
-    # logger.info(canvasHash)
-    # logger.info(nav)
-    # # Process browser and device information here...
-    return 'OK'
 
+#########################################################################################
+###############################  Back Office Routes  ####################################
+#########################################################################################
 potential_reports = [
     {
         'id': 1,
@@ -660,14 +598,38 @@ potential_reports = [
 
 # Reports page
 @tracer.capture_method
-@app.route('/reports')
-def reports():
+@app.route('/backoffice/reports')
+def backoffice_reports():
     tracer.put_annotation(key="reports", value="reports-page")
-    return render_template('reports.html', potential_reports=potential_reports)
+    return render_template('backoffice/reports.html', potential_reports=potential_reports)
+
+@app.route('/backoffice/documentation')
+def backoffice_documentation():
+    return render_template('backoffice/documentation.html')
+
+#########################################################################################
+#############################  End Back Office Routes  ##################################
+#########################################################################################
+
+
 
 #########################################################################################
 ###############################  General App Routes  ####################################
 #########################################################################################
+# Browser tracking route
+@app.route('/browser-info', methods=['POST'])
+def browser_info():
+    data = request.get_json()
+    browser = data.get('browser')
+    device = data.get('device')
+    canvasHash = data.get('canvasHash')
+    nav = data.get('nav')
+    # logger.info(browser)
+    # logger.info(device)
+    # logger.info(canvasHash)
+    # logger.info(nav)
+    # # Process browser and device information here...
+    return 'OK'
 
 # Static image file route
 @app.route('/static/img/<path:path>')

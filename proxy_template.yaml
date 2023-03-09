@@ -17,7 +17,7 @@ Parameters:
     - prod
     Default: dev
 Conditions:
-  ShouldCreateC2:
+  ServerFull:
     Fn::Equals:
     - Ref: Environment
     - prod
@@ -167,7 +167,7 @@ Resources:
         Fn::Sub: ${AppName}-${Environment}-lambda
       Code:
         S3Bucket: infantsense
-        S3Key: 2ccd6b30487ef856bcd997f50ffd8ad7
+        S3Key: 64776894d8eba1b5db789fd4c65fc245
       Handler: lambda_function.lambda_handler
       Role:
         Fn::GetAtt:
@@ -245,17 +245,17 @@ Resources:
         Fn::Sub: arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${MyApiGateway}/*/*/*
   VPC:
     Type: AWS::EC2::VPC
-    Condition: ShouldCreateC2
+    Condition: ServerFull
     Properties:
       CidrBlock: 10.0.0.0/16
       EnableDnsSupport: true
       EnableDnsHostnames: true
   InternetGateway:
     Type: AWS::EC2::InternetGateway
-    Condition: ShouldCreateC2
+    Condition: ServerFull
   VPCGatewayAttachment:
     Type: AWS::EC2::VPCGatewayAttachment
-    Condition: ShouldCreateC2
+    Condition: ServerFull
     Properties:
       VpcId:
         Ref: VPC
@@ -263,7 +263,7 @@ Resources:
         Ref: InternetGateway
   Subnet:
     Type: AWS::EC2::Subnet
-    Condition: ShouldCreateC2
+    Condition: ServerFull
     Properties:
       VpcId:
         Ref: VPC
@@ -271,13 +271,13 @@ Resources:
       MapPublicIpOnLaunch: true
   RouteTable:
     Type: AWS::EC2::RouteTable
-    Condition: ShouldCreateC2
+    Condition: ServerFull
     Properties:
       VpcId:
         Ref: VPC
   SubnetRouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
-    Condition: ShouldCreateC2
+    Condition: ServerFull
     Properties:
       SubnetId:
         Ref: Subnet
@@ -285,7 +285,7 @@ Resources:
         Ref: RouteTable
   Route:
     Type: AWS::EC2::Route
-    Condition: ShouldCreateC2
+    Condition: ServerFull
     DependsOn: VPCGatewayAttachment
     Properties:
       RouteTableId:
@@ -295,7 +295,7 @@ Resources:
         Ref: InternetGateway
   SecurityGroup:
     Type: AWS::EC2::SecurityGroup
-    Condition: ShouldCreateC2
+    Condition: ServerFull
     Properties:
       GroupDescription: Enable SSH and HTTP traffic
       VpcId:
@@ -311,14 +311,14 @@ Resources:
         CidrIp: 0.0.0.0/0
   ElasticIP:
     Type: AWS::EC2::EIP
-    Condition: ShouldCreateC2
+    Condition: ServerFull
     Properties:
       Domain: vpc
       InstanceId:
         Ref: EC2Instance
   EC2Instance:
     Type: AWS::EC2::Instance
-    Condition: ShouldCreateC2
+    Condition: ServerFull
     Properties:
       InstanceType: t2.micro
       ImageId: ami-0557a15b87f6559cf
@@ -338,10 +338,10 @@ Outputs:
       Fn::Sub: https://${MyApiGateway}.execute-api.${AWS::Region}.amazonaws.com
     Description: Endpoint URL for API Gateway
   PublicIp:
-    Condition: ShouldCreateC2
+    Condition: ServerFull
     Value:
       Fn::If:
-      - ShouldCreateC2
+      - ServerFull
       - Fn::GetAtt:
         - EC2Instance
         - PublicIp

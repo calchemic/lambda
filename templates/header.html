@@ -8,16 +8,18 @@
             <li class="dropdown">
                 <a href="{{ url_for('target_orgs_dashboard') }}">Targets</a>
                 <ul class="dropdown-menu">
-                    <li><a href="{{ url_for('target_orgs_dashboard') }}">Target Organizations</a></li>
                     <li><a href="{{ url_for('target_org_new') }}">Create a Target Organization</a></li>
-                    <li><a href="{{ url_for('target_subjects_dashboard') }}">Target Subjects</a></li>
                     <li><a href="{{ url_for('target_subject_new') }}">Create a Target Subject</a></li>
+                    <li><a href="{{ url_for('target_orgs_dashboard') }}">Target Organizations</a></li>
+                    <li><a href="{{ url_for('target_subjects_dashboard') }}">Target Subjects</a></li>
+
                 </ul>
             </li>
             <li class="dropdown">
                 <a href="{{ url_for('campaigns') }}">Campaigns</a>
                 <ul class="dropdown-menu">
-                    <li><a href="#">Launch Phishing Campaign</a></li>
+                    <li><a href="#">Create Phishing Campaign</a></li>
+                    <li><a href="#">Deploy Phishing Campaign</a></li>
                     <li><a href="{{url_for('email_template')}}">Email Development</a></li>
                     <li><a href="#">Landing Page Development</a></li>
                     <li><a href="#">Decoy Landing Page Development</a></li>
@@ -33,13 +35,19 @@
                     <li><a href="#">Create a Payload</a></li>
                     <li><a href="#">Payload Staging</a></li>
                     <li><a href="#">Live Implants</a></li>
+                    <li><a href="{{url_for('shell_session')}}">Implant Session</a></li>
+                    <li><a href="#">Implant Session Replay</a></li>
                 </ul>
             </li>
             <li class="dropdown">
-                <a href="{{ url_for('reports') }}">Reporting</a>
+                <a href="#">Back Office</a>
                 <ul class="dropdown-menu">
                     <li><a href="#">Create a Report</a></li>
-                    <li><a href="#">KPI Dashboard</a></li>
+                    <li><a href="#">Create a KPI Dashboard</a></li>
+                    <li><a href="{{ url_for('backoffice_reports') }}">Reports</a></li>
+                    <li><a href="#">KPI Dashboards</a></li>
+                    <li><a href="{{ url_for('backoffice_documentation') }}">Documentation</a></li>
+                    <li><a href="#">Settings</a></li>
                 </ul>
             </li>
             <!-- <li class="dropdown">
