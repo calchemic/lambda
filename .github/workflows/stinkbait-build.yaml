@@ -51,8 +51,8 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
-          aws-access-key-id: AKIAVMIEFIECE74C4IDX
-          aws-secret-access-key: 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
+          aws-access-key-id: AKIAVMIEFIECL3Z3HL4H
+          aws-secret-access-key: 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
           aws-region: us-east-1
           # role-to-assume: github-action-role
           role-duration-seconds: 1200
@@ -70,8 +70,8 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
-          aws-access-key-id: AKIAVMIEFIECE74C4IDX
-          aws-secret-access-key: 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
+          aws-access-key-id: AKIAVMIEFIECL3Z3HL4H
+          aws-secret-access-key: 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
           aws-region: us-east-1
           # role-to-assume: github-action-role
           role-duration-seconds: 1200
@@ -79,14 +79,14 @@ jobs:
           # aws-region: us-east-1
       - name: Delete the CloudFormation Stack
         run: aws cloudformation delete-stack --stack-name stinkbait
-#       - name: Check for "CREATE_FAILED" Cloudformation events
-#         run: |
-#           failed_events=$(aws cloudformation describe-stack-events --stack-name stinkbait --query "StackEvents[?ResourceStatus=='CREATE_FAILED']")
-#           echo "$failed_events" >> failed_events.log
-#           if [ -n "$failed_events" ]; then
-#             echo "The following CREATE_FAILED events were found:"
-#             echo "$failed_events"
-#           fi
+      #       - name: Check for "CREATE_FAILED" Cloudformation events
+      #         run: |
+      #           failed_events=$(aws cloudformation describe-stack-events --stack-name stinkbait --query "StackEvents[?ResourceStatus=='CREATE_FAILED']")
+      #           echo "$failed_events" >> failed_events.log
+      #           if [ -n "$failed_events" ]; then
+      #             echo "The following CREATE_FAILED events were found:"
+      #             echo "$failed_events"
+      #           fi
       - name: Package Lambda Function Code
         run: aws cloudformation package --template-file template.yaml --s3-bucket stinkbait-225609042289 --output-template-file packaged_template.yaml --region us-east-1
       - name: Deploy the CloudFormation Stack
