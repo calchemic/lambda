@@ -4,50 +4,112 @@
 <br>
 <form class="login-form" method="POST" action="{{ url_for('target_org_new') }}">
     <label for="org_name">Organization Name*</label>
-    <input type="text" id="org_name" name="org_name" required>
+    <input type="text" id="org_name" name="org_name" required placeholder="e.g. Acme Corp">
     <br>
-    <label for="org_logo">Organization Logo</label>
-    <input type="text" id="org_logo" name="org_logo">
+    <label for="domain0">Primary Website</label>
+    <input type="url" id="domain0" name="domain0" required placeholder="e.g. acmecorp.com, acme.io">
     <br>
-    <label for="domains">Domains (comma-separated)</label>
-    <input type="text" id="domains" name="domains">
+    <label for="domain1">Secondary Website/Domain</label>
+    <input type="url" id="domain1" name="domain1" placeholder="e.g. acmecorp.org, acme.net">
     <br>
     <label for="email_pattern">Email Pattern</label>
-    <input type="text" id="email_pattern" name="email_pattern">
+    <input type="email" id="email_pattern" name="email_pattern" placeholder="e.g. first.last@acmecorp.com, f.last@acmecorp.org, firstl@acme.io">
     <br>
-    <label for="hq_address">HQ Address</label>
-    <input type="text" id="hq_address" name="hq_address">
+    <label for="hq_address">Headquarters Address</label>
+    <input type="text" id="hq_address" name="hq_address" placeholder="e.g. 123 Main St">
     <br>
     <label for="city">City</label>
-    <input type="text" id="city" name="city">
+    <input type="text" id="city" name="city" placeholder="e.g. Anytown">
     <br>
     <label for="state">State</label>
-    <input type="text" id="state" name="state">
+    <select id="state" name="state"></select>
     <br>
     <label for="zip">Zip Code</label>
-    <input type="text" id="zip" name="zip">
+    <input type="text" id="zip" name="zip" pattern="\d{5}" placeholder="e.g. 90210" size="9">
     <br>
     <label for="country">Country</label>
-    <input type="text" id="country" name="country">
+    <select id="country" name="country"></select>
     <br>
     <label for="phone">Phone Number</label>
-    <input type="text" id="phone" name="phone">
+    <input type="tel" id="phone" name="phone" pattern="\d{10}" placeholder="e.g. 555-123-4567">
     <br>
-    <label for="subsidiaries">Subsidiaries (comma-separated)</label>
-    <input type="text" id="subsidiaries" name="subsidiaries">
+    <label for="subsidiaries">Subsidiaries</label>
+    <textarea id="subsidiaries" name="subsidiaries" placeholder="e.g. Acme Subsidiary 1, Acme Subsidiary 2" rows="5" cols="40"></textarea>
     <br>
-    <label for="targets">Targets (comma-separated)</label>
-    <input type="text" id="targets" name="targets">
-    <br>
-    <label for="campaigns">Campaigns (comma-separated)</label>
-    <input type="text" id="campaigns" name="campaigns">
-    <br>
-    <label for="implants">Implants (comma-separated)</label>
-    <input type="text" id="implants" name="implants">
+    <label for="org_logo">Organization Logo</label>
+    <input type="file" id="org_logo" name="org_logo" placeholder="e.g. https://acmecorp.com/logo.png">
     <br>
     <label for="public_co">Public Company</label>
     <input type="checkbox" id="public_co" name="public_co" value="true">
     <br>
     <input type="submit" value="Create">
 </form>
+<script>
+    const stateAbbreviations = [
+        'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL',
+        'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT',
+        'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI',
+        'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
+    ];
+
+    // Populate the state dropdown with state abbreviations
+    const stateSelect = document.getElementById('state');
+    stateAbbreviations.forEach(state => {
+        const option = document.createElement('option');
+        option.value = state;
+        option.text = state;
+        stateSelect.add(option);
+    });
+
+    // Function to fetch all countries from REST Countries API
+    async function getAllCountries() {
+        const response = await fetch('https://restcountries.com/v3.1/all');
+        const data = await response.json();
+        return data.sort((a, b) => a.name.common.localeCompare(b.name.common));
+    }
+
+    // Function to fetch location data by ZIP code from Zippopotam.us API
+    async function getLocationByZipCode(zip) {
+        const response = await fetch(`https://api.zippopotam.us/us/${zip}`);
+        const data = await response.json();
+        return {
+            city: data.places.map(place => place['place name']),
+            state: data.places.map(place => place['state abbreviation']),
+            zip: data.places.map(place => place['post code'])
+        };
+    }
+
+    // Populate the country dropdown with all countries from REST Countries API
+    const countrySelect = document.getElementById('country');
+    getAllCountries().then(countries => {
+        countries.forEach(country => {
+            const option = document.createElement('option');
+            option.value = country.name.common;
+            option.text = country.name.common;
+            countrySelect.add(option);
+        });
+    });
+
+    // Populate the city and state dropdowns with location data for entered ZIP code
+    const zipInput = document.getElementById('zip');
+    const citySelect = document.getElementById('city');
+    zipInput.addEventListener('change', async() => {
+        const location = await getLocationByZipCode(zipInput.value);
+        citySelect.innerHTML = '';
+        stateSelect.selectedIndex = 0;
+        location.city.forEach(city => {
+            const option = document.createElement('option');
+            option.value = city;
+            option.text = city;
+            citySelect.add(option);
+        });
+        location.state.forEach(state => {
+            const option = stateSelect.querySelector(`option[value="${state}"]`);
+            if (option) {
+                stateSelect.value = state;
+            }
+        });
+        zipInput.value = zipInput.value;
+    });
+</script>
 {% endblock %}

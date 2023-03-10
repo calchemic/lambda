@@ -5,7 +5,8 @@
 <table>
     <tr>
         <th>Subject ID</th>
-        <th>Name</th>
+        <th>First Name</th>
+        <th>Last Name</th>
         <th>Organization</th>
         <th>Email</th>
         <th>Phone</th>
@@ -16,7 +17,8 @@
     {% for subject in subjects %}
     <tr>
         <td>{{ subject.id }}</td>
-        <td>{{ subject.name }}</td>
+        <td>{{ subject.first_name }}</td>
+        <td>{{ subject.last_name }}</td>
         <td>{{ subject.organization }}</td>
         <td>{{ subject.email }}</td>
         <td>{{ subject.phone }}</td>

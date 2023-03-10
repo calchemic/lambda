@@ -3,18 +3,21 @@
 <h1>New Target Subject</h1>
 <br>
 <form class="login-form" method="POST" action="{{ url_for('target_subject_new') }}">
-    <label for="name">Name</label>
-    <input type="text" id="name" name="name"><br>
+    <label for="first_name">First Name</label>
+    <input type="text" id="first_name" name="first_name" placeholder="Enter target first name"><br>
+    <label for="last_name">Last Name</label>
+    <input type="text" id="last_name" name="last_name" placeholder="Enter target last name"><br>
     <label for="email">Email</label>
-    <input type="text" id="email" name="email"><br>
+    <input type="email" id="email" name="email" placeholder="Enter target email (if known)"><br>
     <label for="organization">Organization</label>
-    <input type="text" id="organization" name="organization"><br>
-    <label for="title">Title</label>
-    <input type="text" id="title" name="title"><br>
+    <input type="text" id="organization" name="organization" placeholder="Enter org name"><br>
+    <label for="title">Title/Position</label>
+    <input type="text" id="title" name="title" placeholder="Enter title/position"><br>
     <label for="department">Department</label>
-    <input type="text" id="department" name="department"><br>
+    <input type="text" id="department" name="department" placeholder="Enter org dept"><br>
     <label for="phone">Phone</label>
-    <input type="text" id="phone" name="phone"><br>
+    <input type="tel" id="phone" name="phone" placeholder="Enter phone number"><br>
     <input type="submit" value="Save">
 </form>
+
 {% endblock %}

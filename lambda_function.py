@@ -25,7 +25,7 @@ ddb = boto3.client('dynamodb')
 
 # Import Flask
 from flask import Flask, request, jsonify, render_template, send_file, flash, redirect, url_for, session, logging, send_from_directory
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user, decode_cookie
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 
 app = Flask('stinkbait')
@@ -128,12 +128,12 @@ serializer = URLSafeTimedSerializer(app.secret_key)
 def lambda_handler(event, context):
     logger.set_correlation_id(context.aws_request_id)
     cookie = event['headers']['Cookie']
-    cookie_value = cookie.split("=", 1)[1]
-    if cookie_value:
+    if cookie:
+        cookie_value = cookie.split("=", 1)[1]
         # Decode the cookie
         logger.info('Cookie: {}'.format(cookie_value))
         try:
-            data = serializer.loads(cookie)
+            data = serializer.loads(cookie_value)
             # The data should contain the user ID
             logger.info('Serialized Cookie Data: {}'.format(data))
             user_id = data.get('user_id')
@@ -151,6 +151,8 @@ def lambda_handler(event, context):
         except BadSignature:
             # Invalid cookie
             logger.info('Invalid cookie signature')
+        except Exception as e:
+            logger.info('Error: {}'.format(e))
     else:
         # No cookie provided
         logger.info('No cookie provided')

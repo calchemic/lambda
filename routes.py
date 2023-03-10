@@ -153,7 +153,6 @@ def login():
         return render_template('login.html')
     else:
         pass
-
 #########################################################################################
 #################################  End User Routes  #####################################
 #########################################################################################
@@ -200,8 +199,10 @@ def target_org_new():
                 item['country'] = message_dict['country']
             if message_dict.get('subsidiaries'):
                 item['subsidiaries'] = message_dict['subsidiaries']
-            if message_dict.get('domains'):
-                item['domains'] = message_dict['domains']
+            if message_dict.get('domain0'):
+                item['domain0'] = message_dict['domain0']
+            if message_dict.get('domain1'):
+                item['domain1'] = message_dict['domain1']
             if message_dict.get('targets'):
                 item['targets'] = message_dict['targets']
             if message_dict.get('campaigns'):
@@ -209,7 +210,7 @@ def target_org_new():
             if message_dict.get('implants'):
                 item['implants'] = message_dict['implants']
             response = target_orgs_table.put_item(Item=item)
-            return render_template('targets/new_org.html')
+            return redirect(url_for('target_orgs_dashboard'))
         except Exception as e:
             logger.info(e)
             return render_template('404.html')
@@ -226,7 +227,8 @@ def target_orgs_dashboard():
         org = {}
         org['org_id'] = item.get('org_id', 'Unknown')
         org['org_name'] = unquote(item.get('org_name', 'Unknown'))
-        org['domains'] = unquote(item.get('domains', 'Unknown'))
+        org['domain0'] = unquote(item.get('domain0', 'Unknown'))
+        org['domain1'] = unquote(item.get('domain1', 'Unknown'))
         org['email_pattern'] = unquote(item.get('email_pattern', 'Unknown'))
         org['hq_address'] = unquote(item.get('hq_address', 'Unknown'))
         org['city'] = unquote(item.get('city', 'Unknown'))
@@ -272,8 +274,10 @@ def target_subject_new():
                 'id': str(uuid.uuid4().hex),
                 'created_datetime': str(datetime.datetime.utcnow())
             }
-            if message_dict.get('name'):
-                item['name'] = message_dict['name']
+            if message_dict.get('first_name'):
+                item['first_name'] = message_dict['first_name']
+            if message_dict.get('last_name'):
+                item['last_name'] = message_dict['last_name']
             if message_dict.get('email'):
                 item['target_email'] = message_dict['email']
             if message_dict.get('organization'):
@@ -285,14 +289,12 @@ def target_subject_new():
             if message_dict.get('phone'):
                 item['phone'] = message_dict['phone']
             response = target_subjects_table.put_item(Item=item)
-            return redirect(url_for('target_subjects_dashboard'), code=302)
+            return redirect(url_for('target_subjects_dashboard'))
         except Exception as e:
             logger.info(e)
             return render_template('404.html')
     else:
         return render_template('targets/new_subject.html')
-
-
 
 # Targets page
 @tracer.capture_method
@@ -305,7 +307,8 @@ def target_subjects_dashboard():
     for item in response['Items']:
         subject = {}
         subject['id'] = item.get('id', 'Unknown')
-        subject['name'] = unquote(item.get('name', 'Unknown'))
+        subject['first_name'] = unquote(item.get('first_name', 'Unknown'))
+        subject['last_name'] = unquote(item.get('last_name', 'Unknown'))
         subject['organization'] = unquote(item.get('organization', 'Unknown'))
         subject['email'] = unquote(item.get('email', 'Unknown'))
         subject['phone'] = unquote(item.get('phone', 'Unknown'))
