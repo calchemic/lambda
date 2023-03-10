@@ -166,8 +166,14 @@ Resources:
       FunctionName:
         Fn::Sub: ${AppName}-${Environment}-lambda
       Code:
+<<<<<<< HEAD
         S3Bucket: infantsense
         S3Key: c0829d8aedea53ccc493357f9c90f90c
+=======
+        # S3Bucket: infantsense
+        S3Bucket: stinkbait-225609042289
+        S3Key: aed74b027b92e9e04992bbd960108536
+>>>>>>> 0335017ea25c18d96533aa04c99237573034ff93
       Handler: lambda_function.lambda_handler
       Role:
         Fn::GetAtt:
