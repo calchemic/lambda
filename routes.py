@@ -55,17 +55,20 @@ def allow_list():
     # Render the template with the list of allowed IP addresses and User Agents, and the form
     return render_template('profile/allow_list.html') #, allowed=allowed)
 
-@app.route('/register', methods = ['POST', 'GET'])
+@app.route('/register', methods=['POST', 'GET'])
 def register():
     logger.info("Register Page")
     if request.method == 'POST':
-        # Request form returned as immutablemultidict - convert to regular dictionary using to_dict()
-        data = request.form.to_dict()
-        # Get the first key in the dictionary, which is the form response body
-        b64message = list(data.keys())[0]
-        # Decode the base64 encoded message
         try:
-            # Try decoding the message with standard padding
+            # Request form returned as immutablemultidict - convert to regular dictionary using to_dict()
+            data = request.form.to_dict()
+            # Get the first key in the dictionary, which is the form response body
+            b64message = list(data.keys())[0]
+        except Exception as e:
+            logger.info(e)
+            return render_template('404.html')
+            # Decode the base64 encoded message
+        try:
             message = unquote(base64.b64decode(b64message + '==').decode('utf-8'))
         except Exception as e:
             # If standard padding doesn't work, try decoding the message with no padding
@@ -80,26 +83,33 @@ def register():
             password = message_dict['password']
             hash_object = hashlib.sha256(password.encode())
             password_hash = hash_object.hexdigest()
-            response = users_table.put_item(
-                Item={
-                    'user_id': str(uuid.uuid4().hex),
-                    'username': message_dict['username'],
-                    'user_email': message_dict['email'],
-                    'first_name': message_dict['first_name'],
-                    'last_name': message_dict['last_name'],
-                    'password': password_hash,
-                    'organization': message_dict['organization'],
-                    'phone': message_dict['phone'],
-                    'address': message_dict['address'],
-                    'city': message_dict['city'],
-                    'state': message_dict['state'],
-                    'zip_code': message_dict['zip_code'],
-                    'country': message_dict['country'],
-                    'role': message_dict['role'],
-                    'created_at': str(datetime.datetime.now()),
-                    'status': 'active'
-                }
-            )
+            item = {
+                'user_id': str(uuid.uuid4().hex),
+                'username': message_dict['username'],
+                'user_email': message_dict['email'],
+                'first_name': message_dict['first_name'],
+                'last_name': message_dict['last_name'],
+                'password': password_hash,
+                'created_at': str(datetime.datetime.now()),
+                'status': 'active'
+            }
+            if message_dict.get('organization'):
+                item['organization'] = message_dict['organization']
+            if message_dict.get('phone'):
+                item['phone'] = message_dict['phone']
+            if message_dict.get('address'):
+                item['address'] = message_dict['address']
+            if message_dict.get('city'):
+                item['city'] = message_dict['city']
+            if message_dict.get('state'):
+                item['state'] = message_dict['state']
+            if message_dict.get('zip_code'):
+                item['zip_code'] = message_dict['zip_code']
+            if message_dict.get('country'):
+                item['country'] = message_dict['country']
+            if message_dict.get('role'):
+                item['role'] = message_dict['role']
+            response = users_table.put_item(Item=item)
             logger.info(response)
             return redirect(url_for('login'))
         except Exception as e:
@@ -107,6 +117,7 @@ def register():
             return render_template('404.html')
     elif request.method == 'GET':
         return render_template('register.html')
+
 
 @tracer.capture_method
 @app.route('/login', methods = ['POST', 'GET'])
@@ -147,12 +158,14 @@ def login():
         next = request.args.get('next')
         logger.info(f'Next: {next}')
         return redirect(next or url_for('profile'))
-    
     elif request.method == 'GET':
-        logger.info("GET")
-        return render_template('login.html')
-    else:
-        pass
+        if current_user != None:
+            logger.info(f'Current User: {current_user}')
+            #return redirect(url_for('profile'))
+            return render_template('login.html')
+        else:
+            logger.info("GET")
+            return render_template('login.html')
 #########################################################################################
 #################################  End User Routes  #####################################
 #########################################################################################

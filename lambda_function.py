@@ -7,6 +7,7 @@ import urllib3
 import json
 import base64
 import boto3
+import hashlib
 from aws_lambda_powertools import Logger, Tracer
 from aws_lambda_powertools.event_handler import APIGatewayRestResolver
 from aws_lambda_powertools.logging import correlation_paths
@@ -27,10 +28,11 @@ ddb = boto3.client('dynamodb')
 from flask import Flask, request, jsonify, render_template, send_file, flash, redirect, url_for, session, logging, send_from_directory
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user, decode_cookie
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
+from flask.sessions import TaggedJSONSerializer
 
 app = Flask('stinkbait')
 app.secret_key = 'f89j2hf2h09fjf84hf0ehf8h9834fh02hf83fh20fh2r2rjfoiwejfnqcn398hf9u3r'
-app.config['SESSION_COOKIE_NAME'] = 'stinkbait'
+#app.config['SESSION_COOKIE_NAME'] = 'stinkbait'
 app.config['SESSION_COOKIE_DOMAIN'] = None
 app.config['SESSION_COOKIE_HTTPONLY'] = False
 app.config['SESSION_COOKIE_SECURE'] = False
@@ -42,14 +44,48 @@ tracer = Tracer(service="Stinkbait Core")
 logger = Logger(service="Stinkbait Core", correlation_id_path=correlation_paths.API_GATEWAY_REST)
 
 # Initialize the Flask Login Manager
-login_manager = LoginManager()
+login_manager = LoginManager(app)
 login_manager.init_app(app)
 
-# Flask-Login user loader
-@login_manager.user_loader
-def load_user(user_id):
-    logger.info("Loading user: {}".format(user_id))
-    return User.get(user_id)
+# Flask-Login user request loader
+@login_manager.request_loader
+def load_user_from_request(request):
+    logger.info("Loading user from request")
+    user_cookie = request.cookies.get('session')
+    try:
+        logger.info("Loading user from cookie {cookie}".format(cookie=user_cookie))
+        try:
+            decoded_cookie=decode_cookie(user_cookie)
+        except Exception as e:
+            logger.exception(e)
+            return None
+        logger.info("Loading user from cookie {cookie}".format(cookie=decoded_cookie))
+        user_id = session['user_id']
+        user = User.get(user_id)
+        return user
+    except Exception as e:
+        logger.exception(e)
+        return None
+
+    if user_cookie:
+        try:
+            #user_id = URLSafeTimedSerializer(app.secret_key).loads(user_cookie, max_age=3600)
+            # Do any validation or decoding of the token here as needed
+            user_id = decode_cookie(user_cookie)
+            logger.info("Loading user: {}".format(user_id))
+            # If the token is valid, return the corresponding user object
+            user = User.get(user_id)
+            if user != None:
+                return User.get(user_id)
+            else:
+                return None
+        except Exception as e:
+            logger.exception(e)
+            return None 
+    else:
+        return None
+    
+    
 
 ddb = boto3.resource('dynamodb')
 dynamo = boto3.client('dynamodb')
@@ -83,7 +119,7 @@ for table_name in tables['TableNames']:
         break
 #logger.info(campaigns_table)
 
-# TODO: This is a hack to get the implants table name.  Need to find a better way to do this. Maybe use a tag? Needs to be dynamic based on the environment stage - but have to pass that from the lambda handler function.
+# TODO: This is a hack to get the implants table name.  Need to find a better way to do this. Maybe use a tag? Needs to be dynamic based on the environment stage - but have to pass that from the lambda handler function which means my code outside the handler can't use the stage from the event.
 for table_name in tables['TableNames']:
     if table_name.endswith('implants'):
         implants_table = ddb.Table(table_name)
@@ -108,7 +144,7 @@ class User(UserMixin):
 
     @staticmethod
     def get(user_id):
-        response = users_table.get_item(Key={'username': user_id})
+        response = users_table.get_item(Key={'username': username})
         if 'Item' not in response:
             return None
         item = response['Item']
@@ -118,22 +154,17 @@ class User(UserMixin):
 from allow import allow
 from routes import app, User
 
-
-# Initialize the serializer with the app's secret key
-serializer = URLSafeTimedSerializer(app.secret_key)
-
 #Enter main function
 @logger.inject_lambda_context(log_event=True)
 @tracer.capture_lambda_handler()
 def lambda_handler(event, context):
     logger.set_correlation_id(context.aws_request_id)
-    cookie = event['headers']['Cookie']
+    cookie = event['headers'].get('Cookie')
     if cookie:
-        cookie_value = cookie.split("=", 1)[1]
         # Decode the cookie
-        logger.info('Cookie: {}'.format(cookie_value))
+        logger.info('Cookie Value equals: {}'.format(cookie))
         try:
-            data = serializer.loads(cookie_value)
+            data = serializer.loads(cookie)
             # The data should contain the user ID
             logger.info('Serialized Cookie Data: {}'.format(data))
             user_id = data.get('user_id')
@@ -155,7 +186,7 @@ def lambda_handler(event, context):
             logger.info('Error: {}'.format(e))
     else:
         # No cookie provided
-        logger.info('No cookie provided')
+        logger.info('User Session Cookie not provided')
     # Analyze incoming HTTP Request, including path of requested resource.
     http_path = event['path']
     http_query_string_parameters = event['queryStringParameters']
@@ -182,8 +213,16 @@ def lambda_handler(event, context):
                 http_path = '/index'
             else:
                 pass
-            ctx = app.test_request_context(base_url="https:"+base_url, path=http_path, method=http_method, headers=http_headers, data=http_body)
+            # Create a Flask Request Context
+            ctx = app.test_request_context(
+                base_url="https:"+base_url, 
+                path=http_path, 
+                method=http_method, 
+                headers=http_headers, 
+                data=http_body)
+            # Push the Flask Request Context
             ctx.push()
+            logger.info(f'Flask Request Context: {request.headers}')
             if request.url_rule != None:
                 pass
             else:
@@ -196,6 +235,7 @@ def lambda_handler(event, context):
                 rv = app.full_dispatch_request()
                 rv.direct_passthrough = False
                 response = app.make_response(rv)
+            # do the teardown, starting with the response headers
             headers = dict(response.headers)
             content_type = headers.get('Content-Type', '')
             # Check headers for content type and if it is an image, encode it as base64
