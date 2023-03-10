@@ -51,8 +51,6 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
-          aws-access-key-id: AKIAVMIEFIECL3Z3HL4H
-          aws-secret-access-key: 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
           aws-region: us-east-1
           # role-to-assume: github-action-role
           role-duration-seconds: 1200
@@ -70,8 +68,6 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
-          aws-access-key-id: AKIAVMIEFIECL3Z3HL4H
-          aws-secret-access-key: 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
           aws-region: us-east-1
           # role-to-assume: github-action-role
           role-duration-seconds: 1200
@@ -89,6 +85,8 @@ jobs:
       #           fi
       - name: Package Lambda Function Code
         run: aws cloudformation package --template-file template.yaml --s3-bucket stinkbait-225609042289 --output-template-file packaged_template.yaml --region us-east-1
+      - name: Sleep for 15 seconds
+        run: sleep 15
       - name: Deploy the CloudFormation Stack
         run: aws cloudformation deploy --template-file proxy_template.yaml --stack-name stinkbait --capabilities CAPABILITY_NAMED_IAM
       - name: Get the Stack Output Information
