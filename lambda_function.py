@@ -17,8 +17,6 @@ patcher.patch(('requests',))
 # Configure the X-Ray recorder to generate segments with our service name
 xray_recorder.configure(service='Stinkbait Core')
 
-
-
 # Set boto3 clients for various services the lambda function will utilize
 ssm = boto3.client('ssm')
 s3 = boto3.client('s3')
@@ -28,8 +26,15 @@ ddb = boto3.client('dynamodb')
 # Import Flask
 from flask import Flask, request, jsonify, render_template, send_file, flash, redirect, url_for, session, logging, send_from_directory
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-app = Flask('stinkbait', template_folder='templates', static_folder='static')
-app.secret_key = 'd424a54531e64a0a850bc054d1b6d49b'
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
+
+app = Flask('stinkbait')
+app.secret_key = 'f89j2hf2h09fjf84hf0ehf8h9834fh02hf83fh20fh2r2rjfoiwejfnqcn398hf9u3r'
+app.config['SESSION_COOKIE_NAME'] = 'stinkbait'
+app.config['SESSION_COOKIE_DOMAIN'] = None
+app.config['SESSION_COOKIE_HTTPONLY'] = False
+app.config['SESSION_COOKIE_SECURE'] = False
+app.config['SESSION_COOKIE_SAMESITE'] = None
 XRayMiddleware(app, xray_recorder)
 
 # Initialize the AWS Lambda Powertools
@@ -40,24 +45,115 @@ logger = Logger(service="Stinkbait Core", correlation_id_path=correlation_paths.
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+# Flask-Login user loader
+@login_manager.user_loader
+def load_user(user_id):
+    logger.info("Loading user: {}".format(user_id))
+    return User.get(user_id)
+
+ddb = boto3.resource('dynamodb')
+dynamo = boto3.client('dynamodb')
+tables = dynamo.list_tables()
+
+# TODO: This is a hack to get the users table name.  Need to find a better way to do this. Maybe use a tag? Needs to be dynamic based on the environment stage - but have to pass that from the lambda handler function.
+for table_name in tables['TableNames']:
+    if table_name.endswith('users'):
+        users_table = ddb.Table(table_name)
+        break
+#logger.info(users_table)
+
+# TODO: This is a hack to get the target-orgs table name.  Need to find a better way to do this. Maybe use a tag? Needs to be dynamic based on the environment stage - but have to pass that from the lambda handler function.
+for table_name in tables['TableNames']:
+    if table_name.endswith('target-orgs'):
+        target_orgs_table = ddb.Table(table_name)
+        break
+#logger.info(target_orgs_table)
+
+# TODO: This is a hack to get the target-subjects table name.  Need to find a better way to do this. Maybe use a tag? Needs to be dynamic based on the environment stage - but have to pass that from the lambda handler function.
+for table_name in tables['TableNames']:
+    if table_name.endswith('target-subjects'):
+        target_subjects_table = ddb.Table(table_name)
+        break
+#logger.info(target_subjects_table)
+
+# TODO: This is a hack to get the campaigns table name.  Need to find a better way to do this. Maybe use a tag? Needs to be dynamic based on the environment stage - but have to pass that from the lambda handler function.
+for table_name in tables['TableNames']:
+    if table_name.endswith('campaigns'):
+        campaigns_table = ddb.Table(table_name)
+        break
+#logger.info(campaigns_table)
+
+# TODO: This is a hack to get the implants table name.  Need to find a better way to do this. Maybe use a tag? Needs to be dynamic based on the environment stage - but have to pass that from the lambda handler function.
+for table_name in tables['TableNames']:
+    if table_name.endswith('implants'):
+        implants_table = ddb.Table(table_name)
+        break
+#logger.info(implants_table)
+
+for table_name in tables['TableNames']:
+    if table_name.endswith('reports'):
+        reports_table = ddb.Table(table_name)
+        break
+#logger.info(reports_table)
+
+class User(UserMixin):
+    def __init__(self, user_id, username, password_hash, role):
+        self.id = user_id
+        self.username = username
+        self.password_hash = password_hash
+        self.role = role
+
+    def __repr__(self):
+        return '<User {}>'.format(self.username)
+
+    @staticmethod
+    def get(user_id):
+        response = users_table.get_item(Key={'username': user_id})
+        if 'Item' not in response:
+            return None
+        item = response['Item']
+        return User(item['user_id'], item['username'], item['password_hash'], item['role'])
+
 # Internal Imports
 from allow import allow
 from routes import app, User
 
 
-# Flask-Login user loader
-@login_manager.user_loader
-def load_user(user_id):
-    return User.get(user_id)
-
-
-
+# Initialize the serializer with the app's secret key
+serializer = URLSafeTimedSerializer(app.secret_key)
 
 #Enter main function
 @logger.inject_lambda_context(log_event=True)
 @tracer.capture_lambda_handler()
 def lambda_handler(event, context):
     logger.set_correlation_id(context.aws_request_id)
+    cookie = event['headers']['Cookie']
+    cookie_value = cookie.split("=", 1)[1]
+    if cookie_value:
+        # Decode the cookie
+        logger.info('Cookie: {}'.format(cookie_value))
+        try:
+            data = serializer.loads(cookie)
+            # The data should contain the user ID
+            logger.info('Serialized Cookie Data: {}'.format(data))
+            user_id = data.get('user_id')
+            # Load the user based on the user ID
+            logger.info('User ID from "Serializer Load": {}'.format(user_id))
+            user = load_user(user_id)
+            logger.info('User from "Load User": {}'.format(user))
+            # Set the user as the current user
+            login_user(user)
+            # You can now access the current user with current_user
+            logger.info('User is logged in: {}'.format(current_user.username))
+        except SignatureExpired:
+            # Invalid cookie
+            logger.info('Signature valid but expired')
+        except BadSignature:
+            # Invalid cookie
+            logger.info('Invalid cookie signature')
+    else:
+        # No cookie provided
+        logger.info('No cookie provided')
     # Analyze incoming HTTP Request, including path of requested resource.
     http_path = event['path']
     http_query_string_parameters = event['queryStringParameters']
@@ -68,7 +164,7 @@ def lambda_handler(event, context):
 
     # Check if the request is coming from an allowed IP address and user agent
     allow_check = allow(event, context)
-    logger.info(allow_check[1])
+    #logger.info(allow_check[1])
 
     # # If the request is not coming from an allowed IP address and user agent, return a 403 Forbidden response
     # if allow_check[0] == True:
@@ -105,7 +201,7 @@ def lambda_handler(event, context):
                 data = base64.b64encode(response.data)
                 return {
                     'headers': { "Content-Type": "image/png" },
-                    'statusCode': 200,
+                    'statusCode': response.status_code,
                     'body': data.decode('utf-8'),
                     'isBase64Encoded': True
                 }
