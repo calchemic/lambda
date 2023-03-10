@@ -3,10 +3,10 @@ name: Deploy Stinkbait
 on:
   push:
     branches:
-      - "main"
+      - 'main'
   pull_request:
     branches:
-      - "main"
+      - 'main'
 jobs:
   build:
     permissions:
@@ -51,8 +51,13 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
-          role-to-assume: arn:aws:iam::225609042289:role/github-action-role
+          aws-access-key-id: AKIAVMIEFIECE74C4IDX
+          aws-secret-access-key: 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
           aws-region: us-east-1
+          # role-to-assume: github-action-role
+          role-duration-seconds: 1200
+          role-to-assume: arn:aws:iam::225609042289:role/github-action-role
+          # aws-region: us-east-1
 
   deploy-stack:
     permissions:
@@ -65,8 +70,13 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
-          role-to-assume: arn:aws:iam::225609042289:role/github-action-role
+          aws-access-key-id: AKIAVMIEFIECE74C4IDX
+          aws-secret-access-key: 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
           aws-region: us-east-1
+          # role-to-assume: github-action-role
+          role-duration-seconds: 1200
+          role-to-assume: arn:aws:iam::225609042289:role/github-action-role
+          # aws-region: us-east-1
       - name: Delete the CloudFormation Stack
         run: aws cloudformation delete-stack --stack-name stinkbait
       - name: Check for "CREATE_FAILED" Cloudformation events
