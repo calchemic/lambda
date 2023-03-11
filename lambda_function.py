@@ -118,7 +118,6 @@ class User():
         logger.info(f'User Object: {self.__dict__}')
         return '<User {}>'.format(self.username)
 
-
     def get_id(self):
         return str(self.id)
 
@@ -187,7 +186,7 @@ def load_user_from_request(request):
         session_user = User.get(user_id)
         try:
             logger.info(f'User ID: {session_user}')
-            return User(user_id=session_user['user_id'], username=session_user['username'], password_hash=session_user['password'], role=session_user['role'], email=session_user['user_email'], address=session_user['address'], city=session_user['city'], state=session_user['state'], zip_code=session_user['zip_code'],country=session_user['country'], organization=session_user['organization'], phone=session_user['phone'], is_authenticated=True, is_active=True, is_anonymous=False)
+            return User(user_id=session_user['user_id'], username=session_user['username'], password_hash=session_user['password'], first_name=session_user['first_name'], last_name=session_user['last_name'], role=session_user['role'], email=session_user['email'], address=session_user['address'], city=session_user['city'], state=session_user['state'], zip_code=session_user['zip_code'],country=session_user['country'], organization=session_user['organization'], phone=session_user['phone'], is_authenticated=True, is_active=True, is_anonymous=False)
         except Exception as e:
             logger.error(f'WHY WONT YOU WORK {e}')
             return None

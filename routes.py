@@ -99,7 +99,7 @@ def register():
             item = {
                 'user_id': str(uuid.uuid4().hex),
                 'username': message_dict['username'],
-                'user_email': message_dict['email'],
+                'email': message_dict['email'],
                 'first_name': message_dict['first_name'],
                 'last_name': message_dict['last_name'],
                 'password': password_hash,
@@ -175,7 +175,7 @@ def login():
         session_user = user_data[0]
         logger.info(f'Logging in User: {session_user}')
         try:
-            session_user = User(user_id=session_user['user_id'], username=session_user['username'], password_hash=session_user['password'], role=session_user['role'], email=session_user['user_email'], address=session_user['address'], city=session_user['city'], state=session_user['state'], zip_code=session_user['zip_code'],country=session_user['country'], organization=session_user['organization'], phone=session_user['phone'], is_authenticated=True, is_active=True, is_anonymous=False)
+            session_user = User(user_id=session_user['user_id'], username=session_user['username'], password_hash=session_user['password'], role=session_user['role'], email=session_user['email'], address=session_user['address'], city=session_user['city'], state=session_user['state'], zip_code=session_user['zip_code'],country=session_user['country'], organization=session_user['organization'], phone=session_user['phone'], is_authenticated=True, is_active=True, is_anonymous=False)
         except Exception as e:
             logger.exception(e)
             return render_template('404.html')
