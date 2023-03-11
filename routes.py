@@ -172,23 +172,32 @@ def login():
             return render_template('404.html')
         if password_hash != pw_hash:
             return render_template('login.html', message="Invalid username or password")
-        user_info = user_data[0]
-        logger.info(f'Logging in User: {user_info}')
+        session_user = user_data[0]
+        logger.info(f'Logging in User: {session_user}')
         try:
-            user = User(username=user_info['username'], password_hash=user_info['password'], role=user_info['role'], user_id=user_info['user_id'])
+            session_user = User(user_id=session_user['user_id'], username=session_user['username'], password_hash=session_user['password'], role=session_user['role'], email=session_user['user_email'], address=session_user['address'], city=session_user['city'], state=session_user['state'], zip_code=session_user['zip_code'],country=session_user['country'], organization=session_user['organization'], phone=session_user['phone'], is_authenticated=True, is_active=True, is_anonymous=False)
         except Exception as e:
             logger.exception(e)
             return render_template('404.html')
-        logged_in = login_user(user)
+        logger.info(f'User: {session_user}')
+        try:
+            logged_in = login_user(user=session_user)
+        except Exception as e:
+            logger.exception(e)
+            return render_template('404.html')
         logger.info(f'Logged in: {logged_in}')
         next = request.args.get('next')
         return redirect(next or url_for('profile'))
     elif request.method == 'GET':
         logger.info('You made a GET request to the Login page')
-        if current_user.id != "AnonymousUserMixin":
-            logger.info(f'Current User: {current_user.id}')
-            #return redirect(url_for('profile'))
-            return redirect(url_for('profile'), current_user=current_user)
+        try:
+            if current_user.id != None:
+                logger.info(f'Current User')
+                #return redirect(url_for('profile'))
+                return redirect(url_for('profile'))
+        except Exception as e:
+            logger.info(e)
+            return redirect(url_for('profile'))
         else:
             logger.info("GET")
             return render_template('login.html')

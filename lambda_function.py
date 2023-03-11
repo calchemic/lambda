@@ -105,16 +105,26 @@ class User():
         self.is_active = False
         self.is_anonymous = True
         self.__dict__.update(kwargs)
+        logger.info(f'User Object: {self.__dict__}')
 
         if self.id is not None:
+            logger.info(f'User Object: {self.__dict__}')
             self.is_authenticated = True
             self.is_active = True
             self.is_anonymous = False
+            logger.info(f'User Object: {self.__dict__}')
 
     def __repr__(self):
+        logger.info(f'User Object: {self.__dict__}')
         return '<User {}>'.format(self.username)
 
+
+    def get_id(self):
+        return str(self.id)
+
+    @staticmethod
     def get(user_id):
+        logger.info(f'User ID: {user_id}')
         try:
             response = users_table.query(
                 IndexName='UserIdIndex',
@@ -133,8 +143,6 @@ class User():
             item = response['Items'][0]
             logger.info(f'User Object Per DynamoDB: {item}')
             return item
-
-
 
 
 def get_user_id():
@@ -173,7 +181,7 @@ def load_user_from_request(request):
     user_id = get_user_id()
     logger.info(f'User ID: {user_id}')
     if user_id is None:
-        return None
+        return User(user_id=None, username=None, password_hash=None, role=None, is_authenticated=False, is_active=False, is_anonymous=True)
     else:
         # Retrieve User Object from Database (DynamoDB)
         session_user = User.get(user_id)
