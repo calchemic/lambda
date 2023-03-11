@@ -30,12 +30,35 @@ Resources:
       AttributeDefinitions:
       - AttributeName: username
         AttributeType: S
+      - AttributeName: user_id
+        AttributeType: S
       KeySchema:
       - AttributeName: username
         KeyType: HASH
+      - AttributeName: user_id
+        KeyType: RANGE
       ProvisionedThroughput:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
+      GlobalSecondaryIndexes:
+      - IndexName: UserIdIndex
+        KeySchema:
+        - AttributeName: user_id
+          KeyType: HASH
+        Projection:
+          ProjectionType: ALL
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+      - IndexName: UsernameIndex
+        KeySchema:
+        - AttributeName: username
+          KeyType: HASH
+        Projection:
+          ProjectionType: ALL
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
   TargetOrgsTable:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -166,14 +189,8 @@ Resources:
       FunctionName:
         Fn::Sub: ${AppName}-${Environment}-lambda
       Code:
-<<<<<<< HEAD
         S3Bucket: infantsense
-        S3Key: c0829d8aedea53ccc493357f9c90f90c
-=======
-        # S3Bucket: infantsense
-        S3Bucket: stinkbait-225609042289
-        S3Key: aed74b027b92e9e04992bbd960108536
->>>>>>> 0335017ea25c18d96533aa04c99237573034ff93
+        S3Key: d077c44bcd1b44c43e32b64cb2076670
       Handler: lambda_function.lambda_handler
       Role:
         Fn::GetAtt:
@@ -341,7 +358,7 @@ Resources:
 Outputs:
   ApiEndpoint:
     Value:
-      Fn::Sub: https://${MyApiGateway}.execute-api.${AWS::Region}.amazonaws.com
+      Fn::Sub: https://${MyApiGateway}.execute-api.${AWS::Region}.amazonaws.com/${Environment}/index
     Description: Endpoint URL for API Gateway
   PublicIp:
     Condition: ServerFull

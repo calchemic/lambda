@@ -35,12 +35,35 @@ Resources:
       AttributeDefinitions:
         - AttributeName: username
           AttributeType: S
+        - AttributeName: user_id
+          AttributeType: S
       KeySchema:
         - AttributeName: username
           KeyType: HASH
+        - AttributeName: user_id
+          KeyType: RANGE
       ProvisionedThroughput:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
+      GlobalSecondaryIndexes:
+        - IndexName: UserIdIndex
+          KeySchema:
+            - AttributeName: user_id
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+          ProvisionedThroughput:
+            ReadCapacityUnits: 1
+            WriteCapacityUnits: 1
+        - IndexName: UsernameIndex
+          KeySchema:
+            - AttributeName: username
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+          ProvisionedThroughput:
+            ReadCapacityUnits: 1
+            WriteCapacityUnits: 1
 
   TargetOrgsTable:
     Type: AWS::DynamoDB::Table
@@ -334,7 +357,7 @@ Resources:
 
 Outputs:
   ApiEndpoint:
-    Value: !Sub "https://${MyApiGateway}.execute-api.${AWS::Region}.amazonaws.com"
+    Value: !Sub "https://${MyApiGateway}.execute-api.${AWS::Region}.amazonaws.com/${Environment}/index"
     Description: "Endpoint URL for API Gateway"
   PublicIp:
     Condition: ServerFull

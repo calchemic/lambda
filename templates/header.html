@@ -1,7 +1,7 @@
 <header>
     {% if current_user.is_authenticated %}
     <div class="header-buttons">
-        <a href="{{ url_for('logout') }}" class="btn btn-primary">Logout</a>
+        <a href="{{ url_for('logout') }}" class="btn btn-secondary">Logout</a>
     </div>
     {% else %}
     <div class="header-buttons">

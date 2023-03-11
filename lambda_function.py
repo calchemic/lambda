@@ -5,7 +5,8 @@ import io
 import os
 import urllib3
 import json
-import base64
+import zlib
+from base64 import b64decode, b64encode
 import boto3
 import hashlib
 from aws_lambda_powertools import Logger, Tracer
@@ -27,7 +28,7 @@ ddb = boto3.client('dynamodb')
 # Import Flask
 from flask import Flask, request, jsonify, render_template, send_file, flash, redirect, url_for, session, logging, send_from_directory
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user, decode_cookie
-from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature, base64_decode
 from flask.sessions import TaggedJSONSerializer
 
 app = Flask('stinkbait')
@@ -47,45 +48,6 @@ logger = Logger(service="Stinkbait Core", correlation_id_path=correlation_paths.
 login_manager = LoginManager(app)
 login_manager.init_app(app)
 
-# Flask-Login user request loader
-@login_manager.request_loader
-def load_user_from_request(request):
-    logger.info("Loading user from request")
-    user_cookie = request.cookies.get('session')
-    try:
-        logger.info("Loading user from cookie {cookie}".format(cookie=user_cookie))
-        try:
-            decoded_cookie=decode_cookie(user_cookie)
-        except Exception as e:
-            logger.exception(e)
-            return None
-        logger.info("Loading user from cookie {cookie}".format(cookie=decoded_cookie))
-        user_id = session['user_id']
-        user = User.get(user_id)
-        return user
-    except Exception as e:
-        logger.exception(e)
-        return None
-
-    if user_cookie:
-        try:
-            #user_id = URLSafeTimedSerializer(app.secret_key).loads(user_cookie, max_age=3600)
-            # Do any validation or decoding of the token here as needed
-            user_id = decode_cookie(user_cookie)
-            logger.info("Loading user: {}".format(user_id))
-            # If the token is valid, return the corresponding user object
-            user = User.get(user_id)
-            if user != None:
-                return User.get(user_id)
-            else:
-                return None
-        except Exception as e:
-            logger.exception(e)
-            return None 
-    else:
-        return None
-    
-    
 
 ddb = boto3.resource('dynamodb')
 dynamo = boto3.client('dynamodb')
@@ -132,23 +94,95 @@ for table_name in tables['TableNames']:
         break
 #logger.info(reports_table)
 
-class User(UserMixin):
-    def __init__(self, user_id, username, password_hash, role):
+# Define User Class for Flask Login
+class User():
+    def __init__(self, user_id, username, password_hash, role, **kwargs):
         self.id = user_id
         self.username = username
         self.password_hash = password_hash
         self.role = role
+        self.is_authenticated = False
+        self.is_active = False
+        self.is_anonymous = True
+        self.__dict__.update(kwargs)
+
+        if self.id is not None:
+            self.is_authenticated = True
+            self.is_active = True
+            self.is_anonymous = False
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
-    @staticmethod
     def get(user_id):
-        response = users_table.get_item(Key={'username': username})
-        if 'Item' not in response:
+        try:
+            response = users_table.query(
+                IndexName='UserIdIndex',
+                KeyConditionExpression='user_id = :uid',
+                ExpressionAttributeValues={
+                    ':uid': user_id
+                }
+            )
+            logger.info(f'Retrieved User by User ID: {response}')
+        except Exception as e:
+            logger.error(e)
+        if 'Items' not in response:
+            logger.info("No user found with that ID")
             return None
-        item = response['Item']
-        return User(item['user_id'], item['username'], item['password_hash'], item['role'])
+        else:
+            item = response['Items'][0]
+            logger.info(f'User Object Per DynamoDB: {item}')
+            return item
+
+
+
+
+def get_user_id():
+    if 'user_id' in session:
+        logger.info("[User ID found in session]"+session['user_id'])
+        return session['user_id']
+    else:
+        user_cookie = request.cookies.get('session')
+        if user_cookie != None:
+            logger.info("[User cookie found in request]"+user_cookie)
+            try:
+                compressed = False
+                payload = user_cookie
+                if payload.startswith('.'):
+                    compressed = True
+                    payload = payload[1:]
+                data = payload.split(".")[0]
+                data = base64_decode(data)
+                if compressed:
+                    data = zlib.decompress(data)
+                final_data = data.decode("utf-8")
+                decoded_cookie = json.loads(final_data)
+                user_id = decoded_cookie['_user_id']
+                return user_id
+            except Exception as e:
+                logger.info("[Decoding error: are you sure this was a Flask session cookie? {}]".format(e))
+                return None
+        else:
+            logger.info("[No session cookie present in request]")
+            return None
+
+# Flask-Login user request loader - checks if the user is logged in on every page load by checking the session cookie and loading the user object from DynamoDB
+@login_manager.request_loader
+def load_user_from_request(request):
+    # Load the user ID from the session cookie if it's present, else retrieve the session cookie from the request and decode it to get the user ID
+    user_id = get_user_id()
+    logger.info(f'User ID: {user_id}')
+    if user_id is None:
+        return None
+    else:
+        # Retrieve User Object from Database (DynamoDB)
+        session_user = User.get(user_id)
+        try:
+            logger.info(f'User ID: {session_user}')
+            return User(user_id=session_user['user_id'], username=session_user['username'], password_hash=session_user['password'], role=session_user['role'], email=session_user['user_email'], address=session_user['address'], city=session_user['city'], state=session_user['state'], zip_code=session_user['zip_code'],country=session_user['country'], organization=session_user['organization'], phone=session_user['phone'], is_authenticated=True, is_active=True, is_anonymous=False)
+        except Exception as e:
+            logger.error(f'WHY WONT YOU WORK {e}')
+            return None
 
 # Internal Imports
 from allow import allow
@@ -159,34 +193,6 @@ from routes import app, User
 @tracer.capture_lambda_handler()
 def lambda_handler(event, context):
     logger.set_correlation_id(context.aws_request_id)
-    cookie = event['headers'].get('Cookie')
-    if cookie:
-        # Decode the cookie
-        logger.info('Cookie Value equals: {}'.format(cookie))
-        try:
-            data = serializer.loads(cookie)
-            # The data should contain the user ID
-            logger.info('Serialized Cookie Data: {}'.format(data))
-            user_id = data.get('user_id')
-            # Load the user based on the user ID
-            logger.info('User ID from "Serializer Load": {}'.format(user_id))
-            user = load_user(user_id)
-            logger.info('User from "Load User": {}'.format(user))
-            # Set the user as the current user
-            login_user(user)
-            # You can now access the current user with current_user
-            logger.info('User is logged in: {}'.format(current_user.username))
-        except SignatureExpired:
-            # Invalid cookie
-            logger.info('Signature valid but expired')
-        except BadSignature:
-            # Invalid cookie
-            logger.info('Invalid cookie signature')
-        except Exception as e:
-            logger.info('Error: {}'.format(e))
-    else:
-        # No cookie provided
-        logger.info('User Session Cookie not provided')
     # Analyze incoming HTTP Request, including path of requested resource.
     http_path = event['path']
     http_query_string_parameters = event['queryStringParameters']
@@ -222,7 +228,6 @@ def lambda_handler(event, context):
                 data=http_body)
             # Push the Flask Request Context
             ctx.push()
-            logger.info(f'Flask Request Context: {request.headers}')
             if request.url_rule != None:
                 pass
             else:
@@ -240,7 +245,7 @@ def lambda_handler(event, context):
             content_type = headers.get('Content-Type', '')
             # Check headers for content type and if it is an image, encode it as base64
             if content_type.startswith('image/'):
-                data = base64.b64encode(response.data)
+                data = b64encode(response.data)
                 return {
                     'headers': { "Content-Type": "image/png" },
                     'statusCode': response.status_code,

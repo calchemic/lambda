@@ -14,11 +14,22 @@ from urllib.parse import unquote
 #########################################################################################
 #################################  User Routes  #########################################
 #########################################################################################
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('index'))
 
 # Stinkbait User Profile Page
 @app.route('/profile')
 def profile():
-    return render_template('/profile/profile.html') #, user=user)
+    logger.info("Profile Page")
+    # Get the user's username from the session
+    try:
+        logger.info(current_user)
+        return render_template('profile/profile.html', user=current_user)
+    except Exception as e:
+        logger.info(e)
+        return render_template('404.html')
 
 # Stinkbait User Password Reset Page
 @app.route('/profile/reset-password', methods=['GET', 'POST'])
@@ -80,7 +91,9 @@ def register():
             key, value = item.split('=')
             message_dict[key] = value.replace('+', ' ')
         try:
+            logger.info(message_dict)
             password = message_dict['password']
+            logger.info(password)
             hash_object = hashlib.sha256(password.encode())
             password_hash = hash_object.hexdigest()
             item = {
@@ -138,31 +151,44 @@ def login():
 
         username = message_dict['username']
         password = message_dict['password']
-
-        response = users_table.get_item(Key={'username': username})
-        user_data = response.get('Item', None)
+        # Get the user from the database based on provided username
+        response = users_table.query(
+            IndexName='UsernameIndex',
+            KeyConditionExpression='username = :uname',
+            ExpressionAttributeValues={
+                ':uname': username
+            }
+        )
+        user_data = response.get('Items', None)
         if not user_data:
-            logger.info(f'If Not User Data: {user_data}')
             return render_template('login.html', message="Invalid username or password")
-        hash_object = hashlib.sha256(password.encode())
-        password_hash = hash_object.hexdigest()
-        pw_hash = user_data['password']
+        try:
+            hash_object = hashlib.sha256(password.encode())
+            password_hash = hash_object.hexdigest()
+            user_item = user_data[0]
+            pw_hash = user_item['password']
+        except Exception as e:
+            logger.exception(e)
+            return render_template('404.html')
         if password_hash != pw_hash:
-            logger.info(f'If Password != User Data: {pw_hash}')
             return render_template('login.html', message="Invalid username or password")
-        logger.info(user_data)
-        user = User(username=user_data['username'], password_hash=user_data['password'], role=user_data['role'], user_id=user_data['user_id'])
+        user_info = user_data[0]
+        logger.info(f'Logging in User: {user_info}')
+        try:
+            user = User(username=user_info['username'], password_hash=user_info['password'], role=user_info['role'], user_id=user_info['user_id'])
+        except Exception as e:
+            logger.exception(e)
+            return render_template('404.html')
         logged_in = login_user(user)
-        logger.info(f'Logged In: {user}')
-        logger.info(f'Session cookie: {request.cookies.get(app.session_cookie_name)}')
+        logger.info(f'Logged in: {logged_in}')
         next = request.args.get('next')
-        logger.info(f'Next: {next}')
         return redirect(next or url_for('profile'))
     elif request.method == 'GET':
-        if current_user != None:
-            logger.info(f'Current User: {current_user}')
+        logger.info('You made a GET request to the Login page')
+        if current_user.id != "AnonymousUserMixin":
+            logger.info(f'Current User: {current_user.id}')
             #return redirect(url_for('profile'))
-            return render_template('login.html')
+            return redirect(url_for('profile'), current_user=current_user)
         else:
             logger.info("GET")
             return render_template('login.html')
