@@ -1,8 +1,10 @@
 {% extends 'base.html' %} {% block content %}
 <br>
-<h1>New Campaign</h1>
 <br>
 <form class="login-form" method="POST" action="{{ url_for('new_campaign') }}">
+    <br>
+    <h1>New Phishing Campaign</h1>
+    <br>
 
     <label for="campaign_name">Campaign Name</label>
     <input type="text" id="campaign_name" name="campaign_name" placeholder="Enter campaign name" required><br><br>

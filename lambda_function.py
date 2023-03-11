@@ -94,7 +94,7 @@ for table_name in tables['TableNames']:
         break
 #logger.info(reports_table)
 
-# Define User Class for Flask Login
+# Define User Class for Stinkbait App
 class User():
     def __init__(self, user_id, username, password_hash, role, **kwargs):
         self.id = user_id
@@ -105,17 +105,15 @@ class User():
         self.is_active = False
         self.is_anonymous = True
         self.__dict__.update(kwargs)
-        logger.info(f'User Object: {self.__dict__}')
 
         if self.id is not None:
-            logger.info(f'User Object: {self.__dict__}')
+
             self.is_authenticated = True
             self.is_active = True
             self.is_anonymous = False
-            logger.info(f'User Object: {self.__dict__}')
+
 
     def __repr__(self):
-        logger.info(f'User Object: {self.__dict__}')
         return '<User {}>'.format(self.username)
 
     def get_id(self):
@@ -123,7 +121,6 @@ class User():
 
     @staticmethod
     def get(user_id):
-        logger.info(f'User ID: {user_id}')
         try:
             response = users_table.query(
                 IndexName='UserIdIndex',
@@ -140,7 +137,6 @@ class User():
             return None
         else:
             item = response['Items'][0]
-            logger.info(f'User Object Per DynamoDB: {item}')
             return item
 
 
@@ -183,13 +179,17 @@ def load_user_from_request(request):
         return User(user_id=None, username=None, password_hash=None, role=None, is_authenticated=False, is_active=False, is_anonymous=True)
     else:
         # Retrieve User Object from Database (DynamoDB)
-        session_user = User.get(user_id)
+        try:
+            session_user = User.get(user_id)
+        except Exception as e:
+            logger.error(f'Error retrieving user from database: {e}')
+            return User(user_id=None, username=None, password_hash=None, role=None, is_authenticated=False, is_active=False, is_anonymous=True)
         try:
             logger.info(f'User ID: {session_user}')
             return User(user_id=session_user['user_id'], username=session_user['username'], password_hash=session_user['password'], first_name=session_user['first_name'], last_name=session_user['last_name'], role=session_user['role'], email=session_user['email'], address=session_user['address'], city=session_user['city'], state=session_user['state'], zip_code=session_user['zip_code'],country=session_user['country'], organization=session_user['organization'], phone=session_user['phone'], is_authenticated=True, is_active=True, is_anonymous=False)
         except Exception as e:
-            logger.error(f'WHY WONT YOU WORK {e}')
-            return None
+            logger.error(f'Error setting user app session: {e}')
+            return User(user_id=None, username=None, password_hash=None, role=None, is_authenticated=False, is_active=False, is_anonymous=True)
 
 # Internal Imports
 from allow import allow

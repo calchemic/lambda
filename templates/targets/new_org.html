@@ -1,8 +1,10 @@
 {% extends 'base.html' %} {% block title %}Create New Organization{% endblock %} {% block content %}
 <br>
-<h1>New Target Organization</h1>
 <br>
 <form class="login-form" method="POST" action="{{ url_for('target_org_new') }}">
+    <br>
+    <h1>New Target Organization</h1>
+    <br>
     <label for="org_name">Organization Name*</label>
     <input type="text" id="org_name" name="org_name" required placeholder="e.g. Acme Corp">
     <br>

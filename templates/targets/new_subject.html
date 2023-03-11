@@ -1,8 +1,10 @@
 {% extends 'base.html' %} {% block title %}New Subject{% endblock %} {% block content %}
 <br>
-<h1>New Target Subject</h1>
 <br>
 <form class="login-form" method="POST" action="{{ url_for('target_subject_new') }}">
+    <br>
+    <h1>New Target Subject</h1>
+    <br>
     <label for="first_name">First Name</label>
     <input type="text" id="first_name" name="first_name" placeholder="Enter target first name"><br>
     <label for="last_name">Last Name</label>

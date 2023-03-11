@@ -76,7 +76,7 @@ def register():
             # Get the first key in the dictionary, which is the form response body
             b64message = list(data.keys())[0]
         except Exception as e:
-            logger.info(e)
+            logger.info(f'Error retrieving form response:{e}')
             return render_template('404.html')
             # Decode the base64 encoded message
         try:
@@ -85,15 +85,13 @@ def register():
             # If standard padding doesn't work, try decoding the message with no padding
             logger.info(e)
             message = unquote(base64.b64decode(b64message.replace('-', '+').replace('_', '/') + '==').decode('utf-8'))
-        logger.info(message)
         message_dict = {}
         for item in message.split('&'):
             key, value = item.split('=')
             message_dict[key] = value.replace('+', ' ')
         try:
-            logger.info(message_dict)
+            # Hash the password
             password = message_dict['password']
-            logger.info(password)
             hash_object = hashlib.sha256(password.encode())
             password_hash = hash_object.hexdigest()
             item = {
@@ -122,6 +120,8 @@ def register():
                 item['country'] = message_dict['country']
             if message_dict.get('role'):
                 item['role'] = message_dict['role']
+            else:
+                item['role'] = 'user'
             response = users_table.put_item(Item=item)
             logger.info(response)
             return redirect(url_for('login'))
