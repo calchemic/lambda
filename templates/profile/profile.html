@@ -1,62 +1,84 @@
 {% extends "base.html" %} {% block content %}
-
+<br>
 <h1>Welcome, {{ user.username }}!</h1>
-
+<br>
 <h2>Profile Information</h2>
-<table>
+<table style="width: 60%;">
     <tr>
-        <td><strong>Profile Image:</strong></td>
-        <td>{{ user.image }}</td>
+        <td style="width: 10%;"><strong>Name:</strong></td>
+        <td style="width: 40%;">{{ user.first_name }} {{ user.last_name }}</td>
+        <td style="width: 10%;">
+            <button style="display: block; margin: 0 auto;">Edit</button>
+        </td>
     </tr>
     <tr>
-        <td><strong>Name:</strong></td>
-        <td>{{ user.first_name }} {{ user.last_name }}</td>
+        <td style="width: 10%;"><strong>Email:</strong></td>
+        <td style="width: 40%;">{{ user.email }}</td>
+        <td style="width: 10%;">
+            <button style="display: block; margin: 0 auto;">Edit</button>
+        </td>
     </tr>
     <tr>
-        <td><strong>Email:</strong></td>
-        <td>{{ user.email }}</td>
+        <td style="width: 10%;"><strong>Phone:</strong></td>
+        <td style="width: 40%;">{{ user.phone }}</td>
+        <td style="width: 10%;">
+            <button style="display: block; margin: 0 auto;">Edit</button>
+        </td>
     </tr>
     <tr>
-        <td><strong>Phone:</strong></td>
-        <td>{{ user.phone }}</td>
+        <td style="width: 10%;"><strong>Address:</strong></td>
+        <td style="width: 40%;">{{ user.address }}</td>
+        <td style="width: 10%;">
+            <button style="display: block; margin: 0 auto;">Edit</button>
+        </td>
     </tr>
     <tr>
-        <td><strong>Address:</strong></td>
-        <td>{{ user.address }}</td>
+        <td style="width: 10%;"><strong>City:</strong></td>
+        <td style="width: 40%;">{{ user.city }}</td>
+        <td style="width: 10%;">
+            <button style="display: block; margin: 0 auto;">Edit</button>
+        </td>
     </tr>
     <tr>
-        <td><strong>City:</strong></td>
-        <td>{{ user.city }}</td>
+        <td style="width: 10%;"><strong>State:</strong></td>
+        <td style="width: 40%;">{{ user.state }}</td>
+        <td style="width: 10%;">
+            <button style="display: block; margin: 0 auto;">Edit</button>
+        </td>
     </tr>
     <tr>
-        <td><strong>State:</strong></td>
-        <td>{{ user.state }}</td>
+        <td style="width: 10%;"><strong>Zip Code:</strong></td>
+        <td style="width: 40%;">{{ user.zip_code }}</td>
+        <td style="width: 10%;">
+            <button style="display: block; margin: 0 auto;">Edit</button>
+        </td>
     </tr>
     <tr>
-        <td><strong>Zip Code:</strong></td>
-        <td>{{ user.zip_code }}</td>
-    </tr>
-    <tr>
-        <td><strong>Country:</strong></td>
-        <td>{{ user.country }}</td>
+        <td style="width: 10%;"><strong>Country:</strong></td>
+        <td style="width: 40%;">{{ user.country }}</td>
+        <td style="width: 10%;">
+            <button style="display: block; margin: 0 auto;">Edit</button>
+        </td>
     </tr>
 </table>
-
+<br>
 <h2>Organizations</h2>
+<button style="width: 10%; display: block; margin: 0 auto; ">Edit</button>
 <ul>
     {% for org in user.organizations %}
     <li>{{ org.name }}</li>
     {% endfor %}
 </ul>
-
 <h2>Campaigns</h2>
+<button style="width: 10%; display: block; margin: 0 auto; ">Edit</button>
 <ul>
     {% for campaign in user.campaigns %}
     <li>{{ campaign.name }}</li>
     {% endfor %}
 </ul>
-
+<br>
 <h2>Targets</h2>
+<button style="width: 10%; display: block; margin: 0 auto; ">Edit</button>
 <ul>
     {% for target in user.targets %}
     <li>{{ target.name }}</li>
@@ -64,14 +86,15 @@
 </ul>
 
 <h2>Implants</h2>
+<button style="width: 10%; display: block; margin: 0 auto; ">Edit</button>
 <ul>
     {% for implant in user.implants %}
     <li>{{ implant.name }}</li>
     {% endfor %}
 </ul>
-
-<h2>user Statistics</h2>
-<table>
+<br>
+<h2>User Statistics</h2>
+<table style="width: 70%;">
     <tr>
         <td><strong>Total Organizations:</strong></td>
         <td>{{ user.total_organizations }}</td>

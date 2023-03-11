@@ -3,12 +3,6 @@
     <div class="header-buttons">
         <a href="{{ url_for('logout') }}" class="btn btn-secondary">Logout</a>
     </div>
-    {% else %}
-    <div class="header-buttons">
-        <a href="{{ url_for('login') }}" class="btn btn-primary">Login</a>
-        <a href="{{ url_for('register') }}" class="btn btn-secondary">Register</a>
-    </div>
-    {% endif %}
     <nav>
         <ul>
             <li class="dropdown">
@@ -81,4 +75,15 @@
             </li> -->
         </ul>
     </nav>
+    {% else %}
+    <div class="header-buttons">
+        <a href="{{ url_for('login') }}" class="btn btn-primary">Login</a>
+        <a href="{{ url_for('register') }}" class="btn btn-secondary">Register</a>
+    </div>
+    <nav>
+        <a href="{{ url_for('index') }}">
+            <img class="logo" src="{{url_for('static', filename='img/stinkbait.png')}}">
+        </a>
+    </nav>
+    {% endif %}
 </header>
