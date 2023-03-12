@@ -1,7 +1,13 @@
 flask
 flask-login
+flask-admin
+flask-wtf
+flask-mail
+flask-uploads
 urllib3 
 aws_lambda_powertools 
 aws-xray-sdk 
+dnspython
+ksuid
 #openai 
 #langchain

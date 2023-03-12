@@ -1,0 +1,15 @@
+ksuid-1.3.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
+ksuid-1.3.dist-info/METADATA,sha256=1RKYCRVKSQCPwTeT82hu07uivtp4d01bzoBr6FSI1tY,226
+ksuid-1.3.dist-info/RECORD,,
+ksuid-1.3.dist-info/REQUESTED,sha256=47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU,0
+ksuid-1.3.dist-info/WHEEL,sha256=2wepM1nk4DS4eFpYrW1TTqPcoGNfHhhO_i5m4cOimbo,92
+ksuid-1.3.dist-info/pbr.json,sha256=itRUPzu7uryUK4vlP0n89sgS5xNGPToIG0v2EUgU3pc,47
+ksuid-1.3.dist-info/top_level.txt,sha256=-7XKL4V89qk4Z6NntxOUCJ43PjVz6A_JWSqggxi8lPQ,6
+ksuid/__init__.py,sha256=4ekCvr94XTV1osTVrtGpsPz9SiUc5N5JOuouKIhkwbg,91
+ksuid/__pycache__/__init__.cpython-39.pyc,,
+ksuid/__pycache__/ksuid.cpython-39.pyc,,
+ksuid/__pycache__/ksuid_test.cpython-39.pyc,,
+ksuid/__pycache__/utils.cpython-39.pyc,,
+ksuid/ksuid.py,sha256=O2z5LQriixD6Rr1kGPP9dAL6pqfzvVJsjQNYIMzKVWM,1970
+ksuid/ksuid_test.py,sha256=q8MCxsSmehnp57VaFFtJxwJKbvIBmEWVIHHwIPtZvdc,1176
+ksuid/utils.py,sha256=UHk15PFx21tc3P8JdkPyNtuDrZn-doMA6-IHaQO-LbQ,165

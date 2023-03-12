@@ -1,11 +1,11 @@
 import os
-import uuid
 import boto3
 import json
 import base64
 import subprocess
 import datetime
 import hashlib
+from ksuid import ksuid
 from shlex import quote
 from lambda_function import logger, tracer, app, login_manager, UserMixin, User, login_user, login_required, logout_user, current_user, ddb, dynamo, users_table, target_orgs_table, target_subjects_table, campaigns_table, implants_table, reports_table
 from flask import render_template, request, send_file, redirect, url_for, flash, session, jsonify, send_from_directory
@@ -19,8 +19,13 @@ def logout():
     session.clear()
     return redirect(url_for('index'))
 
+@app.route('/favicon.ico')
+def favicon():
+    return send_file(os.path.join(app.root_path, 'static'),'img/favicon.ico', mimetype='image/vnd.microsoft.icon')
+
 # Stinkbait User Profile Page
 @app.route('/profile')
+@login_required
 def profile():
     logger.info("Profile Page")
     # Get the user's username from the session
@@ -36,7 +41,8 @@ def profile():
 def reset_password():
     if request.method == 'POST':
         # Get the email, new password, and confirm new password from the form data
-        email = request.form['email']
+        username = request.form['username']
+        current_password = request.form['current_password']
         password = request.form['password']
         confirm_password = request.form['confirm_password']
 
@@ -95,7 +101,7 @@ def register():
             hash_object = hashlib.sha256(password.encode())
             password_hash = hash_object.hexdigest()
             item = {
-                'user_id': str(uuid.uuid4().hex),
+                'user_id': str(ksuid()),
                 'username': message_dict['username'],
                 'email': message_dict['email'],
                 'first_name': message_dict['first_name'],
@@ -226,7 +232,7 @@ def target_org_new():
             message_dict[key] = value.replace('+', ' ')
         try:
             item = {
-                'org_id': str(uuid.uuid4().hex),
+                'org_id': str(ksuid()),
                 'created_datetime': str(datetime.datetime.utcnow())
             }
             if message_dict.get('org_name'):
@@ -319,7 +325,7 @@ def target_subject_new():
             message_dict[key] = value.replace('+', ' ')
         try:
             item = {
-                'id': str(uuid.uuid4().hex),
+                'id': str(ksuid()),
                 'created_datetime': str(datetime.datetime.utcnow())
             }
             if message_dict.get('first_name'):
@@ -504,7 +510,7 @@ def new_campaign():
             message_dict[key] = value.replace('+', ' ')
         try:
             item = {
-                'campaign_id': str(uuid.uuid4().hex),
+                'campaign_id': str(ksuid()),
                 'created_datetime': str(datetime.datetime.utcnow())
             }
             if message_dict.get('campaign_name'):

@@ -1,0 +1,9 @@
+Metadata-Version: 2.1
+Name: ksuid
+Version: 1.3
+Summary: A small python package for creating ksuids
+Home-page: https://github.com/Samuel-Resendez/KSUID
+Author: Samuel Resendez
+Author-email: samresendez1@gmail.com
+License: MIT
+
