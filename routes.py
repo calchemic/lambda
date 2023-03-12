@@ -8,7 +8,7 @@ import datetime
 import hashlib
 from shlex import quote
 from lambda_function import logger, tracer, app, login_manager, UserMixin, User, login_user, login_required, logout_user, current_user, ddb, dynamo, users_table, target_orgs_table, target_subjects_table, campaigns_table, implants_table, reports_table
-from flask import render_template, request, send_file, redirect, url_for, flash, session, jsonify
+from flask import render_template, request, send_file, redirect, url_for, flash, session, jsonify, send_from_directory
 from urllib.parse import unquote
 
 #########################################################################################
@@ -18,6 +18,10 @@ from urllib.parse import unquote
 def logout():
     session.clear()
     return redirect(url_for('index'))
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_file(os.path.join(app.root_path, 'static/img'),'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 # Stinkbait User Profile Page
 @app.route('/profile')

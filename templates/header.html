@@ -6,6 +6,18 @@
     <nav>
         <ul>
             <li class="dropdown">
+                <a href="#">Recon</a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">DNS Enumeration</a></li>
+                    <li><a href="#">IP Enumeration</a></li>
+                    <li><a href="#">Whois Enumeration</a></li>
+                    <li><a href="#">Email Address Enumeration</a></li>
+                    <li><a href="#">AWS Principal Enumeration</a></li>
+                    <li><a href="#">Tech Stack Enumeration</a></li>
+                    <li><a href="#">Social Media Enumeration</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
                 <a href="{{ url_for('target_orgs_dashboard') }}">Targets</a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ url_for('target_org_new') }}">Create a Target Organization</a></li>
@@ -13,19 +25,6 @@
                     <li><a href="{{ url_for('target_subject_new') }}">Create a Target Subject</a></li>
                     <li><a href="{{ url_for('target_subjects_dashboard') }}">Target Subjects</a></li>
 
-                </ul>
-            </li>
-            <li class="dropdown">
-                <a href="#">Recon</a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">DNS Enumeration</a></li>
-                    <li><a href="#">Email Enumeration</a></li>
-                    <li><a href="#">AWS Principal Enumeration</a></li>
-                    <li><a href="#">Tech Stack Enumeration</a></li>
-                    <li><a href="#">Social Media Enumeration</a></li>
-                    <li><a href="#">Whois Enumeration</a></li>
-                    <li><a href="#">IP Enumeration</a></li>
-                    <li><a href="#">Subdomain Enumeration</a></li>
                 </ul>
             </li>
             <a href="{{ url_for('index') }}">
