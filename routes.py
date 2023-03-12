@@ -19,10 +19,6 @@ def logout():
     session.clear()
     return redirect(url_for('index'))
 
-@app.route('/favicon.ico')
-def favicon():
-    return send_file(os.path.join(app.root_path, 'static/img'),'favicon.ico', mimetype='image/vnd.microsoft.icon')
-
 # Stinkbait User Profile Page
 @app.route('/profile')
 def profile():
