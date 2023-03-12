@@ -7,9 +7,11 @@ import datetime
 import hashlib
 from ksuid import ksuid
 from shlex import quote
-from lambda_function import logger, tracer, app, login_manager, UserMixin, User, login_user, login_required, logout_user, current_user, ddb, dynamo, users_table, target_orgs_table, target_subjects_table, campaigns_table, implants_table, reports_table
+from lambda_function import logger, tracer, app, login_manager, UserMixin, User, login_user, login_required, logout_user, current_user, ddb, dynamo, ses, users_table, target_orgs_table, target_subjects_table, campaigns_table, implants_table, reports_table
 from flask import render_template, request, send_file, redirect, url_for, flash, session, jsonify, send_from_directory
 from urllib.parse import unquote
+
+
 
 #########################################################################################
 #################################  User Routes  #########################################
@@ -495,7 +497,7 @@ def api_key_management():
 
 # New Campaign route
 @app.route('/campaigns/new-campaign', methods=['GET', 'POST'])
-def new_campaign():
+def campaign_new_campaign():
     if request.method == 'POST':
         data = request.form.to_dict()
         b64message = list(data.keys())[0]
@@ -521,6 +523,8 @@ def new_campaign():
                 item['targets'] = message_dict['targets']
             if message_dict.get('subject'):
                 item['subject'] = message_dict['subject']
+            if message_dict.get('email_template'):
+                item['message'] = message_dict['message']
             if message_dict.get('landing_page_url'):
                 item['landing_page_url'] = message_dict['landing_page_url']
             if message_dict.get('landing_page_hosting_provider'):
@@ -535,7 +539,7 @@ def new_campaign():
     
 # Campaign Dashboard route
 @app.route('/campaigns/dashboard')
-def campaigns_dashboard():
+def campaign_campaigns_dashboard():
     response = campaigns_table.scan()
     campaigns = []
     for item in response['Items']:
@@ -552,38 +556,43 @@ def campaigns_dashboard():
         campaigns.append(campaign)
     return render_template('campaigns/campaigns_dashboard.html', campaigns=campaigns)
 
-# Campaign profile page
-@tracer.capture_method
-@app.route('/campaigns')
-def campaigns():
-    tracer.put_annotation(key="campaigns", value="campaigns-page")
-    return render_template('campaigns.html')
 
-@app.route('/campaigns/email/template', methods=['GET', 'POST'])
-def email_template():
+@app.route('/campaigns/email/new_email_template', methods=['GET', 'POST'])
+def campaign_email_new_email_template():
     if request.method == 'POST':
-        to = request.form['to']
+        name = request.form['name']
         subject = request.form['subject']
-        body = request.form['body']
-        attachments = request.files.getlist('attachment')
-        # Code to send email goes here
-        # ...
-        message = 'Template Uploaded!'
-        return render_template('campaigns/email_template.html', message=message)
+        text = request.form['text']
+        html = request.form['html']
+        # Create the email template using the ses client
+        try:
+            template = {
+                'TemplateName': name,
+                'SubjectPart': subject,
+                'TextPart': text,
+                'HtmlPart': html
+            }
+            ses.create_template(Template=template)
+            # Redirect to a success page or display a success message
+            return 'Template created successfully!'
+        except Exception as e:
+            # Handle any errors that occur during template creation
+            logger.info(e)
+            return 'Failed to create template'
     else:
-        return render_template('campaigns/email_template.html')
+        return render_template('campaigns/email/new_email_template.html')
     
 @app.route('/campaigns/email/preview', methods=['GET', 'POST'])
-def preview_email():
+def campaign_email_preview_email():
     #TODO: Implement preview email functionality
     pass
 
 @app.route('/campaigns/email/send', methods=['GET', 'POST'])
-def send_email():
+def campaign_email_send_email():
     pass
 
 @app.route('/targets/dns-cert-manager', methods=['GET', 'POST'])
-def dns_cert_manager():
+def campaign_dns_cert_manager():
     # if request.method == 'POST':
     #     if 'register_dns' in request.form:
     #         dns_domain = request.form['dns_domain']

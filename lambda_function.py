@@ -20,6 +20,7 @@ patcher.patch(('requests',))
 xray_recorder.configure(service='Stinkbait Core')
 
 # Set boto3 clients for various services the lambda function will utilize
+ses = boto3.client('ses')
 ssm = boto3.client('ssm')
 s3 = boto3.client('s3')
 s3resource = boto3.resource('s3')

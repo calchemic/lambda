@@ -1,0 +1,28 @@
+ {% extends 'base.html' %} {% block content %}
+<br>
+<br> {% if error %}
+<div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+<form class="login-form" method="POST" action="{{ url_for('campaign_email_new_email_template') }}">
+    <br>
+    <h1>Create New Email Template</h1>
+    <br>
+    <div class="form-group">
+        <label for="name">Template Name:</label>
+        <input type="text" name="name" id="name" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="subject">Subject:</label>
+        <input type="text" name="subject" id="subject" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="text">Text Version:</label><br>
+        <textarea style="width: 95%; " name="text" id="text" rows="25" class="form-control" required></textarea>
+    </div>
+    <div class="form-group">
+        <label for="html">HTML Version:</label><br>
+        <textarea style="width: 95%;" name="html" id="html" rows="25" class="form-control" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Create Template</button>
+</form>
+{% endblock %}

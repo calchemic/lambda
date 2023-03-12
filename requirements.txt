@@ -4,10 +4,19 @@ flask-admin
 flask-wtf
 flask-mail
 flask-uploads
+flask2postman
+flask-s3
+#general utility packages
 urllib3 
 aws_lambda_powertools 
 aws-xray-sdk 
-dnspython
 ksuid
+
+#recon module packages
+sec-api
+dnspython
+
+
+#ai module packages
 #openai 
 #langchain

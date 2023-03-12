@@ -1,7 +1,7 @@
 {% extends 'base.html' %} {% block content %}
 <br>
 <br>
-<form class="login-form" method="POST" action="{{ url_for('new_campaign') }}">
+<form class="login-form" method="POST" action="{{ url_for('campaign_new_campaign') }}">
     <br>
     <h1>New Phishing Campaign</h1>
     <br>
@@ -13,16 +13,27 @@
     <input type="text" id="org_name" name="org_name" placeholder="Enter organization name" required><br><br>
 
     <label for="targets" title="Enter email addresses, one per line">Targets</label>
-    <textarea id="targets" name="targets" placeholder="Enter target email addresses, one per line" rows="5" cols="60" required></textarea><br><br>
+    <textarea style="width: 80%;" id="targets" name="targets" placeholder="Enter target email addresses, one per line" rows="5" required></textarea><br><br>
 
     <label for="subject">Topic</label>
     <input type="text" id="subject" name="subject" placeholder="Enter email subject" required><br><br>
 
-    <label for="landing_page_url">Landing Page URL (optional)</label>
-    <input type="url" id="landing_page_url" name="landing_page_url" placeholder="Enter landing page URL"><br><br>
+    <label for="email_template">Email Template</label>
+    <select id="email_template" name="email_template" required>
+        <option value="template1">Template 1</option>
+        <option value="template2">Template 2</option>
+        <option value="template3">Template 3</option> </select><br><br>
 
-    <label for="landing_page_hosting_provider">Landing Page Hosting Provider (optional)</label>
-    <input type="text" id="landing_page_hosting_provider" name="landing_page_hosting_provider" placeholder="Enter landing page hosting provider"><br><br>
+    <label for="landing_page_url">Landing Page URL</label>
+    <input type="url" id="landing_page_url" name="landing_page_url" placeholder="Enter landing page URL" required><br><br>
+
+    <label for="landing_page_hosting_provider">Landing Page Hosting Provider</label>
+    <select id="landing_page_hosting_provider" name="landing_page_hosting_provider" required>
+        <option value="aws_api_gateway">AWS API Gateway (Unavailable)</option>
+        <option value="aws_s3">AWS S3 (Unavailable)</option>
+        <option value="aws_s3_cloudfront">AWS S3 w/ CloudFront (Unavailable)</option>
+        <option value="azure_api_management_gateway">Azure API Management Gateway (Unavailable)</option>
+        <option value="azure_static_site">Azure Static Site (Unavailable)</option>
 
     <input type="submit" value="Create Campaign">
 

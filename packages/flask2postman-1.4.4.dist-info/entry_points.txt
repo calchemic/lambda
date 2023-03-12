@@ -1,0 +1,3 @@
+[console_scripts]
+flask2postman = flask2postman:main
+

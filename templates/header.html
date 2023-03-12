@@ -8,13 +8,9 @@
             <li class="dropdown">
                 <a href="#">Recon</a>
                 <ul class="dropdown-menu">
-                    <li><a href="#">DNS Enumeration</a></li>
-                    <li><a href="#">IP Enumeration</a></li>
-                    <li><a href="#">Whois Enumeration</a></li>
-                    <li><a href="#">Email Address Enumeration</a></li>
-                    <li><a href="#">AWS Principal Enumeration</a></li>
-                    <li><a href="#">Tech Stack Enumeration</a></li>
-                    <li><a href="#">Social Media Enumeration</a></li>
+                    <li><a href="#">Organization Recon</a></li>
+                    <li><a href="#">Subject Recon</a></li>
+                    <li><a href="#">Technology Recon</a></li>
                 </ul>
             </li>
             <li class="dropdown">
@@ -31,14 +27,14 @@
                 <img style="height: 100%;" class="logo" src="{{url_for('static', filename='img/stinkbait.png')}}">
             </a>
             <li class="dropdown">
-                <a href="{{ url_for('campaigns_dashboard') }}">Campaigns</a>
+                <a href="{{ url_for('campaign_campaigns_dashboard') }}">Campaigns</a>
                 <ul class="dropdown-menu">
-                    <li><a href="{{url_for('new_campaign')}}">Create Phishing Campaign</a></li>
+                    <li><a href="{{url_for('campaign_new_campaign')}}">Create Phishing Campaign</a></li>
                     <li><a href="#">Deploy Phishing Campaign</a></li>
-                    <li><a href="{{url_for('email_template')}}">Email Development</a></li>
+                    <li><a href="{{url_for('campaign_email_new_email_template')}}">Email Template Development</a></li>
                     <li><a href="#">Landing Page Development</a></li>
                     <li><a href="#">Decoy Landing Page Development</a></li>
-                    <li><a href="{{url_for('dns_cert_manager')}}">Domain Management</a></li>
+                    <li><a href="{{url_for('campaign_dns_cert_manager')}}">Domain Management</a></li>
                 </ul>
             </li>
             <li class="dropdown">
