@@ -1,16 +1,64 @@
 {% extends "base.html" %} {% block content %}
-<h1>Allowed IP Addresses and User Agents</h1>
-<ul>
-    {% for ip_address, user_agent in allowed %}
-    <li>{{ ip_address }} - {{ user_agent }}</li>
-    {% endfor %}
-</ul>
-<h2>Add New IP Address and User Agent</h2>
-<form method="post">
-    <label for="ip_address">IP Address:</label>
-    <input type="text" id="ip_address" name="ip_address"><br>
-    <label for="user_agent">User Agent:</label>
-    <input type="text" id="user_agent" name="user_agent"><br>
+<br>
+<form method="post" id="ip-form" class="login-form">
+    <br>
+    <h3>Add New IP Address and User Agent</h3>
+    <br>
+    <div id="ip-fields">
+        <div class="form-group">
+            <label for="ip_address">IP Address:</label>
+            <input type="text" id="ip_address" name="ip_address[]">
+        </div>
+        <div class="form-group">
+            <label for="user_agent">User Agent:</label>
+            <input type="text" id="user_agent" name="user_agent[]">
+        </div>
+    </div>
+    <button type="button" id="add-ip-field">+</button>
     <input type="submit" value="Add">
 </form>
+<br>
+<br>
+<h1>Allowed IP Addresses and User Agents</h1>
+<br>
+<table>
+    <thead>
+        <tr>
+            <th>User/Target</th>
+            <th>ID</th>
+            <th>Username/Name</th>
+            <th>IP Address</th>
+            <th>User Agent</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in rows %}
+        <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[3] }}</td>
+            <td>{{ row[4] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<script>
+    var ipFields = document.getElementById('ip-fields');
+    var addIpField = document.getElementById('add-ip-field');
+    var ipCount = 1;
+    addIpField.addEventListener('click', function() {
+        var newIpField = document.createElement('div');
+        newIpField.innerHTML = '<div class="form-group">' +
+            '<label for="ip_address' + ipCount + '">IP Address:</label>' +
+            '<input type="text" id="ip_address' + ipCount + '" name="ip_address[]">' +
+            '</div>' +
+            '<div class="form-group">' +
+            '<label for="user_agent' + ipCount + '">User Agent:</label>' +
+            '<input type="text" id="user_agent' + ipCount + '" name="user_agent[]">' +
+            '</div>';
+        ipFields.appendChild(newIpField);
+        ipCount++;
+    });
+</script>
 {% endblock %}

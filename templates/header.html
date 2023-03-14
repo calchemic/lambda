@@ -29,10 +29,10 @@
                 <ul class="dropdown-menu">
                     <li><a href="{{url_for('campaign_new_campaign')}}">Create Phishing Campaign</a></li>
                     <li><a href="#">Deploy Phishing Campaign</a></li>
-                    <li><a href="{{url_for('campaign_email_new_email_template')}}">Email Template Development</a></li>
-                    <li><a href="#">Landing Page Development</a></li>
-                    <li><a href="#">Decoy Landing Page Development</a></li>
-                    <li><a href="{{url_for('campaign_dns_cert_manager')}}">Domain Management</a></li>
+                    <li><a href="{{url_for('campaign_email_new_email_template')}}">Create Email Template</a></li>
+                    <li><a href="#">Create Landing Page</a></li>
+                    <li><a href="#">Create Decoy Landing Page</a></li>
+                    <li><a href="{{url_for('campaign_dns_cert_manager')}}">Phishing Domain Management</a></li>
                 </ul>
             </li>
             <li class="dropdown">
@@ -54,9 +54,10 @@
                     <img src="https://i.pravatar.cc/150?img=3 " alt="Profile Picture" class="profile-pic">
                 </div>
             </a>
-            <ul class="dropdown-menu" style="justify-content: left; align-items: center;">
+            <ul class="dropdown-menu" style="text-align: left;">
                 <li><a href="{{ url_for( 'profile') }}">Profile</a></li>
-                <li><a href="# ">Settings</a></li>
+                <li><a href="{{url_for('allow_list')}}">Access List</a></li>
+                <li><a href="#">Settings</a></li>
                 <li><a href="{{ url_for( 'logout') }}">Logout</a></li>
             </ul>
         </div>

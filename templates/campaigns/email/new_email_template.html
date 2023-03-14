@@ -5,7 +5,7 @@
 {% endif %}
 <form class="login-form" method="POST" action="{{ url_for('campaign_email_new_email_template') }}">
     <br>
-    <h1>Create New Email Template</h1>
+    <h2>Create New Email Template</h2>
     <br>
     <div class="form-group">
         <label for="name">Template Name:</label>
@@ -15,13 +15,13 @@
         <label for="subject">Subject:</label>
         <input type="text" name="subject" id="subject" class="form-control" required>
     </div>
-    <div class="form-group">
-        <label for="text">Text Version:</label><br>
-        <textarea style="width: 95%; margin: 0 auto;" name="text" id="text" rows="25" class="form-control" required></textarea>
+    <div class="form-group" style="width: 95%;">
+        <label for="html">HTML Template:</label><br>
+        <textarea name="html" id="html" rows="10" class="form-control" required></textarea>
     </div>
-    <div class="form-group">
-        <label for="html">HTML Version:</label><br>
-        <textarea style="width: 95%; margin: 0 auto;" name="html" id="html" rows="25" class="form-control" required></textarea>
+    <div class="form-group" style="width: 95%;">
+        <label for="text">Text Template:</label><br>
+        <textarea name="text" id="text" rows="10" class="form-control" required></textarea>
     </div>
     <button type="submit" class="btn btn-primary">Create Template</button>
 </form>
