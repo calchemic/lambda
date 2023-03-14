@@ -84,7 +84,7 @@ jobs:
       #             echo "$failed_events"
       #           fi
       - name: Package Lambda Function Code
-        run: aws cloudformation package --template-file template.yaml --s3-bucket stinkbait-225609042289 --output-template-file packaged_template.yaml --region us-east-1
+        run: aws cloudformation package --template-file template.yaml --s3-bucket infantsense --output-template-file packaged_template.yaml --region us-east-1
       - name: Sleep for 15 seconds
         run: sleep 15
       - name: Deploy the CloudFormation Stack
