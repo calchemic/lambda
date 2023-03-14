@@ -19,14 +19,14 @@
 </form>
 <br>
 <br>
-<h1>Allowed IP Addresses and User Agents</h1>
+<h2>Allowed IP Addresses and User Agents</h2>
 <br>
 <table>
     <thead>
         <tr>
             <th>User/Target</th>
             <th>ID</th>
-            <th>Username/Name</th>
+            <th>Name</th>
             <th>IP Address</th>
             <th>User Agent</th>
         </tr>
@@ -43,6 +43,8 @@
         {% endfor %}
     </tbody>
 </table>
+<br>
+<br>
 <script>
     var ipFields = document.getElementById('ip-fields');
     var addIpField = document.getElementById('add-ip-field');
