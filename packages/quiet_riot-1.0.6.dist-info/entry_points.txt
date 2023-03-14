@@ -1,0 +1,2 @@
+[console_scripts]
+quiet_riot = quiet_riot.main:main

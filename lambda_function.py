@@ -32,6 +32,7 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature, base64_decode
 from flask.sessions import TaggedJSONSerializer
 
+# Define the Flask App Configuration
 app = Flask('stinkbait')
 app.secret_key = 'f89j2hf2h09fjf84hf0ehf8h9834fh02hf83fh20fh2r2rjfoiwejfnqcn398hf9u3r'
 #app.config['SESSION_COOKIE_NAME'] = 'stinkbait'
@@ -41,15 +42,17 @@ app.config['SESSION_COOKIE_SECURE'] = False
 app.config['SESSION_COOKIE_SAMESITE'] = None
 XRayMiddleware(app, xray_recorder)
 
-# Initialize the AWS Lambda Powertools
+# Initialize the AWS Lambda Powertools for logging and tracing
 tracer = Tracer(service="Stinkbait Core")
 logger = Logger(service="Stinkbait Core", correlation_id_path=correlation_paths.API_GATEWAY_REST)
 
-# Initialize the Flask Login Manager
+# Initialize the Flask Login Manager for user sessions
 login_manager = LoginManager(app)
 login_manager.init_app(app)
 
+# Connect to various AWS services for backend support
 
+# Connect to the DynamoDB tables
 ddb = boto3.resource('dynamodb')
 dynamo = boto3.client('dynamodb')
 tables = dynamo.list_tables()
@@ -97,6 +100,7 @@ for table_name in tables['TableNames']:
 
 # Define User Class for Stinkbait App
 class User():
+    """User class for Flask-Login.  Uses the DynamoDB table for user data. Should have data attributes expanded."""
     def __init__(self, user_id, username, password_hash, role, **kwargs):
         self.id = user_id
         self.username = username
@@ -144,6 +148,7 @@ class User():
 
 
 def get_user_id():
+    """Get the user ID from the session cookie or the flask session."""
     # Check the flask session for the user ID
     if 'user_id' in session:
         logger.info("[User ID found in session]"+session['user_id'])
@@ -178,6 +183,7 @@ def get_user_id():
 # Flask-Login user request loader - checks if the user is logged in on every page load by checking the session cookie and loading the user object from DynamoDB
 @login_manager.request_loader
 def load_user_from_request(request):
+    """Load the user object from the user ID stored in the session."""
     # Load the user ID from the session cookie if it's present, else retrieve the session cookie from the request and decode it to get the user ID
     user_id = get_user_id()
     logger.info(f'Current User ID: {user_id}')

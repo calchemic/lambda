@@ -11,12 +11,6 @@
       "limit_key": "MaxResults",
       "output_token": "NextToken",
       "result_key": "ChannelInfoList"
-    },
-    "DescribeMappedResourceConfiguration": {
-      "input_token": "NextToken",
-      "limit_key": "MaxResults",
-      "output_token": "NextToken",
-      "result_key": "MappedResourceConfigurationList"
     }
   }
 }

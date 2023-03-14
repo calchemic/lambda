@@ -181,12 +181,6 @@
       ],
       "output_token": "NextToken",
       "result_key": "Results"
-    },
-    "ListResourceEvaluations": {
-      "input_token": "NextToken",
-      "limit_key": "Limit",
-      "output_token": "NextToken",
-      "result_key": "ResourceEvaluations"
     }
   }
 }

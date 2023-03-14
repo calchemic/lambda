@@ -13,22 +13,6 @@
     "uid":"sesv2-2019-09-27"
   },
   "operations":{
-    "BatchGetMetricData":{
-      "name":"BatchGetMetricData",
-      "http":{
-        "method":"POST",
-        "requestUri":"/v2/email/metrics/batch"
-      },
-      "input":{"shape":"BatchGetMetricDataRequest"},
-      "output":{"shape":"BatchGetMetricDataResponse"},
-      "errors":[
-        {"shape":"BadRequestException"},
-        {"shape":"InternalServiceErrorException"},
-        {"shape":"TooManyRequestsException"},
-        {"shape":"NotFoundException"}
-      ],
-      "documentation":"<p>Retrieves batches of metric data collected based on your sending activity.</p> <p>You can execute this operation no more than 16 times per second, and with at most 160 queries from the batches per second (cumulative).</p>"
-    },
     "CreateConfigurationSet":{
       "name":"CreateConfigurationSet",
       "http":{
@@ -111,7 +95,7 @@
         {"shape":"TooManyRequestsException"},
         {"shape":"LimitExceededException"}
       ],
-      "documentation":"<p>Creates a new custom verification email template.</p> <p>For more information about custom verification email templates, see <a href=\"https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom\">Using custom verification email templates</a> in the <i>Amazon SES Developer Guide</i>.</p> <p>You can execute this operation no more than once per second.</p>"
+      "documentation":"<p>Creates a new custom verification email template.</p> <p>For more information about custom verification email templates, see <a href=\"https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-verify-address-custom.html\">Using Custom Verification Email Templates</a> in the <i>Amazon SES Developer Guide</i>.</p> <p>You can execute this operation no more than once per second.</p>"
     },
     "CreateDedicatedIpPool":{
       "name":"CreateDedicatedIpPool",
@@ -128,7 +112,7 @@
         {"shape":"BadRequestException"},
         {"shape":"ConcurrentModificationException"}
       ],
-      "documentation":"<p>Create a new pool of dedicated IP addresses. A pool can include one or more dedicated IP addresses that are associated with your Amazon Web Services account. You can associate a pool with a configuration set. When you send an email that uses that configuration set, the message is sent from one of the addresses in the associated pool.</p>"
+      "documentation":"<p>Create a new pool of dedicated IP addresses. A pool can include one or more dedicated IP addresses that are associated with your AWS account. You can associate a pool with a configuration set. When you send an email that uses that configuration set, the message is sent from one of the addresses in the associated pool.</p>"
     },
     "CreateDeliverabilityTestReport":{
       "name":"CreateDeliverabilityTestReport",
@@ -167,7 +151,7 @@
         {"shape":"ConcurrentModificationException"},
         {"shape":"NotFoundException"}
       ],
-      "documentation":"<p>Starts the process of verifying an email identity. An <i>identity</i> is an email address or domain that you use when you send email. Before you can use an identity to send email, you first have to verify it. By verifying an identity, you demonstrate that you're the owner of the identity, and that you've given Amazon SES API v2 permission to send email from the identity.</p> <p>When you verify an email address, Amazon SES sends an email to the address. Your email address is verified as soon as you follow the link in the verification email. </p> <p>When you verify a domain without specifying the <code>DkimSigningAttributes</code> object, this operation provides a set of DKIM tokens. You can convert these tokens into CNAME records, which you then add to the DNS configuration for your domain. Your domain is verified when Amazon SES detects these records in the DNS configuration for your domain. This verification method is known as <a href=\"https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html\">Easy DKIM</a>.</p> <p>Alternatively, you can perform the verification process by providing your own public-private key pair. This verification method is known as Bring Your Own DKIM (BYODKIM). To use BYODKIM, your call to the <code>CreateEmailIdentity</code> operation has to include the <code>DkimSigningAttributes</code> object. When you specify this object, you provide a selector (a component of the DNS record name that identifies the public key to use for DKIM authentication) and a private key.</p> <p>When you verify a domain, this operation provides a set of DKIM tokens, which you can convert into CNAME tokens. You add these CNAME tokens to the DNS configuration for your domain. Your domain is verified when Amazon SES detects these records in the DNS configuration for your domain. For some DNS providers, it can take 72 hours or more to complete the domain verification process.</p> <p>Additionally, you can associate an existing configuration set with the email identity that you're verifying.</p>"
+      "documentation":"<p>Starts the process of verifying an email identity. An <i>identity</i> is an email address or domain that you use when you send email. Before you can use an identity to send email, you first have to verify it. By verifying an identity, you demonstrate that you're the owner of the identity, and that you've given Amazon SES API v2 permission to send email from the identity.</p> <p>When you verify an email address, Amazon SES sends an email to the address. Your email address is verified as soon as you follow the link in the verification email. </p> <p>When you verify a domain without specifying the <code>DkimSigningAttributes</code> object, this operation provides a set of DKIM tokens. You can convert these tokens into CNAME records, which you then add to the DNS configuration for your domain. Your domain is verified when Amazon SES detects these records in the DNS configuration for your domain. This verification method is known as <a href=\"https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html\">Easy DKIM</a>.</p> <p>Alternatively, you can perform the verification process by providing your own public-private key pair. This verification method is known as Bring Your Own DKIM (BYODKIM). To use BYODKIM, your call to the <code>CreateEmailIdentity</code> operation has to include the <code>DkimSigningAttributes</code> object. When you specify this object, you provide a selector (a component of the DNS record name that identifies the public key that you want to use for DKIM authentication) and a private key.</p> <p>When you verify a domain, this operation provides a set of DKIM tokens, which you can convert into CNAME tokens. You add these CNAME tokens to the DNS configuration for your domain. Your domain is verified when Amazon SES detects these records in the DNS configuration for your domain. For some DNS providers, it can take 72 hours or more to complete the domain verification process.</p> <p>Additionally, you can associate an existing configuration set with the email identity that you're verifying.</p>"
     },
     "CreateEmailIdentityPolicy":{
       "name":"CreateEmailIdentityPolicy",
@@ -292,7 +276,7 @@
         {"shape":"TooManyRequestsException"},
         {"shape":"BadRequestException"}
       ],
-      "documentation":"<p>Deletes an existing custom verification email template.</p> <p>For more information about custom verification email templates, see <a href=\"https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom\">Using custom verification email templates</a> in the <i>Amazon SES Developer Guide</i>.</p> <p>You can execute this operation no more than once per second.</p>"
+      "documentation":"<p>Deletes an existing custom verification email template.</p> <p>For more information about custom verification email templates, see <a href=\"https://docs.aws.amazon.com/es/latest/DeveloperGuide/send-email-verify-address-custom.html\">Using Custom Verification Email Templates</a> in the <i>Amazon SES Developer Guide</i>.</p> <p>You can execute this operation no more than once per second.</p>"
     },
     "DeleteDedicatedIpPool":{
       "name":"DeleteDedicatedIpPool",
@@ -383,7 +367,7 @@
         {"shape":"TooManyRequestsException"},
         {"shape":"BadRequestException"}
       ],
-      "documentation":"<p>Obtain information about the email-sending status and capabilities of your Amazon SES account in the current Amazon Web Services Region.</p>"
+      "documentation":"<p>Obtain information about the email-sending status and capabilities of your Amazon SES account in the current AWS Region.</p>"
     },
     "GetBlacklistReports":{
       "name":"GetBlacklistReports",
@@ -473,7 +457,7 @@
         {"shape":"TooManyRequestsException"},
         {"shape":"BadRequestException"}
       ],
-      "documentation":"<p>Returns the custom email verification template for the template name you specify.</p> <p>For more information about custom verification email templates, see <a href=\"https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom\">Using custom verification email templates</a> in the <i>Amazon SES Developer Guide</i>.</p> <p>You can execute this operation no more than once per second.</p>"
+      "documentation":"<p>Returns the custom email verification template for the template name you specify.</p> <p>For more information about custom verification email templates, see <a href=\"https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-verify-address-custom.html\">Using Custom Verification Email Templates</a> in the <i>Amazon SES Developer Guide</i>.</p> <p>You can execute this operation no more than once per second.</p>"
     },
     "GetDedicatedIp":{
       "name":"GetDedicatedIp",
@@ -490,21 +474,6 @@
       ],
       "documentation":"<p>Get information about a dedicated IP address, including the name of the dedicated IP pool that it's associated with, as well information about the automatic warm-up process for the address.</p>"
     },
-    "GetDedicatedIpPool":{
-      "name":"GetDedicatedIpPool",
-      "http":{
-        "method":"GET",
-        "requestUri":"/v2/email/dedicated-ip-pools/{PoolName}"
-      },
-      "input":{"shape":"GetDedicatedIpPoolRequest"},
-      "output":{"shape":"GetDedicatedIpPoolResponse"},
-      "errors":[
-        {"shape":"TooManyRequestsException"},
-        {"shape":"NotFoundException"},
-        {"shape":"BadRequestException"}
-      ],
-      "documentation":"<p>Retrieve information about the dedicated pool.</p>"
-    },
     "GetDedicatedIps":{
       "name":"GetDedicatedIps",
       "http":{
@@ -518,7 +487,7 @@
         {"shape":"NotFoundException"},
         {"shape":"BadRequestException"}
       ],
-      "documentation":"<p>List the dedicated IP addresses that are associated with your Amazon Web Services account.</p>"
+      "documentation":"<p>List the dedicated IP addresses that are associated with your AWS account.</p>"
     },
     "GetDeliverabilityDashboardOptions":{
       "name":"GetDeliverabilityDashboardOptions",
@@ -533,7 +502,7 @@
         {"shape":"LimitExceededException"},
         {"shape":"BadRequestException"}
       ],
-      "documentation":"<p>Retrieve information about the status of the Deliverability dashboard for your account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email. You also gain the ability to perform predictive inbox placement tests.</p> <p>When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the features and cost of a Deliverability dashboard subscription, see <a href=\"http://aws.amazon.com/ses/pricing/\">Amazon SES Pricing</a>.</p>"
+      "documentation":"<p>Retrieve information about the status of the Deliverability dashboard for your account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email. You also gain the ability to perform predictive inbox placement tests.</p> <p>When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other AWS services. For more information about the features and cost of a Deliverability dashboard subscription, see <a href=\"http://aws.amazon.com/ses/pricing/\">Amazon SES Pricing</a>.</p>"
     },
     "GetDeliverabilityTestReport":{
       "name":"GetDeliverabilityTestReport",
@@ -710,7 +679,7 @@
         {"shape":"TooManyRequestsException"},
         {"shape":"BadRequestException"}
       ],
-      "documentation":"<p>Lists the existing custom verification email templates for your account in the current Amazon Web Services Region.</p> <p>For more information about custom verification email templates, see <a href=\"https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom\">Using custom verification email templates</a> in the <i>Amazon SES Developer Guide</i>.</p> <p>You can execute this operation no more than once per second.</p>"
+      "documentation":"<p>Lists the existing custom verification email templates for your account in the current AWS Region.</p> <p>For more information about custom verification email templates, see <a href=\"https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-verify-address-custom.html\">Using Custom Verification Email Templates</a> in the <i>Amazon SES Developer Guide</i>.</p> <p>You can execute this operation no more than once per second.</p>"
     },
     "ListDedicatedIpPools":{
       "name":"ListDedicatedIpPools",
@@ -724,7 +693,7 @@
         {"shape":"TooManyRequestsException"},
         {"shape":"BadRequestException"}
       ],
-      "documentation":"<p>List all of the dedicated IP pools that exist in your Amazon Web Services account in the current Region.</p>"
+      "documentation":"<p>List all of the dedicated IP pools that exist in your AWS account in the current Region.</p>"
     },
     "ListDeliverabilityTestReports":{
       "name":"ListDeliverabilityTestReports",
@@ -768,7 +737,7 @@
         {"shape":"TooManyRequestsException"},
         {"shape":"BadRequestException"}
       ],
-      "documentation":"<p>Returns a list of all of the email identities that are associated with your Amazon Web Services account. An identity can be either an email address or a domain. This operation returns identities that are verified as well as those that aren't. This operation returns identities that are associated with Amazon SES and Amazon Pinpoint.</p>"
+      "documentation":"<p>Returns a list of all of the email identities that are associated with your AWS account. An identity can be either an email address or a domain. This operation returns identities that are verified as well as those that aren't. This operation returns identities that are associated with Amazon SES and Amazon Pinpoint.</p>"
     },
     "ListEmailTemplates":{
       "name":"ListEmailTemplates",
@@ -782,7 +751,7 @@
         {"shape":"TooManyRequestsException"},
         {"shape":"BadRequestException"}
       ],
-      "documentation":"<p>Lists the email templates present in your Amazon SES account in the current Amazon Web Services Region.</p> <p>You can execute this operation no more than once per second.</p>"
+      "documentation":"<p>Lists the email templates present in your Amazon SES account in the current AWS Region.</p> <p>You can execute this operation no more than once per second.</p>"
     },
     "ListImportJobs":{
       "name":"ListImportJobs",
@@ -797,21 +766,6 @@
         {"shape":"BadRequestException"}
       ],
       "documentation":"<p>Lists all of the import jobs.</p>"
-    },
-    "ListRecommendations":{
-      "name":"ListRecommendations",
-      "http":{
-        "method":"POST",
-        "requestUri":"/v2/email/vdm/recommendations"
-      },
-      "input":{"shape":"ListRecommendationsRequest"},
-      "output":{"shape":"ListRecommendationsResponse"},
-      "errors":[
-        {"shape":"TooManyRequestsException"},
-        {"shape":"BadRequestException"},
-        {"shape":"NotFoundException"}
-      ],
-      "documentation":"<p>Lists the recommendations present in your Amazon SES account in the current Amazon Web Services Region.</p> <p>You can execute this operation no more than once per second.</p>"
     },
     "ListSuppressedDestinations":{
       "name":"ListSuppressedDestinations",
@@ -900,20 +854,6 @@
       ],
       "documentation":"<p>Change the settings for the account-level suppression list.</p>"
     },
-    "PutAccountVdmAttributes":{
-      "name":"PutAccountVdmAttributes",
-      "http":{
-        "method":"PUT",
-        "requestUri":"/v2/email/account/vdm"
-      },
-      "input":{"shape":"PutAccountVdmAttributesRequest"},
-      "output":{"shape":"PutAccountVdmAttributesResponse"},
-      "errors":[
-        {"shape":"BadRequestException"},
-        {"shape":"TooManyRequestsException"}
-      ],
-      "documentation":"<p>Update your Amazon SES account VDM attributes.</p> <p>You can execute this operation no more than once per second.</p>"
-    },
     "PutConfigurationSetDeliveryOptions":{
       "name":"PutConfigurationSetDeliveryOptions",
       "http":{
@@ -942,7 +882,7 @@
         {"shape":"TooManyRequestsException"},
         {"shape":"BadRequestException"}
       ],
-      "documentation":"<p>Enable or disable collection of reputation metrics for emails that you send using a particular configuration set in a specific Amazon Web Services Region.</p>"
+      "documentation":"<p>Enable or disable collection of reputation metrics for emails that you send using a particular configuration set in a specific AWS Region.</p>"
     },
     "PutConfigurationSetSendingOptions":{
       "name":"PutConfigurationSetSendingOptions",
@@ -957,7 +897,7 @@
         {"shape":"TooManyRequestsException"},
         {"shape":"BadRequestException"}
       ],
-      "documentation":"<p>Enable or disable email sending for messages that use a particular configuration set in a specific Amazon Web Services Region.</p>"
+      "documentation":"<p>Enable or disable email sending for messages that use a particular configuration set in a specific AWS Region.</p>"
     },
     "PutConfigurationSetSuppressionOptions":{
       "name":"PutConfigurationSetSuppressionOptions",
@@ -989,21 +929,6 @@
       ],
       "documentation":"<p>Specify a custom domain to use for open and click tracking elements in email that you send.</p>"
     },
-    "PutConfigurationSetVdmOptions":{
-      "name":"PutConfigurationSetVdmOptions",
-      "http":{
-        "method":"PUT",
-        "requestUri":"/v2/email/configuration-sets/{ConfigurationSetName}/vdm-options"
-      },
-      "input":{"shape":"PutConfigurationSetVdmOptionsRequest"},
-      "output":{"shape":"PutConfigurationSetVdmOptionsResponse"},
-      "errors":[
-        {"shape":"NotFoundException"},
-        {"shape":"TooManyRequestsException"},
-        {"shape":"BadRequestException"}
-      ],
-      "documentation":"<p>Specify VDM preferences for email that you send using the configuration set.</p> <p>You can execute this operation no more than once per second.</p>"
-    },
     "PutDedicatedIpInPool":{
       "name":"PutDedicatedIpInPool",
       "http":{
@@ -1017,7 +942,7 @@
         {"shape":"TooManyRequestsException"},
         {"shape":"BadRequestException"}
       ],
-      "documentation":"<p>Move a dedicated IP address to an existing dedicated IP pool.</p> <note> <p>The dedicated IP address that you specify must already exist, and must be associated with your Amazon Web Services account. </p> <p>The dedicated IP pool you specify must already exist. You can create a new pool by using the <code>CreateDedicatedIpPool</code> operation.</p> </note>"
+      "documentation":"<p>Move a dedicated IP address to an existing dedicated IP pool.</p> <note> <p>The dedicated IP address that you specify must already exist, and must be associated with your AWS account. </p> <p>The dedicated IP pool you specify must already exist. You can create a new pool by using the <code>CreateDedicatedIpPool</code> operation.</p> </note>"
     },
     "PutDedicatedIpWarmupAttributes":{
       "name":"PutDedicatedIpWarmupAttributes",
@@ -1049,7 +974,7 @@
         {"shape":"LimitExceededException"},
         {"shape":"BadRequestException"}
       ],
-      "documentation":"<p>Enable or disable the Deliverability dashboard. When you enable the Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email. You also gain the ability to perform predictive inbox placement tests.</p> <p>When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the features and cost of a Deliverability dashboard subscription, see <a href=\"http://aws.amazon.com/ses/pricing/\">Amazon SES Pricing</a>.</p>"
+      "documentation":"<p>Enable or disable the Deliverability dashboard. When you enable the Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email. You also gain the ability to perform predictive inbox placement tests.</p> <p>When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other AWS services. For more information about the features and cost of a Deliverability dashboard subscription, see <a href=\"http://aws.amazon.com/ses/pricing/\">Amazon SES Pricing</a>.</p>"
     },
     "PutEmailIdentityConfigurationSetAttributes":{
       "name":"PutEmailIdentityConfigurationSetAttributes",
@@ -1094,7 +1019,7 @@
         {"shape":"TooManyRequestsException"},
         {"shape":"BadRequestException"}
       ],
-      "documentation":"<p>Used to configure or change the DKIM authentication settings for an email domain identity. You can use this operation to do any of the following:</p> <ul> <li> <p>Update the signing attributes for an identity that uses Bring Your Own DKIM (BYODKIM).</p> </li> <li> <p>Update the key length that should be used for Easy DKIM.</p> </li> <li> <p>Change from using no DKIM authentication to using Easy DKIM.</p> </li> <li> <p>Change from using no DKIM authentication to using BYODKIM.</p> </li> <li> <p>Change from using Easy DKIM to using BYODKIM.</p> </li> <li> <p>Change from using BYODKIM to using Easy DKIM.</p> </li> </ul>"
+      "documentation":"<p>Used to configure or change the DKIM authentication settings for an email domain identity. You can use this operation to do any of the following:</p> <ul> <li> <p>Update the signing attributes for an identity that uses Bring Your Own DKIM (BYODKIM).</p> </li> <li> <p>Change from using no DKIM authentication to using Easy DKIM.</p> </li> <li> <p>Change from using no DKIM authentication to using BYODKIM.</p> </li> <li> <p>Change from using Easy DKIM to using BYODKIM.</p> </li> <li> <p>Change from using BYODKIM to using Easy DKIM.</p> </li> </ul>"
     },
     "PutEmailIdentityFeedbackAttributes":{
       "name":"PutEmailIdentityFeedbackAttributes",
@@ -1177,7 +1102,7 @@
         {"shape":"NotFoundException"},
         {"shape":"BadRequestException"}
       ],
-      "documentation":"<p>Adds an email address to the list of identities for your Amazon SES account in the current Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a customized verification email is sent to the specified address.</p> <p>To use this operation, you must first create a custom verification email template. For more information about creating and using custom verification email templates, see <a href=\"https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom\">Using custom verification email templates</a> in the <i>Amazon SES Developer Guide</i>.</p> <p>You can execute this operation no more than once per second.</p>"
+      "documentation":"<p>Adds an email address to the list of identities for your Amazon SES account in the current AWS Region and attempts to verify it. As a result of executing this operation, a customized verification email is sent to the specified address.</p> <p>To use this operation, you must first create a custom verification email template. For more information about creating and using custom verification email templates, see <a href=\"https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-verify-address-custom.html\">Using Custom Verification Email Templates</a> in the <i>Amazon SES Developer Guide</i>.</p> <p>You can execute this operation no more than once per second.</p>"
     },
     "SendEmail":{
       "name":"SendEmail",
@@ -1197,7 +1122,7 @@
         {"shape":"NotFoundException"},
         {"shape":"BadRequestException"}
       ],
-      "documentation":"<p>Sends an email message. You can use the Amazon SES API v2 to send the following types of messages:</p> <ul> <li> <p> <b>Simple</b> – A standard email message. When you create this type of message, you specify the sender, the recipient, and the message body, and Amazon SES assembles the message for you.</p> </li> <li> <p> <b>Raw</b> – A raw, MIME-formatted email message. When you send this type of email, you have to specify all of the message headers, as well as the message body. You can use this message type to send messages that contain attachments. The message that you specify has to be a valid MIME message.</p> </li> <li> <p> <b>Templated</b> – A message that contains personalization tags. When you send this type of email, Amazon SES API v2 automatically replaces the tags with values that you specify.</p> </li> </ul>"
+      "documentation":"<p>Sends an email message. You can use the Amazon SES API v2 to send two types of messages:</p> <ul> <li> <p> <b>Simple</b> – A standard email message. When you create this type of message, you specify the sender, the recipient, and the message body, and Amazon SES assembles the message for you.</p> </li> <li> <p> <b>Raw</b> – A raw, MIME-formatted email message. When you send this type of email, you have to specify all of the message headers, as well as the message body. You can use this message type to send messages that contain attachments. The message that you specify has to be a valid MIME message.</p> </li> <li> <p> <b>Templated</b> – A message that contains personalization tags. When you send this type of email, Amazon SES API v2 automatically replaces the tags with values that you specify.</p> </li> </ul>"
     },
     "TagResource":{
       "name":"TagResource",
@@ -1306,7 +1231,7 @@
         {"shape":"BadRequestException"},
         {"shape":"TooManyRequestsException"}
       ],
-      "documentation":"<p>Updates an existing custom verification email template.</p> <p>For more information about custom verification email templates, see <a href=\"https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom\">Using custom verification email templates</a> in the <i>Amazon SES Developer Guide</i>.</p> <p>You can execute this operation no more than once per second.</p>"
+      "documentation":"<p>Updates an existing custom verification email template.</p> <p>For more information about custom verification email templates, see <a href=\"https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-verify-address-custom.html\">Using Custom Verification Email Templates</a> in the <i>Amazon SES Developer Guide</i>.</p> <p>You can execute this operation no more than once per second.</p>"
     },
     "UpdateEmailIdentityPolicy":{
       "name":"UpdateEmailIdentityPolicy",
@@ -1410,77 +1335,9 @@
       "error":{"httpStatusCode":400},
       "exception":true
     },
-    "BatchGetMetricDataQueries":{
-      "type":"list",
-      "member":{"shape":"BatchGetMetricDataQuery"},
-      "max":10,
-      "min":1
-    },
-    "BatchGetMetricDataQuery":{
-      "type":"structure",
-      "required":[
-        "Id",
-        "Namespace",
-        "Metric",
-        "StartDate",
-        "EndDate"
-      ],
-      "members":{
-        "Id":{
-          "shape":"QueryIdentifier",
-          "documentation":"<p>The query identifier.</p>"
-        },
-        "Namespace":{
-          "shape":"MetricNamespace",
-          "documentation":"<p>The query namespace - e.g. <code>VDM</code> </p>"
-        },
-        "Metric":{
-          "shape":"Metric",
-          "documentation":"<p>The queried metric. This can be one of the following:</p> <ul> <li> <p> <code>SEND</code> – Emails sent eligible for tracking in the VDM dashboard. This excludes emails sent to the mailbox simulator and emails addressed to more than one recipient.</p> </li> <li> <p> <code>COMPLAINT</code> – Complaints received for your account. This excludes complaints from the mailbox simulator, those originating from your account-level suppression list (if enabled), and those for emails addressed to more than one recipient</p> </li> <li> <p> <code>PERMANENT_BOUNCE</code> – Permanent bounces - i.e. feedback received for emails sent to non-existent mailboxes. Excludes bounces from the mailbox simulator, those originating from your account-level suppression list (if enabled), and those for emails addressed to more than one recipient.</p> </li> <li> <p> <code>TRANSIENT_BOUNCE</code> – Transient bounces - i.e. feedback received for delivery failures excluding issues with non-existent mailboxes. Excludes bounces from the mailbox simulator, and those for emails addressed to more than one recipient.</p> </li> <li> <p> <code>OPEN</code> – Unique open events for emails including open trackers. Excludes opens for emails addressed to more than one recipient.</p> </li> <li> <p> <code>CLICK</code> – Unique click events for emails including wrapped links. Excludes clicks for emails addressed to more than one recipient.</p> </li> <li> <p> <code>DELIVERY</code> – Successful deliveries for email sending attempts. Excludes deliveries to the mailbox simulator and for emails addressed to more than one recipient.</p> </li> <li> <p> <code>DELIVERY_OPEN</code> – Successful deliveries for email sending attempts. Excludes deliveries to the mailbox simulator, for emails addressed to more than one recipient, and emails without open trackers.</p> </li> <li> <p> <code>DELIVERY_CLICK</code> – Successful deliveries for email sending attempts. Excludes deliveries to the mailbox simulator, for emails addressed to more than one recipient, and emails without click trackers.</p> </li> <li> <p> <code>DELIVERY_COMPLAINT</code> – Successful deliveries for email sending attempts. Excludes deliveries to the mailbox simulator, for emails addressed to more than one recipient, and emails addressed to recipients hosted by ISPs with which Amazon SES does not have a feedback loop agreement.</p> </li> </ul>"
-        },
-        "Dimensions":{
-          "shape":"Dimensions",
-          "documentation":"<p>An object that contains mapping between <code>MetricDimensionName</code> and <code>MetricDimensionValue</code> to filter metrics by.</p>"
-        },
-        "StartDate":{
-          "shape":"Timestamp",
-          "documentation":"<p>Represents the start date for the query interval.</p>"
-        },
-        "EndDate":{
-          "shape":"Timestamp",
-          "documentation":"<p>Represents the end date for the query interval.</p>"
-        }
-      },
-      "documentation":"<p>Represents a single metric data query to include in a batch.</p>"
-    },
-    "BatchGetMetricDataRequest":{
-      "type":"structure",
-      "required":["Queries"],
-      "members":{
-        "Queries":{
-          "shape":"BatchGetMetricDataQueries",
-          "documentation":"<p>A list of queries for metrics to be retrieved.</p>"
-        }
-      },
-      "documentation":"<p>Represents a request to retrieve a batch of metric data.</p>"
-    },
-    "BatchGetMetricDataResponse":{
-      "type":"structure",
-      "members":{
-        "Results":{
-          "shape":"MetricDataResultList",
-          "documentation":"<p>A list of successfully retrieved <code>MetricDataResult</code>.</p>"
-        },
-        "Errors":{
-          "shape":"MetricDataErrorList",
-          "documentation":"<p>A list of <code>MetricDataError</code> encountered while processing your metric data batch request.</p>"
-        }
-      },
-      "documentation":"<p>Represents the result of processing your metric data batch request</p>"
-    },
     "BehaviorOnMxFailure":{
       "type":"string",
-      "documentation":"<p>The action to take if the required MX record can't be found when you send an email. When you set this value to <code>UseDefaultValue</code>, the mail is sent using <i>amazonses.com</i> as the MAIL FROM domain. When you set this value to <code>RejectMessage</code>, the Amazon SES API v2 returns a <code>MailFromDomainNotVerified</code> error, and doesn't attempt to deliver the email.</p> <p>These behaviors are taken when the custom MAIL FROM domain configuration is in the <code>Pending</code>, <code>Failed</code>, and <code>TemporaryFailure</code> states.</p>",
+      "documentation":"<p>The action that you want to take if the required MX record can't be found when you send an email. When you set this value to <code>UseDefaultValue</code>, the mail is sent using <i>amazonses.com</i> as the MAIL FROM domain. When you set this value to <code>RejectMessage</code>, the Amazon SES API v2 returns a <code>MailFromDomainNotVerified</code> error, and doesn't attempt to deliver the email.</p> <p>These behaviors are taken when the custom MAIL FROM domain configuration is in the <code>Pending</code>, <code>Failed</code>, and <code>TemporaryFailure</code> states.</p>",
       "enum":[
         "USE_DEFAULT_VALUE",
         "REJECT_MESSAGE"
@@ -1499,7 +1356,7 @@
         },
         "ListingTime":{
           "shape":"Timestamp",
-          "documentation":"<p>The time when the blacklisting event occurred.</p>"
+          "documentation":"<p>The time when the blacklisting event occurred, shown in Unix time format.</p>"
         },
         "Description":{
           "shape":"BlacklistingDescription",
@@ -1642,11 +1499,11 @@
         },
         "DimensionValueSource":{
           "shape":"DimensionValueSource",
-          "documentation":"<p>The location where the Amazon SES API v2 finds the value of a dimension to publish to Amazon CloudWatch. To use the message tags that you specify using an <code>X-SES-MESSAGE-TAGS</code> header or a parameter to the <code>SendEmail</code> or <code>SendRawEmail</code> API, choose <code>messageTag</code>. To use your own email headers, choose <code>emailHeader</code>. To use link tags, choose <code>linkTags</code>.</p>"
+          "documentation":"<p>The location where the Amazon SES API v2 finds the value of a dimension to publish to Amazon CloudWatch. If you want to use the message tags that you specify using an <code>X-SES-MESSAGE-TAGS</code> header or a parameter to the <code>SendEmail</code> or <code>SendRawEmail</code> API, choose <code>messageTag</code>. If you want to use your own email headers, choose <code>emailHeader</code>. If you want to use link tags, choose <code>linkTags</code>.</p>"
         },
         "DefaultDimensionValue":{
           "shape":"DefaultDimensionValue",
-          "documentation":"<p>The default value of the dimension that is published to Amazon CloudWatch if you don't provide the value of the dimension when you send an email. This value has to meet the following criteria:</p> <ul> <li> <p>Can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-), at signs (@), and periods (.).</p> </li> <li> <p>It can contain no more than 256 characters.</p> </li> </ul>"
+          "documentation":"<p>The default value of the dimension that is published to Amazon CloudWatch if you don't provide the value of the dimension when you send an email. This value has to meet the following criteria:</p> <ul> <li> <p>It can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-).</p> </li> <li> <p>It can contain no more than 256 characters.</p> </li> </ul>"
         }
       },
       "documentation":"<p>An object that defines the dimension configuration to use when you send email events to Amazon CloudWatch.</p>"
@@ -1740,7 +1597,7 @@
         },
         "ContactListImportAction":{
           "shape":"ContactListImportAction",
-          "documentation":"<p>&gt;The type of action to perform on the addresses. The following are the possible values:</p> <ul> <li> <p>PUT: add the addresses to the contact list. If the record already exists, it will override it with the new value.</p> </li> <li> <p>DELETE: remove the addresses from the contact list.</p> </li> </ul>"
+          "documentation":"<p>&gt;The type of action that you want to perform on the addresses. Acceptable values:</p> <ul> <li> <p>PUT: add the addresses to the contact list. If the record already exists, it will override it with the new value.</p> </li> <li> <p>DELETE: remove the addresses from the contact list.</p> </li> </ul>"
         }
       },
       "documentation":"<p>An object that contains details about the action of a contact list.</p>"
@@ -1768,7 +1625,6 @@
       },
       "documentation":"<p>An object that represents the content of the email, and optionally a character set specification.</p>"
     },
-    "Counter":{"type":"long"},
     "CreateConfigurationSetEventDestinationRequest":{
       "type":"structure",
       "required":[
@@ -1779,7 +1635,7 @@
       "members":{
         "ConfigurationSetName":{
           "shape":"ConfigurationSetName",
-          "documentation":"<p>The name of the configuration set .</p>",
+          "documentation":"<p>The name of the configuration set that you want to add an event destination to.</p>",
           "location":"uri",
           "locationName":"ConfigurationSetName"
         },
@@ -1806,7 +1662,7 @@
       "members":{
         "ConfigurationSetName":{
           "shape":"ConfigurationSetName",
-          "documentation":"<p>The name of the configuration set. The name can contain up to 64 alphanumeric characters, including letters, numbers, hyphens (-) and underscores (_) only.</p>"
+          "documentation":"<p>The name of the configuration set.</p>"
         },
         "TrackingOptions":{
           "shape":"TrackingOptions",
@@ -1826,13 +1682,9 @@
         },
         "Tags":{
           "shape":"TagList",
-          "documentation":"<p>An array of objects that define the tags (keys and values) to associate with the configuration set.</p>"
+          "documentation":"<p>An array of objects that define the tags (keys and values) that you want to associate with the configuration set.</p>"
         },
-        "SuppressionOptions":{"shape":"SuppressionOptions"},
-        "VdmOptions":{
-          "shape":"VdmOptions",
-          "documentation":"<p>An object that defines the VDM options for emails that you send using the configuration set.</p>"
-        }
+        "SuppressionOptions":{"shape":"SuppressionOptions"}
       },
       "documentation":"<p>A request to create a configuration set.</p>"
     },
@@ -1930,7 +1782,7 @@
         },
         "TemplateContent":{
           "shape":"TemplateContent",
-          "documentation":"<p>The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML, with some limitations. For more information, see <a href=\"https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom-faq\">Custom verification email frequently asked questions</a> in the <i>Amazon SES Developer Guide</i>.</p>"
+          "documentation":"<p>The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML, with some limitations. For more information, see <a href=\"https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-verify-address-custom.html#custom-verification-emails-faq\">Custom Verification Email Frequently Asked Questions</a> in the <i>Amazon SES Developer Guide</i>.</p>"
         },
         "SuccessRedirectionURL":{
           "shape":"SuccessRedirectionURL",
@@ -1960,10 +1812,6 @@
         "Tags":{
           "shape":"TagList",
           "documentation":"<p>An object that defines the tags (keys and values) that you want to associate with the pool.</p>"
-        },
-        "ScalingMode":{
-          "shape":"ScalingMode",
-          "documentation":"<p>The type of scaling mode.</p>"
         }
       },
       "documentation":"<p>A request to create a new dedicated IP pool.</p>"
@@ -2028,7 +1876,7 @@
       "members":{
         "EmailIdentity":{
           "shape":"Identity",
-          "documentation":"<p>The email identity.</p>",
+          "documentation":"<p>The email identity for which you want to create a policy.</p>",
           "location":"uri",
           "locationName":"EmailIdentity"
         },
@@ -2057,15 +1905,15 @@
       "members":{
         "EmailIdentity":{
           "shape":"Identity",
-          "documentation":"<p>The email address or domain to verify.</p>"
+          "documentation":"<p>The email address or domain that you want to verify.</p>"
         },
         "Tags":{
           "shape":"TagList",
-          "documentation":"<p>An array of objects that define the tags (keys and values) to associate with the email identity.</p>"
+          "documentation":"<p>An array of objects that define the tags (keys and values) that you want to associate with the email identity.</p>"
         },
         "DkimSigningAttributes":{
           "shape":"DkimSigningAttributes",
-          "documentation":"<p>If your request includes this object, Amazon SES configures the identity to use Bring Your Own DKIM (BYODKIM) for DKIM authentication purposes, or, configures the key length to be used for <a href=\"https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html\">Easy DKIM</a>.</p> <p>You can only specify this object if the email identity is a domain, as opposed to an address.</p>"
+          "documentation":"<p>If your request includes this object, Amazon SES configures the identity to use Bring Your Own DKIM (BYODKIM) for DKIM authentication purposes, as opposed to the default method, <a href=\"https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html\">Easy DKIM</a>.</p> <p>You can only specify this object if the email identity is a domain, as opposed to an address.</p>"
         },
         "ConfigurationSetName":{
           "shape":"ConfigurationSetName",
@@ -2079,7 +1927,7 @@
       "members":{
         "IdentityType":{
           "shape":"IdentityType",
-          "documentation":"<p>The email identity type. Note: the <code>MANAGED_DOMAIN</code> identity type is not supported.</p>"
+          "documentation":"<p>The email identity type.</p>"
         },
         "VerifiedForSendingStatus":{
           "shape":"Enabled",
@@ -2101,7 +1949,7 @@
       "members":{
         "TemplateName":{
           "shape":"EmailTemplateName",
-          "documentation":"<p>The name of the template.</p>"
+          "documentation":"<p>The name of the template you want to create.</p>"
         },
         "TemplateContent":{
           "shape":"EmailTemplateContent",
@@ -2146,7 +1994,7 @@
     },
     "CustomRedirectDomain":{
       "type":"string",
-      "documentation":"<p>The domain to use for tracking open and click events.</p>"
+      "documentation":"<p>The domain that you want to use for tracking open and click events.</p>"
     },
     "CustomVerificationEmailTemplateMetadata":{
       "type":"structure",
@@ -2201,26 +2049,6 @@
       "type":"list",
       "member":{"shape":"DailyVolume"}
     },
-    "DashboardAttributes":{
-      "type":"structure",
-      "members":{
-        "EngagementMetrics":{
-          "shape":"FeatureStatus",
-          "documentation":"<p>Specifies the status of your VDM engagement metrics collection. Can be one of the following:</p> <ul> <li> <p> <code>ENABLED</code> – Amazon SES enables engagement metrics for your account.</p> </li> <li> <p> <code>DISABLED</code> – Amazon SES disables engagement metrics for your account.</p> </li> </ul>"
-        }
-      },
-      "documentation":"<p>An object containing additional settings for your VDM configuration as applicable to the Dashboard.</p>"
-    },
-    "DashboardOptions":{
-      "type":"structure",
-      "members":{
-        "EngagementMetrics":{
-          "shape":"FeatureStatus",
-          "documentation":"<p>Specifies the status of your VDM engagement metrics collection. Can be one of the following:</p> <ul> <li> <p> <code>ENABLED</code> – Amazon SES enables engagement metrics for the configuration set.</p> </li> <li> <p> <code>DISABLED</code> – Amazon SES disables engagement metrics for the configuration set.</p> </li> </ul>"
-        }
-      },
-      "documentation":"<p>An object containing additional settings for your VDM configuration as applicable to the Dashboard.</p>"
-    },
     "DataFormat":{
       "type":"string",
       "documentation":"<p>The data format of the import job's data source.</p>",
@@ -2259,25 +2087,7 @@
     "DedicatedIpList":{
       "type":"list",
       "member":{"shape":"DedicatedIp"},
-      "documentation":"<p>A list of dedicated IP addresses that are associated with your Amazon Web Services account.</p>"
-    },
-    "DedicatedIpPool":{
-      "type":"structure",
-      "required":[
-        "PoolName",
-        "ScalingMode"
-      ],
-      "members":{
-        "PoolName":{
-          "shape":"PoolName",
-          "documentation":"<p>The name of the dedicated IP pool.</p>"
-        },
-        "ScalingMode":{
-          "shape":"ScalingMode",
-          "documentation":"<p>The type of the dedicated IP pool.</p> <ul> <li> <p> <code>STANDARD</code> – A dedicated IP pool where the customer can control which IPs are part of the pool.</p> </li> <li> <p> <code>MANAGED</code> – A dedicated IP pool where the reputation and number of IPs is automatically managed by Amazon SES.</p> </li> </ul>"
-        }
-      },
-      "documentation":"<p>Contains information about a dedicated IP pool.</p>"
+      "documentation":"<p>A list of dedicated IP addresses that are associated with your AWS account.</p>"
     },
     "DefaultDimensionValue":{
       "type":"string",
@@ -2292,13 +2102,13 @@
       "members":{
         "ConfigurationSetName":{
           "shape":"ConfigurationSetName",
-          "documentation":"<p>The name of the configuration set that contains the event destination to delete.</p>",
+          "documentation":"<p>The name of the configuration set that contains the event destination that you want to delete.</p>",
           "location":"uri",
           "locationName":"ConfigurationSetName"
         },
         "EventDestinationName":{
           "shape":"EventDestinationName",
-          "documentation":"<p>The name of the event destination to delete.</p>",
+          "documentation":"<p>The name of the event destination that you want to delete.</p>",
           "location":"uri",
           "locationName":"EventDestinationName"
         }
@@ -2317,7 +2127,7 @@
       "members":{
         "ConfigurationSetName":{
           "shape":"ConfigurationSetName",
-          "documentation":"<p>The name of the configuration set.</p>",
+          "documentation":"<p>The name of the configuration set that you want to delete.</p>",
           "location":"uri",
           "locationName":"ConfigurationSetName"
         }
@@ -2420,7 +2230,7 @@
       "members":{
         "EmailIdentity":{
           "shape":"Identity",
-          "documentation":"<p>The email identity.</p>",
+          "documentation":"<p>The email identity for which you want to delete a policy.</p>",
           "location":"uri",
           "locationName":"EmailIdentity"
         },
@@ -2445,7 +2255,7 @@
       "members":{
         "EmailIdentity":{
           "shape":"Identity",
-          "documentation":"<p>The identity (that is, the email address or domain) to delete.</p>",
+          "documentation":"<p>The identity (that is, the email address or domain) that you want to delete.</p>",
           "location":"uri",
           "locationName":"EmailIdentity"
         }
@@ -2526,7 +2336,7 @@
         },
         "CreateDate":{
           "shape":"Timestamp",
-          "documentation":"<p>The date and time when the predictive inbox placement test was created.</p>"
+          "documentation":"<p>The date and time when the predictive inbox placement test was created, in Unix time format.</p>"
         },
         "DeliverabilityTestStatus":{
           "shape":"DeliverabilityTestStatus",
@@ -2560,7 +2370,7 @@
         },
         "SendingPoolName":{
           "shape":"PoolName",
-          "documentation":"<p>The name of the dedicated IP pool to associate with the configuration set.</p>"
+          "documentation":"<p>The name of the dedicated IP pool that you want to associate with the configuration set.</p>"
         }
       },
       "documentation":"<p>Used to associate a configuration set with a dedicated IP pool.</p>"
@@ -2582,7 +2392,7 @@
           "documentation":"<p>An array that contains the email addresses of the \"BCC\" (blind carbon copy) recipients for the email.</p>"
         }
       },
-      "documentation":"<p>An object that describes the recipients for an email.</p> <note> <p>Amazon SES does not support the SMTPUTF8 extension, as described in <a href=\"https://tools.ietf.org/html/rfc6531\">RFC6531</a>. For this reason, the <i>local part</i> of a destination email address (the part of the email address that precedes the @ sign) may only contain <a href=\"https://en.wikipedia.org/wiki/Email_address#Local-part\">7-bit ASCII characters</a>. If the <i>domain part</i> of an address (the part after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as described in <a href=\"https://tools.ietf.org/html/rfc3492.html\">RFC3492</a>.</p> </note>"
+      "documentation":"<p>An object that describes the recipients for an email.</p>"
     },
     "DimensionName":{
       "type":"string",
@@ -2590,19 +2400,12 @@
     },
     "DimensionValueSource":{
       "type":"string",
-      "documentation":"<p>The location where the Amazon SES API v2 finds the value of a dimension to publish to Amazon CloudWatch. To use the message tags that you specify using an <code>X-SES-MESSAGE-TAGS</code> header or a parameter to the <code>SendEmail</code> or <code>SendRawEmail</code> API, choose <code>messageTag</code>. To use your own email headers, choose <code>emailHeader</code>. To use link tags, choose <code>linkTags</code>.</p>",
+      "documentation":"<p>The location where the Amazon SES API v2 finds the value of a dimension to publish to Amazon CloudWatch. If you want to use the message tags that you specify using an <code>X-SES-MESSAGE-TAGS</code> header or a parameter to the <code>SendEmail</code> or <code>SendRawEmail</code> API, choose <code>messageTag</code>. If you want to use your own email headers, choose <code>emailHeader</code>. If you want to use link tags, choose <code>linkTags</code>.</p>",
       "enum":[
         "MESSAGE_TAG",
         "EMAIL_HEADER",
         "LINK_TAG"
       ]
-    },
-    "Dimensions":{
-      "type":"map",
-      "key":{"shape":"MetricDimensionName"},
-      "value":{"shape":"MetricDimensionValue"},
-      "max":3,
-      "min":1
     },
     "DisplayName":{"type":"string"},
     "DkimAttributes":{
@@ -2622,53 +2425,34 @@
         },
         "SigningAttributesOrigin":{
           "shape":"DkimSigningAttributesOrigin",
-          "documentation":"<p>A string that indicates how DKIM was configured for the identity. These are the possible values:</p> <ul> <li> <p> <code>AWS_SES</code> – Indicates that DKIM was configured for the identity by using <a href=\"https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html\">Easy DKIM</a>.</p> </li> <li> <p> <code>EXTERNAL</code> – Indicates that DKIM was configured for the identity by using Bring Your Own DKIM (BYODKIM).</p> </li> </ul>"
-        },
-        "NextSigningKeyLength":{
-          "shape":"DkimSigningKeyLength",
-          "documentation":"<p>[Easy DKIM] The key length of the future DKIM key pair to be generated. This can be changed at most once per day.</p>"
-        },
-        "CurrentSigningKeyLength":{
-          "shape":"DkimSigningKeyLength",
-          "documentation":"<p>[Easy DKIM] The key length of the DKIM key pair in use.</p>"
-        },
-        "LastKeyGenerationTimestamp":{
-          "shape":"Timestamp",
-          "documentation":"<p>[Easy DKIM] The last time a key pair was generated for this identity.</p>"
+          "documentation":"<p>A string that indicates how DKIM was configured for the identity. There are two possible values:</p> <ul> <li> <p> <code>AWS_SES</code> – Indicates that DKIM was configured for the identity by using <a href=\"https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html\">Easy DKIM</a>.</p> </li> <li> <p> <code>EXTERNAL</code> – Indicates that DKIM was configured for the identity by using Bring Your Own DKIM (BYODKIM).</p> </li> </ul>"
         }
       },
       "documentation":"<p>An object that contains information about the DKIM authentication status for an email identity.</p> <p>Amazon SES determines the authentication status by searching for specific records in the DNS configuration for the domain. If you used <a href=\"https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html\">Easy DKIM</a> to set up DKIM authentication, Amazon SES tries to find three unique CNAME records in the DNS configuration for your domain. If you provided a public key to perform DKIM authentication, Amazon SES tries to find a TXT record that uses the selector that you specified. The value of the TXT record must be a public key that's paired with the private key that you specified in the process of creating the identity</p>"
     },
     "DkimSigningAttributes":{
       "type":"structure",
+      "required":[
+        "DomainSigningSelector",
+        "DomainSigningPrivateKey"
+      ],
       "members":{
         "DomainSigningSelector":{
           "shape":"Selector",
-          "documentation":"<p>[Bring Your Own DKIM] A string that's used to identify a public key in the DNS configuration for a domain.</p>"
+          "documentation":"<p>A string that's used to identify a public key in the DNS configuration for a domain.</p>"
         },
         "DomainSigningPrivateKey":{
           "shape":"PrivateKey",
-          "documentation":"<p>[Bring Your Own DKIM] A private key that's used to generate a DKIM signature.</p> <p>The private key must use 1024 or 2048-bit RSA encryption, and must be encoded using base64 encoding.</p>"
-        },
-        "NextSigningKeyLength":{
-          "shape":"DkimSigningKeyLength",
-          "documentation":"<p>[Easy DKIM] The key length of the future DKIM key pair to be generated. This can be changed at most once per day.</p>"
+          "documentation":"<p>A private key that's used to generate a DKIM signature.</p> <p>The private key must use 1024-bit RSA encryption, and must be encoded using base64 encoding.</p>"
         }
       },
-      "documentation":"<p>An object that contains configuration for Bring Your Own DKIM (BYODKIM), or, for Easy DKIM</p>"
+      "documentation":"<p>An object that contains information about the tokens used for setting up Bring Your Own DKIM (BYODKIM).</p>"
     },
     "DkimSigningAttributesOrigin":{
       "type":"string",
       "enum":[
         "AWS_SES",
         "EXTERNAL"
-      ]
-    },
-    "DkimSigningKeyLength":{
-      "type":"string",
-      "enum":[
-        "RSA_1024_BIT",
-        "RSA_2048_BIT"
       ]
     },
     "DkimStatus":{
@@ -2713,11 +2497,11 @@
         },
         "FirstSeenDateTime":{
           "shape":"Timestamp",
-          "documentation":"<p>The first time when the email message was delivered to any recipient's inbox. This value can help you determine how long it took for a campaign to deliver an email message.</p>"
+          "documentation":"<p>The first time, in Unix time format, when the email message was delivered to any recipient's inbox. This value can help you determine how long it took for a campaign to deliver an email message.</p>"
         },
         "LastSeenDateTime":{
           "shape":"Timestamp",
-          "documentation":"<p>The last time when the email message was delivered to any recipient's inbox. This value can help you determine how long it took for a campaign to deliver an email message.</p>"
+          "documentation":"<p>The last time, in Unix time format, when the email message was delivered to any recipient's inbox. This value can help you determine how long it took for a campaign to deliver an email message.</p>"
         },
         "InboxCount":{
           "shape":"Volume",
@@ -2760,11 +2544,11 @@
       "members":{
         "Domain":{
           "shape":"Domain",
-          "documentation":"<p>A verified domain that’s associated with your Amazon Web Services account and currently has an active Deliverability dashboard subscription.</p>"
+          "documentation":"<p>A verified domain that’s associated with your AWS account and currently has an active Deliverability dashboard subscription.</p>"
         },
         "SubscriptionStartDate":{
           "shape":"Timestamp",
-          "documentation":"<p>The date when you enabled the Deliverability dashboard for the domain.</p>"
+          "documentation":"<p>The date, in Unix time format, when you enabled the Deliverability dashboard for the domain.</p>"
         },
         "InboxPlacementTrackingOption":{
           "shape":"InboxPlacementTrackingOption",
@@ -2915,7 +2699,7 @@
         },
         "MatchingEventTypes":{
           "shape":"EventTypes",
-          "documentation":"<p>The types of events that Amazon SES sends to the specified event destinations.</p> <ul> <li> <p> <code>SEND</code> - The send request was successful and SES will attempt to deliver the message to the recipient’s mail server. (If account-level or global suppression is being used, SES will still count it as a send, but delivery is suppressed.)</p> </li> <li> <p> <code>REJECT</code> - SES accepted the email, but determined that it contained a virus and didn’t attempt to deliver it to the recipient’s mail server.</p> </li> <li> <p> <code>BOUNCE</code> - (<i>Hard bounce</i>) The recipient's mail server permanently rejected the email. (<i>Soft bounces</i> are only included when SES fails to deliver the email after retrying for a period of time.)</p> </li> <li> <p> <code>COMPLAINT</code> - The email was successfully delivered to the recipient’s mail server, but the recipient marked it as spam.</p> </li> <li> <p> <code>DELIVERY</code> - SES successfully delivered the email to the recipient's mail server.</p> </li> <li> <p> <code>OPEN</code> - The recipient received the message and opened it in their email client.</p> </li> <li> <p> <code>CLICK</code> - The recipient clicked one or more links in the email.</p> </li> <li> <p> <code>RENDERING_FAILURE</code> - The email wasn't sent because of a template rendering issue. This event type can occur when template data is missing, or when there is a mismatch between template parameters and data. (This event type only occurs when you send email using the <a href=\"https://docs.aws.amazon.com/ses/latest/APIReference/API_SendTemplatedEmail.html\"> <code>SendTemplatedEmail</code> </a> or <a href=\"https://docs.aws.amazon.com/ses/latest/APIReference/API_SendBulkTemplatedEmail.html\"> <code>SendBulkTemplatedEmail</code> </a> API operations.) </p> </li> <li> <p> <code>DELIVERY_DELAY</code> - The email couldn't be delivered to the recipient’s mail server because a temporary issue occurred. Delivery delays can occur, for example, when the recipient's inbox is full, or when the receiving email server experiences a transient issue.</p> </li> <li> <p> <code>SUBSCRIPTION</code> - The email was successfully delivered, but the recipient updated their subscription preferences by clicking on an <i>unsubscribe</i> link as part of your <a href=\"https://docs.aws.amazon.com/ses/latest/dg/sending-email-subscription-management.html\">subscription management</a>.</p> </li> </ul>"
+          "documentation":"<p>The types of events that Amazon SES sends to the specified event destinations.</p>"
         },
         "KinesisFirehoseDestination":{
           "shape":"KinesisFirehoseDestination",
@@ -3014,13 +2798,6 @@
       "type":"string",
       "documentation":"<p>The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.</p>"
     },
-    "FeatureStatus":{
-      "type":"string",
-      "enum":[
-        "ENABLED",
-        "DISABLED"
-      ]
-    },
     "FeedbackId":{"type":"string"},
     "GeneralEnforcementStatus":{"type":"string"},
     "GetAccountRequest":{
@@ -3042,30 +2819,26 @@
         },
         "ProductionAccessEnabled":{
           "shape":"Enabled",
-          "documentation":"<p>Indicates whether or not your account has production access in the current Amazon Web Services Region.</p> <p>If the value is <code>false</code>, then your account is in the <i>sandbox</i>. When your account is in the sandbox, you can only send email to verified identities. Additionally, the maximum number of emails you can send in a 24-hour period (your sending quota) is 200, and the maximum number of emails you can send per second (your maximum sending rate) is 1.</p> <p>If the value is <code>true</code>, then your account has production access. When your account has production access, you can send email to any address. The sending quota and maximum sending rate for your account vary based on your specific use case.</p>"
+          "documentation":"<p>Indicates whether or not your account has production access in the current AWS Region.</p> <p>If the value is <code>false</code>, then your account is in the <i>sandbox</i>. When your account is in the sandbox, you can only send email to verified identities. Additionally, the maximum number of emails you can send in a 24-hour period (your sending quota) is 200, and the maximum number of emails you can send per second (your maximum sending rate) is 1.</p> <p>If the value is <code>true</code>, then your account has production access. When your account has production access, you can send email to any address. The sending quota and maximum sending rate for your account vary based on your specific use case.</p>"
         },
         "SendQuota":{
           "shape":"SendQuota",
-          "documentation":"<p>An object that contains information about the per-day and per-second sending limits for your Amazon SES account in the current Amazon Web Services Region.</p>"
+          "documentation":"<p>An object that contains information about the per-day and per-second sending limits for your Amazon SES account in the current AWS Region.</p>"
         },
         "SendingEnabled":{
           "shape":"Enabled",
-          "documentation":"<p>Indicates whether or not email sending is enabled for your Amazon SES account in the current Amazon Web Services Region.</p>"
+          "documentation":"<p>Indicates whether or not email sending is enabled for your Amazon SES account in the current AWS Region.</p>"
         },
         "SuppressionAttributes":{
           "shape":"SuppressionAttributes",
-          "documentation":"<p>An object that contains information about the email address suppression preferences for your account in the current Amazon Web Services Region.</p>"
+          "documentation":"<p>An object that contains information about the email address suppression preferences for your account in the current AWS Region.</p>"
         },
         "Details":{
           "shape":"AccountDetails",
           "documentation":"<p>An object that defines your account details.</p>"
-        },
-        "VdmAttributes":{
-          "shape":"VdmAttributes",
-          "documentation":"<p>The VDM attributes that apply to your Amazon SES account.</p>"
         }
       },
-      "documentation":"<p>A list of details about the email-sending capabilities of your Amazon SES account in the current Amazon Web Services Region.</p>"
+      "documentation":"<p>A list of details about the email-sending capabilities of your Amazon SES account in the current AWS Region.</p>"
     },
     "GetBlacklistReportsRequest":{
       "type":"structure",
@@ -3120,7 +2893,7 @@
       "members":{
         "ConfigurationSetName":{
           "shape":"ConfigurationSetName",
-          "documentation":"<p>The name of the configuration set.</p>",
+          "documentation":"<p>The name of the configuration set that you want to obtain more information about.</p>",
           "location":"uri",
           "locationName":"ConfigurationSetName"
         }
@@ -3157,10 +2930,6 @@
         "SuppressionOptions":{
           "shape":"SuppressionOptions",
           "documentation":"<p>An object that contains information about the suppression list preferences for your account.</p>"
-        },
-        "VdmOptions":{
-          "shape":"VdmOptions",
-          "documentation":"<p>An object that contains information about the VDM preferences for your configuration set.</p>"
         }
       },
       "documentation":"<p>Information about a configuration set.</p>"
@@ -3307,36 +3076,13 @@
       },
       "documentation":"<p>The following elements are returned by the service.</p>"
     },
-    "GetDedicatedIpPoolRequest":{
-      "type":"structure",
-      "required":["PoolName"],
-      "members":{
-        "PoolName":{
-          "shape":"PoolName",
-          "documentation":"<p>The name of the dedicated IP pool to retrieve.</p>",
-          "location":"uri",
-          "locationName":"PoolName"
-        }
-      },
-      "documentation":"<p>A request to obtain more information about a dedicated IP pool.</p>"
-    },
-    "GetDedicatedIpPoolResponse":{
-      "type":"structure",
-      "members":{
-        "DedicatedIpPool":{
-          "shape":"DedicatedIpPool",
-          "documentation":"<p>An object that contains information about a dedicated IP pool.</p>"
-        }
-      },
-      "documentation":"<p>The following element is returned by the service.</p>"
-    },
     "GetDedicatedIpRequest":{
       "type":"structure",
       "required":["Ip"],
       "members":{
         "Ip":{
           "shape":"Ip",
-          "documentation":"<p>The IP address that you want to obtain more information about. The value you specify has to be a dedicated IP address that's assocaited with your Amazon Web Services account.</p>",
+          "documentation":"<p>The IP address that you want to obtain more information about. The value you specify has to be a dedicated IP address that's assocaited with your AWS account.</p>",
           "location":"uri",
           "locationName":"IP"
         }
@@ -3382,20 +3128,20 @@
       "members":{
         "DedicatedIps":{
           "shape":"DedicatedIpList",
-          "documentation":"<p>A list of dedicated IP addresses that are associated with your Amazon Web Services account.</p>"
+          "documentation":"<p>A list of dedicated IP addresses that are associated with your AWS account.</p>"
         },
         "NextToken":{
           "shape":"NextToken",
           "documentation":"<p>A token that indicates that there are additional dedicated IP addresses to list. To view additional addresses, issue another request to <code>GetDedicatedIps</code>, passing this token in the <code>NextToken</code> parameter.</p>"
         }
       },
-      "documentation":"<p>Information about the dedicated IP addresses that are associated with your Amazon Web Services account.</p>"
+      "documentation":"<p>Information about the dedicated IP addresses that are associated with your AWS account.</p>"
     },
     "GetDeliverabilityDashboardOptionsRequest":{
       "type":"structure",
       "members":{
       },
-      "documentation":"<p>Retrieve information about the status of the Deliverability dashboard for your Amazon Web Services account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for your domains. You also gain the ability to perform predictive inbox placement tests.</p> <p>When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the features and cost of a Deliverability dashboard subscription, see <a href=\"http://aws.amazon.com/pinpoint/pricing/\">Amazon Pinpoint Pricing</a>.</p>"
+      "documentation":"<p>Retrieve information about the status of the Deliverability dashboard for your AWS account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for your domains. You also gain the ability to perform predictive inbox placement tests.</p> <p>When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other AWS services. For more information about the features and cost of a Deliverability dashboard subscription, see <a href=\"http://aws.amazon.com/pinpoint/pricing/\">Amazon Pinpoint Pricing</a>.</p>"
     },
     "GetDeliverabilityDashboardOptionsResponse":{
       "type":"structure",
@@ -3407,7 +3153,7 @@
         },
         "SubscriptionExpiryDate":{
           "shape":"Timestamp",
-          "documentation":"<p>The date when your current subscription to the Deliverability dashboard is scheduled to expire, if your subscription is scheduled to expire at the end of the current calendar month. This value is null if you have an active subscription that isn’t due to expire at the end of the month.</p>"
+          "documentation":"<p>The date, in Unix time format, when your current subscription to the Deliverability dashboard is scheduled to expire, if your subscription is scheduled to expire at the end of the current calendar month. This value is null if you have an active subscription that isn’t due to expire at the end of the month.</p>"
         },
         "AccountStatus":{
           "shape":"DeliverabilityDashboardAccountStatus",
@@ -3545,7 +3291,7 @@
       "members":{
         "EmailIdentity":{
           "shape":"Identity",
-          "documentation":"<p>The email identity.</p>",
+          "documentation":"<p>The email identity that you want to retrieve policies for.</p>",
           "location":"uri",
           "locationName":"EmailIdentity"
         }
@@ -3568,7 +3314,7 @@
       "members":{
         "EmailIdentity":{
           "shape":"Identity",
-          "documentation":"<p>The email identity.</p>",
+          "documentation":"<p>The email identity that you want to retrieve details for.</p>",
           "location":"uri",
           "locationName":"EmailIdentity"
         }
@@ -3580,7 +3326,7 @@
       "members":{
         "IdentityType":{
           "shape":"IdentityType",
-          "documentation":"<p>The email identity type. Note: the <code>MANAGED_DOMAIN</code> identity type is not supported.</p>"
+          "documentation":"<p>The email identity type.</p>"
         },
         "FeedbackForwardingStatus":{
           "shape":"Enabled",
@@ -3609,10 +3355,6 @@
         "ConfigurationSetName":{
           "shape":"ConfigurationSetName",
           "documentation":"<p>The configuration set used by default when sending from this identity.</p>"
-        },
-        "VerificationStatus":{
-          "shape":"VerificationStatus",
-          "documentation":"<p>The verification status of the identity. The status can be one of the following:</p> <ul> <li> <p> <code>PENDING</code> – The verification process was initiated, but Amazon SES hasn't yet been able to verify the identity.</p> </li> <li> <p> <code>SUCCESS</code> – The verification process completed successfully.</p> </li> <li> <p> <code>FAILED</code> – The verification process failed.</p> </li> <li> <p> <code>TEMPORARY_FAILURE</code> – A temporary issue is preventing Amazon SES from determining the verification status of the identity.</p> </li> <li> <p> <code>NOT_STARTED</code> – The verification process hasn't been initiated for the identity.</p> </li> </ul>"
         }
       },
       "documentation":"<p>Details about an email identity.</p>"
@@ -3623,7 +3365,7 @@
       "members":{
         "TemplateName":{
           "shape":"EmailTemplateName",
-          "documentation":"<p>The name of the template.</p>",
+          "documentation":"<p>The name of the template you want to retrieve.</p>",
           "location":"uri",
           "locationName":"TemplateName"
         }
@@ -3639,7 +3381,7 @@
       "members":{
         "TemplateName":{
           "shape":"EmailTemplateName",
-          "documentation":"<p>The name of the template.</p>"
+          "documentation":"<p>The name of the template you want to retrieve.</p>"
         },
         "TemplateContent":{
           "shape":"EmailTemplateContent",
@@ -3727,26 +3469,6 @@
       },
       "documentation":"<p>Information about the suppressed email address.</p>"
     },
-    "GuardianAttributes":{
-      "type":"structure",
-      "members":{
-        "OptimizedSharedDelivery":{
-          "shape":"FeatureStatus",
-          "documentation":"<p>Specifies the status of your VDM optimized shared delivery. Can be one of the following:</p> <ul> <li> <p> <code>ENABLED</code> – Amazon SES enables optimized shared delivery for your account.</p> </li> <li> <p> <code>DISABLED</code> – Amazon SES disables optimized shared delivery for your account.</p> </li> </ul>"
-        }
-      },
-      "documentation":"<p>An object containing additional settings for your VDM configuration as applicable to the Guardian.</p>"
-    },
-    "GuardianOptions":{
-      "type":"structure",
-      "members":{
-        "OptimizedSharedDelivery":{
-          "shape":"FeatureStatus",
-          "documentation":"<p>Specifies the status of your VDM optimized shared delivery. Can be one of the following:</p> <ul> <li> <p> <code>ENABLED</code> – Amazon SES enables optimized shared delivery for the configuration set.</p> </li> <li> <p> <code>DISABLED</code> – Amazon SES disables optimized shared delivery for the configuration set.</p> </li> </ul>"
-        }
-      },
-      "documentation":"<p>An object containing additional settings for your VDM configuration as applicable to the Guardian.</p>"
-    },
     "Identity":{
       "type":"string",
       "min":1
@@ -3756,7 +3478,7 @@
       "members":{
         "IdentityType":{
           "shape":"IdentityType",
-          "documentation":"<p>The email identity type. Note: the <code>MANAGED_DOMAIN</code> type is not supported for email identity types.</p>"
+          "documentation":"<p>The email identity type. The identity type can be one of the following:</p> <ul> <li> <p> <code>EMAIL_ADDRESS</code> – The identity is an email address.</p> </li> <li> <p> <code>DOMAIN</code> – The identity is a domain.</p> </li> <li> <p> <code>MANAGED_DOMAIN</code> – The identity is a domain that is managed by AWS.</p> </li> </ul>"
         },
         "IdentityName":{
           "shape":"Identity",
@@ -3765,10 +3487,6 @@
         "SendingEnabled":{
           "shape":"Enabled",
           "documentation":"<p>Indicates whether or not you can send email from the identity.</p> <p>An <i>identity</i> is an email address or domain that you send email from. Before you can send email from an identity, you have to demostrate that you own the identity, and that you authorize Amazon SES to send email from that identity.</p>"
-        },
-        "VerificationStatus":{
-          "shape":"VerificationStatus",
-          "documentation":"<p>The verification status of the identity. The status can be one of the following:</p> <ul> <li> <p> <code>PENDING</code> – The verification process was initiated, but Amazon SES hasn't yet been able to verify the identity.</p> </li> <li> <p> <code>SUCCESS</code> – The verification process completed successfully.</p> </li> <li> <p> <code>FAILED</code> – The verification process failed.</p> </li> <li> <p> <code>TEMPORARY_FAILURE</code> – A temporary issue is preventing Amazon SES from determining the verification status of the identity.</p> </li> <li> <p> <code>NOT_STARTED</code> – The verification process hasn't been initiated for the identity.</p> </li> </ul>"
         }
       },
       "documentation":"<p>Information about an email identity.</p>"
@@ -3779,6 +3497,7 @@
     },
     "IdentityType":{
       "type":"string",
+      "documentation":"<p>The email identity type. The identity type can be one of the following:</p> <ul> <li> <p> <code>EMAIL_ADDRESS</code> – The identity is an email address.</p> </li> <li> <p> <code>DOMAIN</code> – The identity is a domain.</p> </li> </ul>",
       "enum":[
         "EMAIL_ADDRESS",
         "DOMAIN",
@@ -3835,14 +3554,6 @@
         "CreatedTimestamp":{
           "shape":"Timestamp",
           "documentation":"<p>The date and time when the import job was created.</p>"
-        },
-        "ProcessedRecordsCount":{
-          "shape":"ProcessedRecordsCount",
-          "documentation":"<p>The current number of records processed.</p>"
-        },
-        "FailedRecordsCount":{
-          "shape":"FailedRecordsCount",
-          "documentation":"<p>The number of records that failed processing because of invalid input or other reasons.</p>"
         }
       },
       "documentation":"<p>A summary of the import job.</p>"
@@ -3864,16 +3575,7 @@
           "documentation":"<p>An array of strings, one for each major email provider that the inbox placement data applies to.</p>"
         }
       },
-      "documentation":"<p>An object that contains information about the inbox placement data settings for a verified domain that’s associated with your Amazon Web Services account. This data is available only if you enabled the Deliverability dashboard for the domain.</p>"
-    },
-    "InternalServiceErrorException":{
-      "type":"structure",
-      "members":{
-      },
-      "documentation":"<p>The request couldn't be processed because an error occurred with the Amazon SES API v2.</p>",
-      "error":{"httpStatusCode":500},
-      "exception":true,
-      "fault":true
+      "documentation":"<p>An object that contains information about the inbox placement data settings for a verified domain that’s associated with your AWS account. This data is available only if you enabled the Deliverability dashboard for the domain.</p>"
     },
     "InvalidNextTokenException":{
       "type":"structure",
@@ -3978,21 +3680,21 @@
           "locationName":"PageSize"
         }
       },
-      "documentation":"<p>A request to obtain a list of configuration sets for your Amazon SES account in the current Amazon Web Services Region.</p>"
+      "documentation":"<p>A request to obtain a list of configuration sets for your Amazon SES account in the current AWS Region.</p>"
     },
     "ListConfigurationSetsResponse":{
       "type":"structure",
       "members":{
         "ConfigurationSets":{
           "shape":"ConfigurationSetNameList",
-          "documentation":"<p>An array that contains all of the configuration sets in your Amazon SES account in the current Amazon Web Services Region.</p>"
+          "documentation":"<p>An array that contains all of the configuration sets in your Amazon SES account in the current AWS Region.</p>"
         },
         "NextToken":{
           "shape":"NextToken",
           "documentation":"<p>A token that indicates that there are additional configuration sets to list. To view additional configuration sets, issue another request to <code>ListConfigurationSets</code>, and pass this token in the <code>NextToken</code> parameter.</p>"
         }
       },
-      "documentation":"<p>A list of configuration sets in your Amazon SES account in the current Amazon Web Services Region.</p>"
+      "documentation":"<p>A list of configuration sets in your Amazon SES account in the current AWS Region.</p>"
     },
     "ListContactListsRequest":{
       "type":"structure",
@@ -4134,7 +3836,7 @@
       "members":{
         "DedicatedIpPools":{
           "shape":"ListOfDedicatedIpPools",
-          "documentation":"<p>A list of all of the dedicated IP pools that are associated with your Amazon Web Services account in the current Region.</p>"
+          "documentation":"<p>A list of all of the dedicated IP pools that are associated with your AWS account in the current Region.</p>"
         },
         "NextToken":{
           "shape":"NextToken",
@@ -4186,13 +3888,13 @@
       "members":{
         "StartDate":{
           "shape":"Timestamp",
-          "documentation":"<p>The first day that you want to obtain deliverability data for.</p>",
+          "documentation":"<p>The first day, in Unix time format, that you want to obtain deliverability data for.</p>",
           "location":"querystring",
           "locationName":"StartDate"
         },
         "EndDate":{
           "shape":"Timestamp",
-          "documentation":"<p>The last day that you want to obtain deliverability data for. This value has to be less than or equal to 30 days after the value of the <code>StartDate</code> parameter.</p>",
+          "documentation":"<p>The last day, in Unix time format, that you want to obtain deliverability data for. This value has to be less than or equal to 30 days after the value of the <code>StartDate</code> parameter.</p>",
           "location":"querystring",
           "locationName":"EndDate"
         },
@@ -4248,14 +3950,14 @@
           "locationName":"PageSize"
         }
       },
-      "documentation":"<p>A request to list all of the email identities associated with your Amazon Web Services account. This list includes identities that you've already verified, identities that are unverified, and identities that were verified in the past, but are no longer verified.</p>"
+      "documentation":"<p>A request to list all of the email identities associated with your AWS account. This list includes identities that you've already verified, identities that are unverified, and identities that were verified in the past, but are no longer verified.</p>"
     },
     "ListEmailIdentitiesResponse":{
       "type":"structure",
       "members":{
         "EmailIdentities":{
           "shape":"IdentityInfoList",
-          "documentation":"<p>An array that includes all of the email identities associated with your Amazon Web Services account.</p>"
+          "documentation":"<p>An array that includes all of the email identities associated with your AWS account.</p>"
         },
         "NextToken":{
           "shape":"NextToken",
@@ -4280,7 +3982,7 @@
           "locationName":"PageSize"
         }
       },
-      "documentation":"<p>Represents a request to list the email templates present in your Amazon SES account in the current Amazon Web Services Region. For more information, see the <a href=\"https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html\">Amazon SES Developer Guide</a>.</p>"
+      "documentation":"<p>Represents a request to list the email templates present in your Amazon SES account in the current AWS Region. For more information, see the <a href=\"https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html\">Amazon SES Developer Guide</a>.</p>"
     },
     "ListEmailTemplatesResponse":{
       "type":"structure",
@@ -4358,62 +4060,7 @@
     "ListOfDedicatedIpPools":{
       "type":"list",
       "member":{"shape":"PoolName"},
-      "documentation":"<p>A list of dedicated IP pools that are associated with your Amazon Web Services account.</p>"
-    },
-    "ListRecommendationFilterValue":{
-      "type":"string",
-      "max":512,
-      "min":1
-    },
-    "ListRecommendationsFilter":{
-      "type":"map",
-      "key":{"shape":"ListRecommendationsFilterKey"},
-      "value":{"shape":"ListRecommendationFilterValue"},
-      "documentation":"<p>An object that contains mapping between <code>ListRecommendationsFilterKey</code> and <code>ListRecommendationFilterValue</code> to filter by.</p>",
-      "max":2,
-      "min":1
-    },
-    "ListRecommendationsFilterKey":{
-      "type":"string",
-      "documentation":"<p>The <code>ListRecommendations</code> filter type. This can be one of the following:</p> <ul> <li> <p> <code>TYPE</code> – The recommendation type, with values like <code>DKIM</code>, <code>SPF</code>, <code>DMARC</code> or <code>BIMI</code>.</p> </li> <li> <p> <code>IMPACT</code> – The recommendation impact, with values like <code>HIGH</code> or <code>LOW</code>.</p> </li> <li> <p> <code>STATUS</code> – The recommendation status, with values like <code>OPEN</code> or <code>FIXED</code>.</p> </li> <li> <p> <code>RESOURCE_ARN</code> – The resource affected by the recommendation, with values like <code>arn:aws:ses:us-east-1:123456789012:identity/example.com</code>.</p> </li> </ul>",
-      "enum":[
-        "TYPE",
-        "IMPACT",
-        "STATUS",
-        "RESOURCE_ARN"
-      ]
-    },
-    "ListRecommendationsRequest":{
-      "type":"structure",
-      "members":{
-        "Filter":{
-          "shape":"ListRecommendationsFilter",
-          "documentation":"<p>Filters applied when retrieving recommendations. Can eiter be an individual filter, or combinations of <code>STATUS</code> and <code>IMPACT</code> or <code>STATUS</code> and <code>TYPE</code> </p>"
-        },
-        "NextToken":{
-          "shape":"NextToken",
-          "documentation":"<p>A token returned from a previous call to <code>ListRecommendations</code> to indicate the position in the list of recommendations.</p>"
-        },
-        "PageSize":{
-          "shape":"MaxItems",
-          "documentation":"<p>The number of results to show in a single call to <code>ListRecommendations</code>. If the number of results is larger than the number you specified in this parameter, then the response includes a <code>NextToken</code> element, which you can use to obtain additional results.</p> <p>The value you specify has to be at least 1, and can be no more than 100.</p>"
-        }
-      },
-      "documentation":"<p>Represents a request to list the existing recommendations for your account.</p>"
-    },
-    "ListRecommendationsResponse":{
-      "type":"structure",
-      "members":{
-        "Recommendations":{
-          "shape":"RecommendationsList",
-          "documentation":"<p>The recommendations applicable to your account.</p>"
-        },
-        "NextToken":{
-          "shape":"NextToken",
-          "documentation":"<p>A string token indicating that there might be additional recommendations available to be listed. Use the token provided in the <code>ListRecommendationsResponse</code> to use in the subsequent call to <code>ListRecommendations</code> with the same parameters to retrieve the next page of recommendations.</p>"
-        }
-      },
-      "documentation":"<p>Contains the response to your request to retrieve the list of recommendations for your account.</p>"
+      "documentation":"<p>A list of dedicated IP pools that are associated with your AWS account.</p>"
     },
     "ListSuppressedDestinationsRequest":{
       "type":"structure",
@@ -4426,13 +4073,13 @@
         },
         "StartDate":{
           "shape":"Timestamp",
-          "documentation":"<p>Used to filter the list of suppressed email destinations so that it only includes addresses that were added to the list after a specific date.</p>",
+          "documentation":"<p>Used to filter the list of suppressed email destinations so that it only includes addresses that were added to the list after a specific date. The date that you specify should be in Unix time format.</p>",
           "location":"querystring",
           "locationName":"StartDate"
         },
         "EndDate":{
           "shape":"Timestamp",
-          "documentation":"<p>Used to filter the list of suppressed email destinations so that it only includes addresses that were added to the list before a specific date.</p>",
+          "documentation":"<p>Used to filter the list of suppressed email destinations so that it only includes addresses that were added to the list before a specific date. The date that you specify should be in Unix time format.</p>",
           "location":"querystring",
           "locationName":"EndDate"
         },
@@ -4505,14 +4152,14 @@
         },
         "BehaviorOnMxFailure":{
           "shape":"BehaviorOnMxFailure",
-          "documentation":"<p>The action to take if the required MX record can't be found when you send an email. When you set this value to <code>USE_DEFAULT_VALUE</code>, the mail is sent using <i>amazonses.com</i> as the MAIL FROM domain. When you set this value to <code>REJECT_MESSAGE</code>, the Amazon SES API v2 returns a <code>MailFromDomainNotVerified</code> error, and doesn't attempt to deliver the email.</p> <p>These behaviors are taken when the custom MAIL FROM domain configuration is in the <code>Pending</code>, <code>Failed</code>, and <code>TemporaryFailure</code> states.</p>"
+          "documentation":"<p>The action that you want to take if the required MX record can't be found when you send an email. When you set this value to <code>UseDefaultValue</code>, the mail is sent using <i>amazonses.com</i> as the MAIL FROM domain. When you set this value to <code>RejectMessage</code>, the Amazon SES API v2 returns a <code>MailFromDomainNotVerified</code> error, and doesn't attempt to deliver the email.</p> <p>These behaviors are taken when the custom MAIL FROM domain configuration is in the <code>Pending</code>, <code>Failed</code>, and <code>TemporaryFailure</code> states.</p>"
         }
       },
       "documentation":"<p>A list of attributes that are associated with a MAIL FROM domain.</p>"
     },
     "MailFromDomainName":{
       "type":"string",
-      "documentation":"<p>The domain to use as a MAIL FROM domain.</p>"
+      "documentation":"<p>The domain that you want to use as a MAIL FROM domain.</p>"
     },
     "MailFromDomainNotVerifiedException":{
       "type":"structure",
@@ -4604,83 +4251,6 @@
       "type":"string",
       "documentation":"<p>The value of the message tag. The message tag value has to meet the following criteria:</p> <ul> <li> <p>It can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-).</p> </li> <li> <p>It can contain no more than 256 characters.</p> </li> </ul>"
     },
-    "Metric":{
-      "type":"string",
-      "enum":[
-        "SEND",
-        "COMPLAINT",
-        "PERMANENT_BOUNCE",
-        "TRANSIENT_BOUNCE",
-        "OPEN",
-        "CLICK",
-        "DELIVERY",
-        "DELIVERY_OPEN",
-        "DELIVERY_CLICK",
-        "DELIVERY_COMPLAINT"
-      ]
-    },
-    "MetricDataError":{
-      "type":"structure",
-      "members":{
-        "Id":{
-          "shape":"QueryIdentifier",
-          "documentation":"<p>The query identifier.</p>"
-        },
-        "Code":{
-          "shape":"QueryErrorCode",
-          "documentation":"<p>The query error code. Can be one of:</p> <ul> <li> <p> <code>INTERNAL_FAILURE</code> – Amazon SES has failed to process one of the queries.</p> </li> <li> <p> <code>ACCESS_DENIED</code> – You have insufficient access to retrieve metrics based on the given query.</p> </li> </ul>"
-        },
-        "Message":{
-          "shape":"QueryErrorMessage",
-          "documentation":"<p>The error message associated with the current query error.</p>"
-        }
-      },
-      "documentation":"<p>An error corresponding to the unsuccessful processing of a single metric data query.</p>"
-    },
-    "MetricDataErrorList":{
-      "type":"list",
-      "member":{"shape":"MetricDataError"}
-    },
-    "MetricDataResult":{
-      "type":"structure",
-      "members":{
-        "Id":{
-          "shape":"QueryIdentifier",
-          "documentation":"<p>The query identifier.</p>"
-        },
-        "Timestamps":{
-          "shape":"TimestampList",
-          "documentation":"<p>A list of timestamps for the metric data results.</p>"
-        },
-        "Values":{
-          "shape":"MetricValueList",
-          "documentation":"<p>A list of values (cumulative / sum) for the metric data results.</p>"
-        }
-      },
-      "documentation":"<p>The result of a single metric data query.</p>"
-    },
-    "MetricDataResultList":{
-      "type":"list",
-      "member":{"shape":"MetricDataResult"}
-    },
-    "MetricDimensionName":{
-      "type":"string",
-      "documentation":"<p>The <code>BatchGetMetricDataQuery</code> dimension name. This can be one of the following:</p> <ul> <li> <p> <code>EMAIL_IDENTITY</code> – The email identity used when sending messages.</p> </li> <li> <p> <code>CONFIGURATION_SET</code> – The configuration set used when sending messages (if one was used).</p> </li> <li> <p> <code>ISP</code> – The recipient ISP (e.g. <code>Gmail</code>, <code>Yahoo</code>, etc.).</p> </li> </ul>",
-      "enum":[
-        "EMAIL_IDENTITY",
-        "CONFIGURATION_SET",
-        "ISP"
-      ]
-    },
-    "MetricDimensionValue":{"type":"string"},
-    "MetricNamespace":{
-      "type":"string",
-      "enum":["VDM"]
-    },
-    "MetricValueList":{
-      "type":"list",
-      "member":{"shape":"Counter"}
-    },
     "NextToken":{"type":"string"},
     "NotFoundException":{
       "type":"structure",
@@ -4719,7 +4289,7 @@
       "members":{
         "ApplicationArn":{
           "shape":"AmazonResourceName",
-          "documentation":"<p>The Amazon Resource Name (ARN) of the Amazon Pinpoint project to send email events to.</p>"
+          "documentation":"<p>The Amazon Resource Name (ARN) of the Amazon Pinpoint project that you want to send email events to.</p>"
         }
       },
       "documentation":"<p>An object that defines an Amazon Pinpoint project destination for email events. You can send email event data to a Amazon Pinpoint project to view metrics using the Transactional Messaging dashboards that are built in to Amazon Pinpoint. For more information, see <a href=\"https://docs.aws.amazon.com/pinpoint/latest/userguide/analytics-transactional-messages.html\">Transactional Messaging Charts</a> in the <i>Amazon Pinpoint User Guide</i>.</p>"
@@ -4784,7 +4354,7 @@
       "members":{
         "AutoWarmupEnabled":{
           "shape":"Enabled",
-          "documentation":"<p>Enables or disables the automatic warm-up feature for dedicated IP addresses that are associated with your Amazon SES account in the current Amazon Web Services Region. Set to <code>true</code> to enable the automatic warm-up feature, or set to <code>false</code> to disable it.</p>"
+          "documentation":"<p>Enables or disables the automatic warm-up feature for dedicated IP addresses that are associated with your Amazon SES account in the current AWS Region. Set to <code>true</code> to enable the automatic warm-up feature, or set to <code>false</code> to disable it.</p>"
         }
       },
       "documentation":"<p>A request to enable or disable the automatic IP address warm-up feature.</p>"
@@ -4825,7 +4395,7 @@
         },
         "ProductionAccessEnabled":{
           "shape":"EnabledWrapper",
-          "documentation":"<p>Indicates whether or not your account should have production access in the current Amazon Web Services Region.</p> <p>If the value is <code>false</code>, then your account is in the <i>sandbox</i>. When your account is in the sandbox, you can only send email to verified identities. Additionally, the maximum number of emails you can send in a 24-hour period (your sending quota) is 200, and the maximum number of emails you can send per second (your maximum sending rate) is 1.</p> <p>If the value is <code>true</code>, then your account has production access. When your account has production access, you can send email to any address. The sending quota and maximum sending rate for your account vary based on your specific use case.</p>"
+          "documentation":"<p>Indicates whether or not your account should have production access in the current AWS Region.</p> <p>If the value is <code>false</code>, then your account is in the <i>sandbox</i>. When your account is in the sandbox, you can only send email to verified identities. Additionally, the maximum number of emails you can send in a 24-hour period (your sending quota) is 200, and the maximum number of emails you can send per second (your maximum sending rate) is 1.</p> <p>If the value is <code>true</code>, then your account has production access. When your account has production access, you can send email to any address. The sending quota and maximum sending rate for your account vary based on your specific use case.</p>"
         }
       },
       "documentation":"<p>A request to submit new account details.</p>"
@@ -4841,7 +4411,7 @@
       "members":{
         "SendingEnabled":{
           "shape":"Enabled",
-          "documentation":"<p>Enables or disables your account's ability to send email. Set to <code>true</code> to enable email sending, or set to <code>false</code> to disable email sending.</p> <note> <p>If Amazon Web Services paused your account's ability to send email, you can't use this operation to resume your account's ability to send email.</p> </note>"
+          "documentation":"<p>Enables or disables your account's ability to send email. Set to <code>true</code> to enable email sending, or set to <code>false</code> to disable email sending.</p> <note> <p>If AWS paused your account's ability to send email, you can't use this operation to resume your account's ability to send email.</p> </note>"
         }
       },
       "documentation":"<p>A request to change the ability of your account to send email.</p>"
@@ -4868,29 +4438,13 @@
       },
       "documentation":"<p>An HTTP 200 response if the request succeeds, or an error message if the request fails.</p>"
     },
-    "PutAccountVdmAttributesRequest":{
-      "type":"structure",
-      "required":["VdmAttributes"],
-      "members":{
-        "VdmAttributes":{
-          "shape":"VdmAttributes",
-          "documentation":"<p>The VDM attributes that you wish to apply to your Amazon SES account.</p>"
-        }
-      },
-      "documentation":"<p>A request to submit new account VDM attributes.</p>"
-    },
-    "PutAccountVdmAttributesResponse":{
-      "type":"structure",
-      "members":{
-      }
-    },
     "PutConfigurationSetDeliveryOptionsRequest":{
       "type":"structure",
       "required":["ConfigurationSetName"],
       "members":{
         "ConfigurationSetName":{
           "shape":"ConfigurationSetName",
-          "documentation":"<p>The name of the configuration set to associate with a dedicated IP pool.</p>",
+          "documentation":"<p>The name of the configuration set that you want to associate with a dedicated IP pool.</p>",
           "location":"uri",
           "locationName":"ConfigurationSetName"
         },
@@ -4900,7 +4454,7 @@
         },
         "SendingPoolName":{
           "shape":"SendingPoolName",
-          "documentation":"<p>The name of the dedicated IP pool to associate with the configuration set.</p>"
+          "documentation":"<p>The name of the dedicated IP pool that you want to associate with the configuration set.</p>"
         }
       },
       "documentation":"<p>A request to associate a configuration set with a dedicated IP pool.</p>"
@@ -4917,7 +4471,7 @@
       "members":{
         "ConfigurationSetName":{
           "shape":"ConfigurationSetName",
-          "documentation":"<p>The name of the configuration set.</p>",
+          "documentation":"<p>The name of the configuration set that you want to enable or disable reputation metric tracking for.</p>",
           "location":"uri",
           "locationName":"ConfigurationSetName"
         },
@@ -4940,7 +4494,7 @@
       "members":{
         "ConfigurationSetName":{
           "shape":"ConfigurationSetName",
-          "documentation":"<p>The name of the configuration set to enable or disable email sending for.</p>",
+          "documentation":"<p>The name of the configuration set that you want to enable or disable email sending for.</p>",
           "location":"uri",
           "locationName":"ConfigurationSetName"
         },
@@ -4963,7 +4517,7 @@
       "members":{
         "ConfigurationSetName":{
           "shape":"ConfigurationSetName",
-          "documentation":"<p>The name of the configuration set to change the suppression list preferences for.</p>",
+          "documentation":"<p>The name of the configuration set that you want to change the suppression list preferences for.</p>",
           "location":"uri",
           "locationName":"ConfigurationSetName"
         },
@@ -4986,41 +4540,18 @@
       "members":{
         "ConfigurationSetName":{
           "shape":"ConfigurationSetName",
-          "documentation":"<p>The name of the configuration set.</p>",
+          "documentation":"<p>The name of the configuration set that you want to add a custom tracking domain to.</p>",
           "location":"uri",
           "locationName":"ConfigurationSetName"
         },
         "CustomRedirectDomain":{
           "shape":"CustomRedirectDomain",
-          "documentation":"<p>The domain to use to track open and click events.</p>"
+          "documentation":"<p>The domain that you want to use to track open and click events.</p>"
         }
       },
       "documentation":"<p>A request to add a custom domain for tracking open and click events to a configuration set.</p>"
     },
     "PutConfigurationSetTrackingOptionsResponse":{
-      "type":"structure",
-      "members":{
-      },
-      "documentation":"<p>An HTTP 200 response if the request succeeds, or an error message if the request fails.</p>"
-    },
-    "PutConfigurationSetVdmOptionsRequest":{
-      "type":"structure",
-      "required":["ConfigurationSetName"],
-      "members":{
-        "ConfigurationSetName":{
-          "shape":"ConfigurationSetName",
-          "documentation":"<p>The name of the configuration set.</p>",
-          "location":"uri",
-          "locationName":"ConfigurationSetName"
-        },
-        "VdmOptions":{
-          "shape":"VdmOptions",
-          "documentation":"<p>The VDM options to apply to the configuration set.</p>"
-        }
-      },
-      "documentation":"<p>A request to add specific VDM settings to a configuration set.</p>"
-    },
-    "PutConfigurationSetVdmOptionsResponse":{
       "type":"structure",
       "members":{
       },
@@ -5035,7 +4566,7 @@
       "members":{
         "Ip":{
           "shape":"Ip",
-          "documentation":"<p>The IP address that you want to move to the dedicated IP pool. The value you specify has to be a dedicated IP address that's associated with your Amazon Web Services account.</p>",
+          "documentation":"<p>The IP address that you want to move to the dedicated IP pool. The value you specify has to be a dedicated IP address that's associated with your AWS account.</p>",
           "location":"uri",
           "locationName":"IP"
         },
@@ -5091,7 +4622,7 @@
           "documentation":"<p>An array of objects, one for each verified domain that you use to send email and enabled the Deliverability dashboard for.</p>"
         }
       },
-      "documentation":"<p>Enable or disable the Deliverability dashboard. When you enable the Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email using Amazon SES API v2. You also gain the ability to perform predictive inbox placement tests.</p> <p>When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the features and cost of a Deliverability dashboard subscription, see <a href=\"http://aws.amazon.com/pinpoint/pricing/\">Amazon Pinpoint Pricing</a>.</p>"
+      "documentation":"<p>Enable or disable the Deliverability dashboard. When you enable the Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email using Amazon SES API v2. You also gain the ability to perform predictive inbox placement tests.</p> <p>When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other AWS services. For more information about the features and cost of a Deliverability dashboard subscription, see <a href=\"http://aws.amazon.com/pinpoint/pricing/\">Amazon Pinpoint Pricing</a>.</p>"
     },
     "PutDeliverabilityDashboardOptionResponse":{
       "type":"structure",
@@ -5105,13 +4636,13 @@
       "members":{
         "EmailIdentity":{
           "shape":"Identity",
-          "documentation":"<p>The email address or domain to associate with a configuration set.</p>",
+          "documentation":"<p>The email address or domain that you want to associate with a configuration set.</p>",
           "location":"uri",
           "locationName":"EmailIdentity"
         },
         "ConfigurationSetName":{
           "shape":"ConfigurationSetName",
-          "documentation":"<p>The configuration set to associate with an email identity.</p>"
+          "documentation":"<p>The configuration set that you want to associate with an email identity.</p>"
         }
       },
       "documentation":"<p>A request to associate a configuration set with an email identity.</p>"
@@ -5128,7 +4659,7 @@
       "members":{
         "EmailIdentity":{
           "shape":"Identity",
-          "documentation":"<p>The email identity.</p>",
+          "documentation":"<p>The email identity that you want to change the DKIM settings for.</p>",
           "location":"uri",
           "locationName":"EmailIdentity"
         },
@@ -5154,17 +4685,17 @@
       "members":{
         "EmailIdentity":{
           "shape":"Identity",
-          "documentation":"<p>The email identity.</p>",
+          "documentation":"<p>The email identity that you want to configure DKIM for.</p>",
           "location":"uri",
           "locationName":"EmailIdentity"
         },
         "SigningAttributesOrigin":{
           "shape":"DkimSigningAttributesOrigin",
-          "documentation":"<p>The method to use to configure DKIM for the identity. There are the following possible values:</p> <ul> <li> <p> <code>AWS_SES</code> – Configure DKIM for the identity by using <a href=\"https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html\">Easy DKIM</a>.</p> </li> <li> <p> <code>EXTERNAL</code> – Configure DKIM for the identity by using Bring Your Own DKIM (BYODKIM).</p> </li> </ul>"
+          "documentation":"<p>The method that you want to use to configure DKIM for the identity. There are two possible values:</p> <ul> <li> <p> <code>AWS_SES</code> – Configure DKIM for the identity by using <a href=\"https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html\">Easy DKIM</a>.</p> </li> <li> <p> <code>EXTERNAL</code> – Configure DKIM for the identity by using Bring Your Own DKIM (BYODKIM).</p> </li> </ul>"
         },
         "SigningAttributes":{
           "shape":"DkimSigningAttributes",
-          "documentation":"<p>An object that contains information about the private key and selector that you want to use to configure DKIM for the identity for Bring Your Own DKIM (BYODKIM) for the identity, or, configures the key length to be used for <a href=\"https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html\">Easy DKIM</a>.</p>"
+          "documentation":"<p>An object that contains information about the private key and selector that you want to use to configure DKIM for the identity. This object is only required if you want to configure Bring Your Own DKIM (BYODKIM) for the identity.</p>"
         }
       },
       "documentation":"<p>A request to change the DKIM attributes for an email identity.</p>"
@@ -5189,7 +4720,7 @@
       "members":{
         "EmailIdentity":{
           "shape":"Identity",
-          "documentation":"<p>The email identity.</p>",
+          "documentation":"<p>The email identity that you want to configure bounce and complaint feedback forwarding for.</p>",
           "location":"uri",
           "locationName":"EmailIdentity"
         },
@@ -5212,7 +4743,7 @@
       "members":{
         "EmailIdentity":{
           "shape":"Identity",
-          "documentation":"<p>The verified email identity.</p>",
+          "documentation":"<p>The verified email identity that you want to set up the custom MAIL FROM domain for.</p>",
           "location":"uri",
           "locationName":"EmailIdentity"
         },
@@ -5222,7 +4753,7 @@
         },
         "BehaviorOnMxFailure":{
           "shape":"BehaviorOnMxFailure",
-          "documentation":"<p>The action to take if the required MX record isn't found when you send an email. When you set this value to <code>UseDefaultValue</code>, the mail is sent using <i>amazonses.com</i> as the MAIL FROM domain. When you set this value to <code>RejectMessage</code>, the Amazon SES API v2 returns a <code>MailFromDomainNotVerified</code> error, and doesn't attempt to deliver the email.</p> <p>These behaviors are taken when the custom MAIL FROM domain configuration is in the <code>Pending</code>, <code>Failed</code>, and <code>TemporaryFailure</code> states.</p>"
+          "documentation":"<p>The action that you want to take if the required MX record isn't found when you send an email. When you set this value to <code>UseDefaultValue</code>, the mail is sent using <i>amazonses.com</i> as the MAIL FROM domain. When you set this value to <code>RejectMessage</code>, the Amazon SES API v2 returns a <code>MailFromDomainNotVerified</code> error, and doesn't attempt to deliver the email.</p> <p>These behaviors are taken when the custom MAIL FROM domain configuration is in the <code>Pending</code>, <code>Failed</code>, and <code>TemporaryFailure</code> states.</p>"
         }
       },
       "documentation":"<p>A request to configure the custom MAIL FROM domain for a verified identity.</p>"
@@ -5257,19 +4788,6 @@
       },
       "documentation":"<p>An HTTP 200 response if the request succeeds, or an error message if the request fails.</p>"
     },
-    "QueryErrorCode":{
-      "type":"string",
-      "enum":[
-        "INTERNAL_FAILURE",
-        "ACCESS_DENIED"
-      ]
-    },
-    "QueryErrorMessage":{"type":"string"},
-    "QueryIdentifier":{
-      "type":"string",
-      "max":255,
-      "min":1
-    },
     "RawMessage":{
       "type":"structure",
       "required":["Data"],
@@ -5288,68 +4806,6 @@
     "RblName":{
       "type":"string",
       "documentation":"<p>The name of a blacklist that an IP address was found on.</p>"
-    },
-    "Recommendation":{
-      "type":"structure",
-      "members":{
-        "ResourceArn":{
-          "shape":"AmazonResourceName",
-          "documentation":"<p>The resource affected by the recommendation, with values like <code>arn:aws:ses:us-east-1:123456789012:identity/example.com</code>.</p>"
-        },
-        "Type":{
-          "shape":"RecommendationType",
-          "documentation":"<p>The recommendation type, with values like <code>DKIM</code>, <code>SPF</code>, <code>DMARC</code> or <code>BIMI</code>.</p>"
-        },
-        "Description":{
-          "shape":"RecommendationDescription",
-          "documentation":"<p>The recommendation description / disambiguator - e.g. <code>DKIM1</code> and <code>DKIM2</code> are different recommendations about your DKIM setup.</p>"
-        },
-        "Status":{
-          "shape":"RecommendationStatus",
-          "documentation":"<p>The recommendation status, with values like <code>OPEN</code> or <code>FIXED</code>.</p>"
-        },
-        "CreatedTimestamp":{
-          "shape":"Timestamp",
-          "documentation":"<p>The first time this issue was encountered and the recommendation was generated.</p>"
-        },
-        "LastUpdatedTimestamp":{
-          "shape":"Timestamp",
-          "documentation":"<p>The last time the recommendation was updated.</p>"
-        },
-        "Impact":{
-          "shape":"RecommendationImpact",
-          "documentation":"<p>The recommendation impact, with values like <code>HIGH</code> or <code>LOW</code>.</p>"
-        }
-      },
-      "documentation":"<p>A recommendation generated for your account.</p>"
-    },
-    "RecommendationDescription":{"type":"string"},
-    "RecommendationImpact":{
-      "type":"string",
-      "enum":[
-        "LOW",
-        "HIGH"
-      ]
-    },
-    "RecommendationStatus":{
-      "type":"string",
-      "enum":[
-        "OPEN",
-        "FIXED"
-      ]
-    },
-    "RecommendationType":{
-      "type":"string",
-      "enum":[
-        "DKIM",
-        "DMARC",
-        "SPF",
-        "BIMI"
-      ]
-    },
-    "RecommendationsList":{
-      "type":"list",
-      "member":{"shape":"Recommendation"}
     },
     "RenderedEmailTemplate":{
       "type":"string",
@@ -5395,7 +4851,7 @@
           "documentation":"<p>The date and time (in Unix time) when the reputation metrics were last given a fresh start. When your account is given a fresh start, your reputation metrics are calculated starting from the date of the fresh start.</p>"
         }
       },
-      "documentation":"<p>Enable or disable collection of reputation metrics for emails that you send using this configuration set in the current Amazon Web Services Region. </p>"
+      "documentation":"<p>Enable or disable collection of reputation metrics for emails that you send using this configuration set in the current AWS Region. </p>"
     },
     "ReviewDetails":{
       "type":"structure",
@@ -5425,13 +4881,6 @@
       "documentation":"<p>An Amazon S3 URL in the format s3://<i>&lt;bucket_name&gt;</i>/<i>&lt;object&gt;</i>.</p>",
       "pattern":"^s3:\\/\\/([^\\/]+)\\/(.*?([^\\/]+)\\/?)$"
     },
-    "ScalingMode":{
-      "type":"string",
-      "enum":[
-        "STANDARD",
-        "MANAGED"
-      ]
-    },
     "Selector":{
       "type":"string",
       "max":63,
@@ -5447,7 +4896,7 @@
       "members":{
         "FromEmailAddress":{
           "shape":"EmailAddress",
-          "documentation":"<p>The email address to use as the \"From\" address for the email. The address that you specify has to be verified.</p>"
+          "documentation":"<p>The email address that you want to use as the \"From\" address for the email. The address that you specify has to be verified.</p>"
         },
         "FromEmailAddressIdentityArn":{
           "shape":"AmazonResourceName",
@@ -5479,7 +4928,7 @@
         },
         "ConfigurationSetName":{
           "shape":"ConfigurationSetName",
-          "documentation":"<p>The name of the configuration set to use when sending the email.</p>"
+          "documentation":"<p>The name of the configuration set that you want to use when sending the email.</p>"
         }
       },
       "documentation":"<p>Represents a request to send email messages to multiple destinations using Amazon SES. For more information, see the <a href=\"https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html\">Amazon SES Developer Guide</a>.</p>"
@@ -5488,10 +4937,7 @@
       "type":"structure",
       "required":["BulkEmailEntryResults"],
       "members":{
-        "BulkEmailEntryResults":{
-          "shape":"BulkEmailEntryResultList",
-          "documentation":"<p>One object per intended recipient. Check each response object and retry any messages with a failure status.</p>"
-        }
+        "BulkEmailEntryResults":{"shape":"BulkEmailEntryResultList"}
       },
       "documentation":"<p>The following data is returned in JSON format by the service.</p>"
     },
@@ -5533,7 +4979,7 @@
       "members":{
         "FromEmailAddress":{
           "shape":"EmailAddress",
-          "documentation":"<p>The email address to use as the \"From\" address for the email. The address that you specify has to be verified. </p>"
+          "documentation":"<p>The email address that you want to use as the \"From\" address for the email. The address that you specify has to be verified. </p>"
         },
         "FromEmailAddressIdentityArn":{
           "shape":"AmazonResourceName",
@@ -5565,7 +5011,7 @@
         },
         "ConfigurationSetName":{
           "shape":"ConfigurationSetName",
-          "documentation":"<p>The name of the configuration set to use when sending the email.</p>"
+          "documentation":"<p>The name of the configuration set that you want to use when sending the email.</p>"
         },
         "ListManagementOptions":{
           "shape":"ListManagementOptions",
@@ -5589,18 +5035,18 @@
       "members":{
         "Max24HourSend":{
           "shape":"Max24HourSend",
-          "documentation":"<p>The maximum number of emails that you can send in the current Amazon Web Services Region over a 24-hour period. A value of -1 signifies an unlimited quota. (This value is also referred to as your <i>sending quota</i>.)</p>"
+          "documentation":"<p>The maximum number of emails that you can send in the current AWS Region over a 24-hour period. This value is also called your <i>sending quota</i>.</p>"
         },
         "MaxSendRate":{
           "shape":"MaxSendRate",
-          "documentation":"<p>The maximum number of emails that you can send per second in the current Amazon Web Services Region. This value is also called your <i>maximum sending rate</i> or your <i>maximum TPS (transactions per second) rate</i>.</p>"
+          "documentation":"<p>The maximum number of emails that you can send per second in the current AWS Region. This value is also called your <i>maximum sending rate</i> or your <i>maximum TPS (transactions per second) rate</i>.</p>"
         },
         "SentLast24Hours":{
           "shape":"SentLast24Hours",
-          "documentation":"<p>The number of emails sent from your Amazon SES account in the current Amazon Web Services Region over the past 24 hours.</p>"
+          "documentation":"<p>The number of emails sent from your Amazon SES account in the current AWS Region over the past 24 hours.</p>"
         }
       },
-      "documentation":"<p>An object that contains information about the per-day and per-second sending limits for your Amazon SES account in the current Amazon Web Services Region.</p>"
+      "documentation":"<p>An object that contains information about the per-day and per-second sending limits for your Amazon SES account in the current AWS Region.</p>"
     },
     "SendingOptions":{
       "type":"structure",
@@ -5610,7 +5056,7 @@
           "documentation":"<p>If <code>true</code>, email sending is enabled for the configuration set. If <code>false</code>, email sending is disabled for the configuration set.</p>"
         }
       },
-      "documentation":"<p>Used to enable or disable email sending for messages that use this configuration set in the current Amazon Web Services Region.</p>"
+      "documentation":"<p>Used to enable or disable email sending for messages that use this configuration set in the current AWS Region.</p>"
     },
     "SendingPausedException":{
       "type":"structure",
@@ -5622,7 +5068,7 @@
     },
     "SendingPoolName":{
       "type":"string",
-      "documentation":"<p>The name of the dedicated IP pool to associate with the configuration set.</p>"
+      "documentation":"<p>The name of the dedicated IP pool that you want to associate with the configuration set.</p>"
     },
     "SentLast24Hours":{"type":"double"},
     "SnsDestination":{
@@ -5631,7 +5077,7 @@
       "members":{
         "TopicArn":{
           "shape":"AmazonResourceName",
-          "documentation":"<p>The Amazon Resource Name (ARN) of the Amazon SNS topic to publish email events to. For more information about Amazon SNS topics, see the <a href=\"https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html\">Amazon SNS Developer Guide</a>.</p>"
+          "documentation":"<p>The Amazon Resource Name (ARN) of the Amazon SNS topic that you want to publish email events to. For more information about Amazon SNS topics, see the <a href=\"https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html\">Amazon SNS Developer Guide</a>.</p>"
         }
       },
       "documentation":"<p>An object that defines an Amazon SNS destination for email events. You can use Amazon SNS to send notification when certain email events occur.</p>"
@@ -5724,7 +5170,7 @@
           "documentation":"<p>A list that contains the reasons that email addresses will be automatically added to the suppression list for your account. This list can contain any or all of the following:</p> <ul> <li> <p> <code>COMPLAINT</code> – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.</p> </li> <li> <p> <code>BOUNCE</code> – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.</p> </li> </ul>"
         }
       },
-      "documentation":"<p>An object that contains information about the email address suppression preferences for your account in the current Amazon Web Services Region.</p>"
+      "documentation":"<p>An object that contains information about the email address suppression preferences for your account in the current AWS Region.</p>"
     },
     "SuppressionListDestination":{
       "type":"structure",
@@ -5732,14 +5178,14 @@
       "members":{
         "SuppressionListImportAction":{
           "shape":"SuppressionListImportAction",
-          "documentation":"<p>The type of action to perform on the address. The following are possible values:</p> <ul> <li> <p>PUT: add the addresses to the suppression list. If the record already exists, it will override it with the new value.</p> </li> <li> <p>DELETE: remove the addresses from the suppression list.</p> </li> </ul>"
+          "documentation":"<p>The type of action that you want to perform on the address. Acceptable values:</p> <ul> <li> <p>PUT: add the addresses to the suppression list. If the record already exists, it will override it with the new value.</p> </li> <li> <p>DELETE: remove the addresses from the suppression list.</p> </li> </ul>"
         }
       },
       "documentation":"<p>An object that contains details about the action of suppression list.</p>"
     },
     "SuppressionListImportAction":{
       "type":"string",
-      "documentation":"<p>The type of action to perform on the address. The following are possible values:</p> <ul> <li> <p>PUT: add the addresses to the suppression list.</p> </li> <li> <p>DELETE: remove the address from the suppression list.</p> </li> </ul>",
+      "documentation":"<p>The type of action that you want to perform on the address. Acceptable values:</p> <ul> <li> <p>PUT: add the addresses to the suppression list.</p> </li> <li> <p>DELETE: remove the address from the suppression list.</p> </li> </ul>",
       "enum":[
         "DELETE",
         "PUT"
@@ -5783,7 +5229,7 @@
           "documentation":"<p>The optional part of a key-value pair that defines a tag. The maximum length of a tag value is 256 characters. The minimum length is 0 characters. If you don't want a resource to have a specific tag value, don't specify a value for this parameter. If you don't specify a value, Amazon SES sets the value to an empty string.</p>"
         }
       },
-      "documentation":"<p>An object that defines the tags that are associated with a resource. A <i>tag</i> is a label that you optionally define and associate with a resource. Tags can help you categorize and manage resources in different ways, such as by purpose, owner, environment, or other criteria. A resource can have as many as 50 tags.</p> <p>Each tag consists of a required <i>tag key</i> and an associated <i>tag value</i>, both of which you define. A tag key is a general label that acts as a category for a more specific tag value. A tag value acts as a descriptor within a tag key. A tag key can contain as many as 128 characters. A tag value can contain as many as 256 characters. The characters can be Unicode letters, digits, white space, or one of the following symbols: _ . : / = + -. The following additional restrictions apply to tags:</p> <ul> <li> <p>Tag keys and values are case sensitive.</p> </li> <li> <p>For each associated resource, each tag key must be unique and it can have only one value.</p> </li> <li> <p>The <code>aws:</code> prefix is reserved for use by Amazon Web Services; you can’t use it in any tag keys or values that you define. In addition, you can't edit or remove tag keys or values that use this prefix. Tags that use this prefix don’t count against the limit of 50 tags per resource.</p> </li> <li> <p>You can associate tags with public or shared resources, but the tags are available only for your Amazon Web Services account, not any other accounts that share the resource. In addition, the tags are available only for resources that are located in the specified Amazon Web Services Region for your Amazon Web Services account.</p> </li> </ul>"
+      "documentation":"<p>An object that defines the tags that are associated with a resource. A <i>tag</i> is a label that you optionally define and associate with a resource. Tags can help you categorize and manage resources in different ways, such as by purpose, owner, environment, or other criteria. A resource can have as many as 50 tags.</p> <p>Each tag consists of a required <i>tag key</i> and an associated <i>tag value</i>, both of which you define. A tag key is a general label that acts as a category for a more specific tag value. A tag value acts as a descriptor within a tag key. A tag key can contain as many as 128 characters. A tag value can contain as many as 256 characters. The characters can be Unicode letters, digits, white space, or one of the following symbols: _ . : / = + -. The following additional restrictions apply to tags:</p> <ul> <li> <p>Tag keys and values are case sensitive.</p> </li> <li> <p>For each associated resource, each tag key must be unique and it can have only one value.</p> </li> <li> <p>The <code>aws:</code> prefix is reserved for use by AWS; you can’t use it in any tag keys or values that you define. In addition, you can't edit or remove tag keys or values that use this prefix. Tags that use this prefix don’t count against the limit of 50 tags per resource.</p> </li> <li> <p>You can associate tags with public or shared resources, but the tags are available only for your AWS account, not any other accounts that share the resource. In addition, the tags are available only for resources that are located in the specified AWS Region for your AWS account.</p> </li> </ul>"
     },
     "TagKey":{"type":"string"},
     "TagKeyList":{
@@ -5848,7 +5294,7 @@
       "members":{
         "TemplateName":{
           "shape":"EmailTemplateName",
-          "documentation":"<p>The name of the template.</p>",
+          "documentation":"<p>The name of the template that you want to render.</p>",
           "location":"uri",
           "locationName":"TemplateName"
         },
@@ -5871,10 +5317,6 @@
       "documentation":"<p>The following element is returned by the service.</p>"
     },
     "Timestamp":{"type":"timestamp"},
-    "TimestampList":{
-      "type":"list",
-      "member":{"shape":"Timestamp"}
-    },
     "TlsPolicy":{
       "type":"string",
       "documentation":"<p>Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is <code>Require</code>, messages are only delivered if a TLS connection can be established. If the value is <code>Optional</code>, messages can be delivered in plain text if a TLS connection can't be established.</p>",
@@ -5965,10 +5407,10 @@
       "members":{
         "CustomRedirectDomain":{
           "shape":"CustomRedirectDomain",
-          "documentation":"<p>The domain to use for tracking open and click events.</p>"
+          "documentation":"<p>The domain that you want to use for tracking open and click events.</p>"
         }
       },
-      "documentation":"<p>An object that defines the tracking options for a configuration set. When you use the Amazon SES API v2 to send an email, it contains an invisible image that's used to track when recipients open your email. If your email contains links, those links are changed slightly in order to track when recipients click them.</p> <p>These images and links include references to a domain operated by Amazon Web Services. You can optionally configure the Amazon SES to use a domain that you operate for these images and links.</p>"
+      "documentation":"<p>An object that defines the tracking options for a configuration set. When you use the Amazon SES API v2 to send an email, it contains an invisible image that's used to track when recipients open your email. If your email contains links, those links are changed slightly in order to track when recipients click them.</p> <p>These images and links include references to a domain operated by AWS. You can optionally configure the Amazon SES to use a domain that you operate for these images and links.</p>"
     },
     "UnsubscribeAll":{"type":"boolean"},
     "UntagResourceRequest":{
@@ -6007,13 +5449,13 @@
       "members":{
         "ConfigurationSetName":{
           "shape":"ConfigurationSetName",
-          "documentation":"<p>The name of the configuration set that contains the event destination to modify.</p>",
+          "documentation":"<p>The name of the configuration set that contains the event destination that you want to modify.</p>",
           "location":"uri",
           "locationName":"ConfigurationSetName"
         },
         "EventDestinationName":{
           "shape":"EventDestinationName",
-          "documentation":"<p>The name of the event destination.</p>",
+          "documentation":"<p>The name of the event destination that you want to modify.</p>",
           "location":"uri",
           "locationName":"EventDestinationName"
         },
@@ -6120,7 +5562,7 @@
         },
         "TemplateContent":{
           "shape":"TemplateContent",
-          "documentation":"<p>The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML, with some limitations. For more information, see <a href=\"https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom-faq\">Custom verification email frequently asked questions</a> in the <i>Amazon SES Developer Guide</i>.</p>"
+          "documentation":"<p>The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML, with some limitations. For more information, see <a href=\"https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-verify-address-custom.html#custom-verification-emails-faq\">Custom Verification Email Frequently Asked Questions</a> in the <i>Amazon SES Developer Guide</i>.</p>"
         },
         "SuccessRedirectionURL":{
           "shape":"SuccessRedirectionURL",
@@ -6149,7 +5591,7 @@
       "members":{
         "EmailIdentity":{
           "shape":"Identity",
-          "documentation":"<p>The email identity.</p>",
+          "documentation":"<p>The email identity for which you want to update policy.</p>",
           "location":"uri",
           "locationName":"EmailIdentity"
         },
@@ -6181,7 +5623,7 @@
       "members":{
         "TemplateName":{
           "shape":"EmailTemplateName",
-          "documentation":"<p>The name of the template.</p>",
+          "documentation":"<p>The name of the template you want to update.</p>",
           "location":"uri",
           "locationName":"TemplateName"
         },
@@ -6205,49 +5647,6 @@
       "sensitive":true
     },
     "UseDefaultIfPreferenceUnavailable":{"type":"boolean"},
-    "VdmAttributes":{
-      "type":"structure",
-      "required":["VdmEnabled"],
-      "members":{
-        "VdmEnabled":{
-          "shape":"FeatureStatus",
-          "documentation":"<p>Specifies the status of your VDM configuration. Can be one of the following:</p> <ul> <li> <p> <code>ENABLED</code> – Amazon SES enables VDM for your account.</p> </li> <li> <p> <code>DISABLED</code> – Amazon SES disables VDM for your account.</p> </li> </ul>"
-        },
-        "DashboardAttributes":{
-          "shape":"DashboardAttributes",
-          "documentation":"<p>Specifies additional settings for your VDM configuration as applicable to the Dashboard.</p>"
-        },
-        "GuardianAttributes":{
-          "shape":"GuardianAttributes",
-          "documentation":"<p>Specifies additional settings for your VDM configuration as applicable to the Guardian.</p>"
-        }
-      },
-      "documentation":"<p>The VDM attributes that apply to your Amazon SES account.</p>"
-    },
-    "VdmOptions":{
-      "type":"structure",
-      "members":{
-        "DashboardOptions":{
-          "shape":"DashboardOptions",
-          "documentation":"<p>Specifies additional settings for your VDM configuration as applicable to the Dashboard.</p>"
-        },
-        "GuardianOptions":{
-          "shape":"GuardianOptions",
-          "documentation":"<p>Specifies additional settings for your VDM configuration as applicable to the Guardian.</p>"
-        }
-      },
-      "documentation":"<p>An object that defines the VDM settings that apply to emails that you send using the configuration set.</p>"
-    },
-    "VerificationStatus":{
-      "type":"string",
-      "enum":[
-        "PENDING",
-        "SUCCESS",
-        "FAILED",
-        "TEMPORARY_FAILURE",
-        "NOT_STARTED"
-      ]
-    },
     "Volume":{
       "type":"long",
       "documentation":"<p>An object that contains information about inbox placement volume.</p>"
@@ -6290,5 +5689,5 @@
       "sensitive":true
     }
   },
-  "documentation":"<fullname>Amazon SES API v2</fullname> <p> <a href=\"http://aws.amazon.com/ses\">Amazon SES</a> is an Amazon Web Services service that you can use to send email messages to your customers.</p> <p>If you're new to Amazon SES API v2, you might find it helpful to review the <a href=\"https://docs.aws.amazon.com/ses/latest/DeveloperGuide/\">Amazon Simple Email Service Developer Guide</a>. The <i>Amazon SES Developer Guide</i> provides information and code samples that demonstrate how to use Amazon SES API v2 features programmatically.</p>"
+  "documentation":"<fullname>Amazon SES API v2</fullname> <p>Welcome to the Amazon SES API v2 Reference. This guide provides information about the Amazon SES API v2, including supported operations, data types, parameters, and schemas.</p> <p> <a href=\"https://aws.amazon.com/pinpoint\">Amazon SES</a> is an AWS service that you can use to send email messages to your customers.</p> <p>If you're new to Amazon SES API v2, you might find it helpful to also review the <a href=\"https://docs.aws.amazon.com/ses/latest/DeveloperGuide/\">Amazon Simple Email Service Developer Guide</a>. The <i>Amazon SES Developer Guide</i> provides information and code samples that demonstrate how to use Amazon SES API v2 features programmatically.</p> <p>The Amazon SES API v2 is available in several AWS Regions and it provides an endpoint for each of these Regions. For a list of all the Regions and endpoints where the API is currently available, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/rande.html#ses_region\">AWS Service Endpoints</a> in the <i>Amazon Web Services General Reference</i>. To learn more about AWS Regions, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/rande-manage.html\">Managing AWS Regions</a> in the <i>Amazon Web Services General Reference</i>.</p> <p>In each Region, AWS maintains multiple Availability Zones. These Availability Zones are physically isolated from each other, but are united by private, low-latency, high-throughput, and highly redundant network connections. These Availability Zones enable us to provide very high levels of availability and redundancy, while also minimizing latency. To learn more about the number of Availability Zones that are available in each Region, see <a href=\"http://aws.amazon.com/about-aws/global-infrastructure/\">AWS Global Infrastructure</a>.</p>"
 }

@@ -3,7 +3,7 @@
     <nav class="main-nav">
         <ul>
             <li class="dropdown">
-                <a href="#">Recon</a>
+                <a style="color: #61d13e;" href="#">Recon</a>
                 <ul class="dropdown-menu">
                     <li><a href="#">Organization Recon</a></li>
                     <li><a href="#">Subject Recon</a></li>
@@ -11,7 +11,7 @@
                 </ul>
             </li>
             <li class="dropdown">
-                <a href="{{ url_for('target_orgs_dashboard') }}">Targets</a>
+                <a style="color: #61d13e;" href="{{ url_for('target_orgs_dashboard') }}">Targets</a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ url_for('target_org_new') }}">Create a Target Organization</a></li>
                     <li><a href="{{ url_for('target_orgs_dashboard') }}">Target Organizations</a></li>
@@ -25,7 +25,7 @@
                 </a>
             </li>
             <li class="dropdown">
-                <a href="{{ url_for('campaign_campaigns_dashboard') }}">Campaigns</a>
+                <a style="color: #61d13e;" href="{{ url_for('campaign_campaigns_dashboard') }}">Campaigns</a>
                 <ul class="dropdown-menu">
                     <li><a href="{{url_for('campaign_new_campaign')}}">Create Phishing Campaign</a></li>
                     <li><a href="#">Deploy Phishing Campaign</a></li>
@@ -36,7 +36,7 @@
                 </ul>
             </li>
             <li class="dropdown">
-                <a href="{{ url_for('implants') }}">Implants</a>
+                <a style="color: #61d13e;" href="{{ url_for('implants') }}">Implants</a>
                 <ul class="dropdown-menu">
                     <li><a href="#">Create a Payload</a></li>
                     <li><a href="#">Payload Staging</a></li>
@@ -50,7 +50,7 @@
     <div class="header-profile-photo">
         <div class="dropdown">
             <a href="{{ url_for( 'profile') }}">
-                <div class="profile-pic-container">
+                <div style="color:#61d13e;" class="profile-pic-container">
                     <img src="https://i.pravatar.cc/150?img=3 " alt="Profile Picture" class="profile-pic">
                 </div>
             </a>

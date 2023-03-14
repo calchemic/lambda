@@ -786,13 +786,6 @@ def browser_info():
     # # Process browser and device information here...
     return 'OK'
 
-# Static image file route
-@tracer.capture_method
-@app.route('/static/img/<path:path>')
-def send_static(path):
-    full_path = os.path.join('static', 'img', path)
-    return send_file(full_path)
-
 # Index page
 @tracer.capture_method
 @app.route('/index')

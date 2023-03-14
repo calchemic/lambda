@@ -11,11 +11,12 @@
 # distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
 # ANY KIND, either express or implied. See the License for the specific
 # language governing permissions and limitations under the License.
-import configparser
-import copy
 import os
 import shlex
+import copy
 import sys
+
+from botocore.compat import six
 
 import botocore.exceptions
 
@@ -143,13 +144,12 @@ def raw_config_parse(config_filename, parse_subsections=True):
         path = os.path.expanduser(path)
         if not os.path.isfile(path):
             raise botocore.exceptions.ConfigNotFound(path=_unicode_path(path))
-        cp = configparser.RawConfigParser()
+        cp = six.moves.configparser.RawConfigParser()
         try:
             cp.read([path])
-        except (configparser.Error, UnicodeDecodeError) as e:
+        except (six.moves.configparser.Error, UnicodeDecodeError):
             raise botocore.exceptions.ConfigParseError(
-                path=_unicode_path(path), error=e
-            ) from None
+                path=_unicode_path(path))
         else:
             for section in cp.sections():
                 config[section] = {}
@@ -161,16 +161,15 @@ def raw_config_parse(config_filename, parse_subsections=True):
                         # of nesting for now.
                         try:
                             config_value = _parse_nested(config_value)
-                        except ValueError as e:
+                        except ValueError:
                             raise botocore.exceptions.ConfigParseError(
-                                path=_unicode_path(path), error=e
-                            ) from None
+                                path=_unicode_path(path))
                     config[section][option] = config_value
     return config
 
 
 def _unicode_path(path):
-    if isinstance(path, str):
+    if isinstance(path, six.text_type):
         return path
     # According to the documentation getfilesystemencoding can return None
     # on unix in which case the default encoding is used instead.
@@ -253,7 +252,6 @@ def build_profile_map(parsed_ini_config):
     """
     parsed_config = copy.deepcopy(parsed_ini_config)
     profiles = {}
-    sso_sessions = {}
     final_config = {}
     for key, values in parsed_config.items():
         if key.startswith("profile"):
@@ -263,13 +261,6 @@ def build_profile_map(parsed_ini_config):
                 continue
             if len(parts) == 2:
                 profiles[parts[1]] = values
-        elif key.startswith("sso-session"):
-            try:
-                parts = shlex.split(key)
-            except ValueError:
-                continue
-            if len(parts) == 2:
-                sso_sessions[parts[1]] = values
         elif key == 'default':
             # default section is special and is considered a profile
             # name but we don't require you use 'profile "default"'
@@ -278,5 +269,4 @@ def build_profile_map(parsed_ini_config):
         else:
             final_config[key] = values
     final_config['profiles'] = profiles
-    final_config['sso_sessions'] = sso_sessions
     return final_config

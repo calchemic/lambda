@@ -10,25 +10,23 @@
 # distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
 # ANY KIND, either express or implied. See the License for the specific
 # language governing permissions and limitations under the License.
-from botocore.docs.bcdoc.restdoc import DocumentStructure
-from botocore.docs.client import ClientDocumenter, ClientExceptionsDocumenter
-from botocore.docs.paginator import PaginatorDocumenter
-from botocore.docs.waiter import WaiterDocumenter
 from botocore.exceptions import DataNotFoundError
+from botocore.docs.utils import get_official_service_name
+from botocore.docs.client import ClientDocumenter
+from botocore.docs.client import ClientExceptionsDocumenter
+from botocore.docs.waiter import WaiterDocumenter
+from botocore.docs.paginator import PaginatorDocumenter
+from botocore.docs.bcdoc.restdoc import DocumentStructure
 
 
-class ServiceDocumenter:
-    def __init__(self, service_name, session, root_docs_path):
+class ServiceDocumenter(object):
+    def __init__(self, service_name, session):
         self._session = session
         self._service_name = service_name
-        self._root_docs_path = root_docs_path
 
         self._client = self._session.create_client(
-            service_name,
-            region_name='us-east-1',
-            aws_access_key_id='foo',
-            aws_secret_access_key='bar',
-        )
+            service_name, region_name='us-east-1', aws_access_key_id='foo',
+            aws_secret_access_key='bar')
         self._event_emitter = self._client.meta.events
 
         self.sections = [
@@ -37,7 +35,7 @@ class ServiceDocumenter:
             'client-api',
             'client-exceptions',
             'paginator-api',
-            'waiter-api',
+            'waiter-api'
         ]
 
     def document_service(self):
@@ -46,8 +44,8 @@ class ServiceDocumenter:
         :returns: The reStructured text of the documented service.
         """
         doc_structure = DocumentStructure(
-            self._service_name, section_names=self.sections, target='html'
-        )
+            self._service_name, section_names=self.sections,
+            target='html')
         self.title(doc_structure.get_section('title'))
         self.table_of_contents(doc_structure.get_section('table-of-contents'))
         self.client_api(doc_structure.get_section('client-api'))
@@ -59,7 +57,9 @@ class ServiceDocumenter:
     def title(self, section):
         section.style.h1(self._client.__class__.__name__)
         self._event_emitter.emit(
-            f"docs.title.{self._service_name}", section=section
+            'docs.%s.%s' % ('title',
+                            self._service_name),
+            section=section
         )
 
     def table_of_contents(self, section):
@@ -72,41 +72,31 @@ class ServiceDocumenter:
         except DataNotFoundError:
             pass
 
-        ClientDocumenter(
-            self._client, self._root_docs_path, examples
-        ).document_client(section)
+        ClientDocumenter(self._client, examples).document_client(section)
 
     def client_exceptions(self, section):
-        ClientExceptionsDocumenter(
-            self._client, self._root_docs_path
-        ).document_exceptions(section)
+        ClientExceptionsDocumenter(self._client).document_exceptions(section)
 
     def paginator_api(self, section):
         try:
             service_paginator_model = self._session.get_paginator_model(
-                self._service_name
-            )
+                self._service_name)
         except DataNotFoundError:
             return
-        if service_paginator_model._paginator_config:
-            paginator_documenter = PaginatorDocumenter(
-                self._client, service_paginator_model, self._root_docs_path
-            )
-            paginator_documenter.document_paginators(section)
+        paginator_documenter = PaginatorDocumenter(
+            self._client, service_paginator_model)
+        paginator_documenter.document_paginators(section)
 
     def waiter_api(self, section):
         if self._client.waiter_names:
             service_waiter_model = self._session.get_waiter_model(
-                self._service_name
-            )
+                self._service_name)
             waiter_documenter = WaiterDocumenter(
-                self._client, service_waiter_model, self._root_docs_path
-            )
+                self._client, service_waiter_model)
             waiter_documenter.document_waiters(section)
 
     def get_examples(self, service_name, api_version=None):
         loader = self._session.get_component('data_loader')
         examples = loader.load_service_model(
-            service_name, 'examples-1', api_version
-        )
+            service_name, 'examples-1', api_version)
         return examples['examples']

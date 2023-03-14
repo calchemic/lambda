@@ -77,30 +77,6 @@
       "output_token": "nextToken",
       "limit_key": "maxResults",
       "result_key": "interpolatedAssetPropertyValues"
-    },
-    "ListTimeSeries": {
-      "input_token": "nextToken",
-      "output_token": "nextToken",
-      "limit_key": "maxResults",
-      "result_key": "TimeSeriesSummaries"
-    },
-    "ListBulkImportJobs": {
-      "input_token": "nextToken",
-      "output_token": "nextToken",
-      "limit_key": "maxResults",
-      "result_key": "jobSummaries"
-    },
-    "ListAssetModelProperties": {
-      "input_token": "nextToken",
-      "output_token": "nextToken",
-      "limit_key": "maxResults",
-      "result_key": "assetModelPropertySummaries"
-    },
-    "ListAssetProperties": {
-      "input_token": "nextToken",
-      "output_token": "nextToken",
-      "limit_key": "maxResults",
-      "result_key": "assetPropertySummaries"
     }
   }
 }

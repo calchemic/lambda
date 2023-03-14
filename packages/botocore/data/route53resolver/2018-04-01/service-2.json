@@ -180,7 +180,7 @@
         {"shape":"ThrottlingException"},
         {"shape":"AccessDeniedException"}
       ],
-      "documentation":"<p>Creates a Resolver query logging configuration, which defines where you want Resolver to save DNS query logs that originate in your VPCs. Resolver can log queries only for VPCs that are in the same Region as the query logging configuration.</p> <p>To specify which VPCs you want to log queries for, you use <code>AssociateResolverQueryLogConfig</code>. For more information, see <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_AssociateResolverQueryLogConfig.html\">AssociateResolverQueryLogConfig</a>. </p> <p>You can optionally use Resource Access Manager (RAM) to share a query logging configuration with other Amazon Web Services accounts. The other accounts can then associate VPCs with the configuration. The query logs that Resolver creates for a configuration include all DNS queries that originate in all VPCs that are associated with the configuration.</p>"
+      "documentation":"<p>Creates a Resolver query logging configuration, which defines where you want Resolver to save DNS query logs that originate in your VPCs. Resolver can log queries only for VPCs that are in the same Region as the query logging configuration.</p> <p>To specify which VPCs you want to log queries for, you use <code>AssociateResolverQueryLogConfig</code>. For more information, see <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_AssociateResolverQueryLogConfig.html\">AssociateResolverQueryLogConfig</a>. </p> <p>You can optionally use AWS Resource Access Manager (AWS RAM) to share a query logging configuration with other AWS accounts. The other accounts can then associate VPCs with the configuration. The query logs that Resolver creates for a configuration include all DNS queries that originate in all VPCs that are associated with the configuration.</p>"
     },
     "CreateResolverRule":{
       "name":"CreateResolverRule",
@@ -286,7 +286,7 @@
         {"shape":"ThrottlingException"},
         {"shape":"AccessDeniedException"}
       ],
-      "documentation":"<p>Deletes a query logging configuration. When you delete a configuration, Resolver stops logging DNS queries for all of the Amazon VPCs that are associated with the configuration. This also applies if the query logging configuration is shared with other Amazon Web Services accounts, and the other accounts have associated VPCs with the shared configuration.</p> <p>Before you can delete a query logging configuration, you must first disassociate all VPCs from the configuration. See <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DisassociateResolverQueryLogConfig.html\">DisassociateResolverQueryLogConfig</a>.</p> <p>If you used Resource Access Manager (RAM) to share a query logging configuration with other accounts, you must stop sharing the configuration before you can delete a configuration. The accounts that you shared the configuration with can first disassociate VPCs that they associated with the configuration, but that's not necessary. If you stop sharing the configuration, those VPCs are automatically disassociated from the configuration.</p>"
+      "documentation":"<p>Deletes a query logging configuration. When you delete a configuration, Resolver stops logging DNS queries for all of the Amazon VPCs that are associated with the configuration. This also applies if the query logging configuration is shared with other AWS accounts, and the other accounts have associated VPCs with the shared configuration.</p> <p>Before you can delete a query logging configuration, you must first disassociate all VPCs from the configuration. See <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DisassociateResolverQueryLogConfig.html\">DisassociateResolverQueryLogConfig</a>.</p> <p>If you used Resource Access Manager (RAM) to share a query logging configuration with other accounts, you must stop sharing the configuration before you can delete a configuration. The accounts that you shared the configuration with can first disassociate VPCs that they associated with the configuration, but that's not necessary. If you stop sharing the configuration, those VPCs are automatically disassociated from the configuration.</p>"
     },
     "DeleteResolverRule":{
       "name":"DeleteResolverRule",
@@ -357,7 +357,7 @@
         {"shape":"ThrottlingException"},
         {"shape":"AccessDeniedException"}
       ],
-      "documentation":"<p>Disassociates a VPC from a query logging configuration.</p> <note> <p>Before you can delete a query logging configuration, you must first disassociate all VPCs from the configuration. If you used Resource Access Manager (RAM) to share a query logging configuration with other accounts, VPCs can be disassociated from the configuration in the following ways:</p> <ul> <li> <p>The accounts that you shared the configuration with can disassociate VPCs from the configuration.</p> </li> <li> <p>You can stop sharing the configuration.</p> </li> </ul> </note>"
+      "documentation":"<p>Disassociates a VPC from a query logging configuration.</p> <note> <p>Before you can delete a query logging configuration, you must first disassociate all VPCs from the configuration. If you used AWS Resource Access Manager (AWS RAM) to share a query logging configuration with other accounts, VPCs can be disassociated from the configuration in the following ways:</p> <ul> <li> <p>The accounts that you shared the configuration with can disassociate VPCs from the configuration.</p> </li> <li> <p>You can stop sharing the configuration.</p> </li> </ul> </note>"
     },
     "DisassociateResolverRule":{
       "name":"DisassociateResolverRule",
@@ -455,25 +455,7 @@
         {"shape":"InternalServiceErrorException"},
         {"shape":"ThrottlingException"}
       ],
-      "documentation":"<p>Returns the Identity and Access Management (Amazon Web Services IAM) policy for sharing the specified rule group. You can use the policy to share the rule group using Resource Access Manager (RAM). </p>"
-    },
-    "GetResolverConfig":{
-      "name":"GetResolverConfig",
-      "http":{
-        "method":"POST",
-        "requestUri":"/"
-      },
-      "input":{"shape":"GetResolverConfigRequest"},
-      "output":{"shape":"GetResolverConfigResponse"},
-      "errors":[
-        {"shape":"ResourceNotFoundException"},
-        {"shape":"InvalidParameterException"},
-        {"shape":"InternalServiceErrorException"},
-        {"shape":"ThrottlingException"},
-        {"shape":"AccessDeniedException"},
-        {"shape":"ValidationException"}
-      ],
-      "documentation":"<p>Retrieves the behavior configuration of Route 53 Resolver behavior for a single VPC from Amazon Virtual Private Cloud.</p>"
+      "documentation":"<p>Returns the AWS Identity and Access Management (AWS IAM) policy for sharing the specified rule group. You can use the policy to share the rule group using AWS Resource Access Manager (AWS RAM). </p>"
     },
     "GetResolverDnssecConfig":{
       "name":"GetResolverDnssecConfig",
@@ -560,7 +542,7 @@
         {"shape":"InternalServiceErrorException"},
         {"shape":"AccessDeniedException"}
       ],
-      "documentation":"<p>Gets information about a query logging policy. A query logging policy specifies the Resolver query logging operations and resources that you want to allow another Amazon Web Services account to be able to use.</p>"
+      "documentation":"<p>Gets information about a query logging policy. A query logging policy specifies the Resolver query logging operations and resources that you want to allow another AWS account to be able to use.</p>"
     },
     "GetResolverRule":{
       "name":"GetResolverRule",
@@ -605,8 +587,7 @@
       "errors":[
         {"shape":"InvalidParameterException"},
         {"shape":"UnknownResourceException"},
-        {"shape":"InternalServiceErrorException"},
-        {"shape":"AccessDeniedException"}
+        {"shape":"InternalServiceErrorException"}
       ],
       "documentation":"<p>Gets information about the Resolver rule policy for a specified rule. A Resolver rule policy includes the rule that you want to share with another account, the account that you want to share the rule with, and the Resolver operations that you want to allow the account to use. </p>"
     },
@@ -727,25 +708,6 @@
       ],
       "documentation":"<p>Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC. </p> <p>A single call might return only a partial list of the rules. For information, see <code>MaxResults</code>. </p>"
     },
-    "ListResolverConfigs":{
-      "name":"ListResolverConfigs",
-      "http":{
-        "method":"POST",
-        "requestUri":"/"
-      },
-      "input":{"shape":"ListResolverConfigsRequest"},
-      "output":{"shape":"ListResolverConfigsResponse"},
-      "errors":[
-        {"shape":"InvalidNextTokenException"},
-        {"shape":"InvalidRequestException"},
-        {"shape":"InvalidParameterException"},
-        {"shape":"InternalServiceErrorException"},
-        {"shape":"ThrottlingException"},
-        {"shape":"AccessDeniedException"},
-        {"shape":"ValidationException"}
-      ],
-      "documentation":"<p>Retrieves the Resolver configurations that you have defined. Route 53 Resolver uses the configurations to manage DNS resolution behavior for your VPCs.</p>"
-    },
     "ListResolverDnssecConfigs":{
       "name":"ListResolverDnssecConfigs",
       "http":{
@@ -762,7 +724,7 @@
         {"shape":"ThrottlingException"},
         {"shape":"AccessDeniedException"}
       ],
-      "documentation":"<p>Lists the configurations for DNSSEC validation that are associated with the current Amazon Web Services account.</p>"
+      "documentation":"<p>Lists the configurations for DNSSEC validation that are associated with the current AWS account.</p>"
     },
     "ListResolverEndpointIpAddresses":{
       "name":"ListResolverEndpointIpAddresses",
@@ -796,7 +758,7 @@
         {"shape":"InternalServiceErrorException"},
         {"shape":"ThrottlingException"}
       ],
-      "documentation":"<p>Lists all the Resolver endpoints that were created using the current Amazon Web Services account.</p>"
+      "documentation":"<p>Lists all the Resolver endpoints that were created using the current AWS account.</p>"
     },
     "ListResolverQueryLogConfigAssociations":{
       "name":"ListResolverQueryLogConfigAssociations",
@@ -849,7 +811,7 @@
         {"shape":"InternalServiceErrorException"},
         {"shape":"ThrottlingException"}
       ],
-      "documentation":"<p>Lists the associations that were created between Resolver rules and VPCs using the current Amazon Web Services account.</p>"
+      "documentation":"<p>Lists the associations that were created between Resolver rules and VPCs using the current AWS account.</p>"
     },
     "ListResolverRules":{
       "name":"ListResolverRules",
@@ -866,7 +828,7 @@
         {"shape":"InternalServiceErrorException"},
         {"shape":"ThrottlingException"}
       ],
-      "documentation":"<p>Lists the Resolver rules that were created using the current Amazon Web Services account.</p>"
+      "documentation":"<p>Lists the Resolver rules that were created using the current AWS account.</p>"
     },
     "ListTagsForResource":{
       "name":"ListTagsForResource",
@@ -901,7 +863,7 @@
         {"shape":"InternalServiceErrorException"},
         {"shape":"ThrottlingException"}
       ],
-      "documentation":"<p>Attaches an Identity and Access Management (Amazon Web Services IAM) policy for sharing the rule group. You can use the policy to share the rule group using Resource Access Manager (RAM). </p>"
+      "documentation":"<p>Attaches an AWS Identity and Access Management (AWS IAM) policy for sharing the rule group. You can use the policy to share the rule group using AWS Resource Access Manager (AWS RAM). </p>"
     },
     "PutResolverQueryLogConfigPolicy":{
       "name":"PutResolverQueryLogConfigPolicy",
@@ -919,7 +881,7 @@
         {"shape":"InternalServiceErrorException"},
         {"shape":"AccessDeniedException"}
       ],
-      "documentation":"<p>Specifies an Amazon Web Services account that you want to share a query logging configuration with, the query logging configuration that you want to share, and the operations that you want the account to be able to perform on the configuration.</p>"
+      "documentation":"<p>Specifies an AWS account that you want to share a query logging configuration with, the query logging configuration that you want to share, and the operations that you want the account to be able to perform on the configuration.</p>"
     },
     "PutResolverRulePolicy":{
       "name":"PutResolverRulePolicy",
@@ -933,10 +895,9 @@
         {"shape":"InvalidPolicyDocument"},
         {"shape":"InvalidParameterException"},
         {"shape":"UnknownResourceException"},
-        {"shape":"InternalServiceErrorException"},
-        {"shape":"AccessDeniedException"}
+        {"shape":"InternalServiceErrorException"}
       ],
-      "documentation":"<p>Specifies an Amazon Web Services rule that you want to share with another account, the account that you want to share the rule with, and the operations that you want the account to be able to perform on the rule.</p>"
+      "documentation":"<p>Specifies an AWS rule that you want to share with another account, the account that you want to share the rule with, and the operations that you want the account to be able to perform on the rule.</p>"
     },
     "TagResource":{
       "name":"TagResource",
@@ -1046,27 +1007,6 @@
       ],
       "documentation":"<p>Changes the association of a <a>FirewallRuleGroup</a> with a VPC. The association enables DNS filtering for the VPC. </p>"
     },
-    "UpdateResolverConfig":{
-      "name":"UpdateResolverConfig",
-      "http":{
-        "method":"POST",
-        "requestUri":"/"
-      },
-      "input":{"shape":"UpdateResolverConfigRequest"},
-      "output":{"shape":"UpdateResolverConfigResponse"},
-      "errors":[
-        {"shape":"InvalidRequestException"},
-        {"shape":"InvalidParameterException"},
-        {"shape":"ResourceNotFoundException"},
-        {"shape":"ResourceUnavailableException"},
-        {"shape":"LimitExceededException"},
-        {"shape":"InternalServiceErrorException"},
-        {"shape":"ThrottlingException"},
-        {"shape":"AccessDeniedException"},
-        {"shape":"ValidationException"}
-      ],
-      "documentation":"<p>Updates the behavior configuration of Route 53 Resolver behavior for a single VPC from Amazon Virtual Private Cloud.</p>"
-    },
     "UpdateResolverDnssecConfig":{
       "name":"UpdateResolverDnssecConfig",
       "http":{
@@ -1100,7 +1040,7 @@
         {"shape":"InternalServiceErrorException"},
         {"shape":"ThrottlingException"}
       ],
-      "documentation":"<p>Updates the name, or enpoint type for an inbound or an outbound Resolver endpoint. You can only update between IPV4 and DUALSTACK, IPV6 endpoint type can't be updated to other type. </p>"
+      "documentation":"<p>Updates the name of an inbound or an outbound Resolver endpoint. </p>"
     },
     "UpdateResolverRule":{
       "name":"UpdateResolverRule",
@@ -1283,14 +1223,6 @@
         }
       }
     },
-    "AutodefinedReverseFlag":{
-      "type":"string",
-      "enum":[
-        "ENABLE",
-        "DISABLE",
-        "USE_LOCAL_RESOURCE_SETTING"
-      ]
-    },
     "BlockOverrideDnsType":{
       "type":"string",
       "enum":["CNAME"]
@@ -1319,7 +1251,7 @@
       "members":{
         "Message":{"shape":"ExceptionMessage"}
       },
-      "documentation":"<p>The requested state transition isn't valid. For example, you can't delete a firewall domain list if it is in the process of being deleted, or you can't import domains into a domain list that is in the process of being deleted.</p>",
+      "documentation":"<p/>",
       "exception":true
     },
     "Count":{"type":"integer"},
@@ -1487,11 +1419,6 @@
         "Tags":{
           "shape":"TagList",
           "documentation":"<p>A list of the tag keys and values that you want to associate with the endpoint.</p>",
-          "box":true
-        },
-        "ResolverEndpointType":{
-          "shape":"ResolverEndpointType",
-          "documentation":"<p> For the endpoint type you can choose either IPv4, IPv6. or dual-stack. A dual-stack endpoint means that it will resolve via both IPv4 and IPv6. This endpoint type is applied to all IP addresses. </p>",
           "box":true
         }
       }
@@ -1836,7 +1763,7 @@
       "members":{
         "Name":{
           "shape":"FilterName",
-          "documentation":"<p>The name of the parameter that you want to use to filter objects.</p> <p>The valid values for <code>Name</code> depend on the action that you're including the filter in, <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverEndpoints.html\">ListResolverEndpoints</a>, <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverRules.html\">ListResolverRules</a>, <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverRuleAssociations.html\">ListResolverRuleAssociations</a>, <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverQueryLogConfigs.html\">ListResolverQueryLogConfigs</a>, or <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverQueryLogConfigAssociations.html\">ListResolverQueryLogConfigAssociations</a>.</p> <note> <p>In early versions of Resolver, values for <code>Name</code> were listed as uppercase, with underscore (_) delimiters. For example, <code>CreatorRequestId</code> was originally listed as <code>CREATOR_REQUEST_ID</code>. Uppercase values for <code>Name</code> are still supported.</p> </note> <p> <b>ListResolverEndpoints</b> </p> <p>Valid values for <code>Name</code> include the following:</p> <ul> <li> <p> <code>CreatorRequestId</code>: The value that you specified when you created the Resolver endpoint.</p> </li> <li> <p> <code>Direction</code>: Whether you want to return inbound or outbound Resolver endpoints. If you specify <code>DIRECTION</code> for <code>Name</code>, specify <code>INBOUND</code> or <code>OUTBOUND</code> for <code>Values</code>.</p> </li> <li> <p> <code>HostVPCId</code>: The ID of the VPC that inbound DNS queries pass through on the way from your network to your VPCs in a region, or the VPC that outbound queries pass through on the way from your VPCs to your network. In a <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_CreateResolverEndpoint.html\">CreateResolverEndpoint</a> request, <code>SubnetId</code> indirectly identifies the VPC. In a <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverEndpoint.html\">GetResolverEndpoint</a> request, the VPC ID for a Resolver endpoint is returned in the <code>HostVPCId</code> element. </p> </li> <li> <p> <code>IpAddressCount</code>: The number of IP addresses that you have associated with the Resolver endpoint.</p> </li> <li> <p> <code>Name</code>: The name of the Resolver endpoint.</p> </li> <li> <p> <code>SecurityGroupIds</code>: The IDs of the VPC security groups that you specified when you created the Resolver endpoint.</p> </li> <li> <p> <code>Status</code>: The status of the Resolver endpoint. If you specify <code>Status</code> for <code>Name</code>, specify one of the following status codes for <code>Values</code>: <code>CREATING</code>, <code>OPERATIONAL</code>, <code>UPDATING</code>, <code>AUTO_RECOVERING</code>, <code>ACTION_NEEDED</code>, or <code>DELETING</code>. For more information, see <code>Status</code> in <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ResolverEndpoint.html\">ResolverEndpoint</a>.</p> </li> </ul> <p> <b>ListResolverRules</b> </p> <p>Valid values for <code>Name</code> include the following:</p> <ul> <li> <p> <code>CreatorRequestId</code>: The value that you specified when you created the Resolver rule.</p> </li> <li> <p> <code>DomainName</code>: The domain name for which Resolver is forwarding DNS queries to your network. In the value that you specify for <code>Values</code>, include a trailing dot (.) after the domain name. For example, if the domain name is example.com, specify the following value. Note the \".\" after <code>com</code>:</p> <p> <code>example.com.</code> </p> </li> <li> <p> <code>Name</code>: The name of the Resolver rule.</p> </li> <li> <p> <code>ResolverEndpointId</code>: The ID of the Resolver endpoint that the Resolver rule is associated with.</p> <note> <p>You can filter on the Resolver endpoint only for rules that have a value of <code>FORWARD</code> for <code>RuleType</code>.</p> </note> </li> <li> <p> <code>Status</code>: The status of the Resolver rule. If you specify <code>Status</code> for <code>Name</code>, specify one of the following status codes for <code>Values</code>: <code>COMPLETE</code>, <code>DELETING</code>, <code>UPDATING</code>, or <code>FAILED</code>.</p> </li> <li> <p> <code>Type</code>: The type of the Resolver rule. If you specify <code>TYPE</code> for <code>Name</code>, specify <code>FORWARD</code> or <code>SYSTEM</code> for <code>Values</code>.</p> </li> </ul> <p> <b>ListResolverRuleAssociations</b> </p> <p>Valid values for <code>Name</code> include the following:</p> <ul> <li> <p> <code>Name</code>: The name of the Resolver rule association.</p> </li> <li> <p> <code>ResolverRuleId</code>: The ID of the Resolver rule that is associated with one or more VPCs.</p> </li> <li> <p> <code>Status</code>: The status of the Resolver rule association. If you specify <code>Status</code> for <code>Name</code>, specify one of the following status codes for <code>Values</code>: <code>CREATING</code>, <code>COMPLETE</code>, <code>DELETING</code>, or <code>FAILED</code>.</p> </li> <li> <p> <code>VPCId</code>: The ID of the VPC that the Resolver rule is associated with.</p> </li> </ul> <p> <b>ListResolverQueryLogConfigs</b> </p> <p>Valid values for <code>Name</code> include the following:</p> <ul> <li> <p> <code>Arn</code>: The ARN for the query logging configuration.</p> </li> <li> <p> <code>AssociationCount</code>: The number of VPCs that are associated with the query logging configuration.</p> </li> <li> <p> <code>CreationTime</code>: The date and time that the query logging configuration was created, in Unix time format and Coordinated Universal Time (UTC). </p> </li> <li> <p> <code>CreatorRequestId</code>: A unique string that identifies the request that created the query logging configuration.</p> </li> <li> <p> <code>Destination</code>: The Amazon Web Services service that you want to forward query logs to. Valid values include the following:</p> <ul> <li> <p> <code>S3</code> </p> </li> <li> <p> <code>CloudWatchLogs</code> </p> </li> <li> <p> <code>KinesisFirehose</code> </p> </li> </ul> </li> <li> <p> <code>DestinationArn</code>: The ARN of the location that Resolver is sending query logs to. This value can be the ARN for an S3 bucket, a CloudWatch Logs log group, or a Kinesis Data Firehose delivery stream.</p> </li> <li> <p> <code>Id</code>: The ID of the query logging configuration</p> </li> <li> <p> <code>Name</code>: The name of the query logging configuration</p> </li> <li> <p> <code>OwnerId</code>: The Amazon Web Services account ID for the account that created the query logging configuration.</p> </li> <li> <p> <code>ShareStatus</code>: An indication of whether the query logging configuration is shared with other Amazon Web Services accounts, or was shared with the current account by another Amazon Web Services account. Valid values include: <code>NOT_SHARED</code>, <code>SHARED_WITH_ME</code>, or <code>SHARED_BY_ME</code>.</p> </li> <li> <p> <code>Status</code>: The status of the query logging configuration. If you specify <code>Status</code> for <code>Name</code>, specify the applicable status code for <code>Values</code>: <code>CREATING</code>, <code>CREATED</code>, <code>DELETING</code>, or <code>FAILED</code>. For more information, see <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ResolverQueryLogConfig.html#Route53Resolver-Type-route53resolver_ResolverQueryLogConfig-Status\">Status</a>. </p> </li> </ul> <p> <b>ListResolverQueryLogConfigAssociations</b> </p> <p>Valid values for <code>Name</code> include the following:</p> <ul> <li> <p> <code>CreationTime</code>: The date and time that the VPC was associated with the query logging configuration, in Unix time format and Coordinated Universal Time (UTC).</p> </li> <li> <p> <code>Error</code>: If the value of <code>Status</code> is <code>FAILED</code>, specify the cause: <code>DESTINATION_NOT_FOUND</code> or <code>ACCESS_DENIED</code>.</p> </li> <li> <p> <code>Id</code>: The ID of the query logging association.</p> </li> <li> <p> <code>ResolverQueryLogConfigId</code>: The ID of the query logging configuration that a VPC is associated with.</p> </li> <li> <p> <code>ResourceId</code>: The ID of the Amazon VPC that is associated with the query logging configuration.</p> </li> <li> <p> <code>Status</code>: The status of the query logging association. If you specify <code>Status</code> for <code>Name</code>, specify the applicable status code for <code>Values</code>: <code>CREATING</code>, <code>CREATED</code>, <code>DELETING</code>, or <code>FAILED</code>. For more information, see <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ResolverQueryLogConfigAssociation.html#Route53Resolver-Type-route53resolver_ResolverQueryLogConfigAssociation-Status\">Status</a>. </p> </li> </ul>"
+          "documentation":"<p>The name of the parameter that you want to use to filter objects.</p> <p>The valid values for <code>Name</code> depend on the action that you're including the filter in, <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverEndpoints.html\">ListResolverEndpoints</a>, <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverRules.html\">ListResolverRules</a>, <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverRuleAssociations.html\">ListResolverRuleAssociations</a>, <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverQueryLogConfigs.html\">ListResolverQueryLogConfigs</a>, or <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverQueryLogConfigAssociations.html\">ListResolverQueryLogConfigAssociations</a>.</p> <note> <p>In early versions of Resolver, values for <code>Name</code> were listed as uppercase, with underscore (_) delimiters. For example, <code>CreatorRequestId</code> was originally listed as <code>CREATOR_REQUEST_ID</code>. Uppercase values for <code>Name</code> are still supported.</p> </note> <p> <b>ListResolverEndpoints</b> </p> <p>Valid values for <code>Name</code> include the following:</p> <ul> <li> <p> <code>CreatorRequestId</code>: The value that you specified when you created the Resolver endpoint.</p> </li> <li> <p> <code>Direction</code>: Whether you want to return inbound or outbound Resolver endpoints. If you specify <code>DIRECTION</code> for <code>Name</code>, specify <code>INBOUND</code> or <code>OUTBOUND</code> for <code>Values</code>.</p> </li> <li> <p> <code>HostVpcId</code>: The ID of the VPC that inbound DNS queries pass through on the way from your network to your VPCs in a region, or the VPC that outbound queries pass through on the way from your VPCs to your network. In a <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_CreateResolverEndpoint.html\">CreateResolverEndpoint</a> request, <code>SubnetId</code> indirectly identifies the VPC. In a <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverEndpoint.html\">GetResolverEndpoint</a> request, the VPC ID for a Resolver endpoint is returned in the <code>HostVPCId</code> element. </p> </li> <li> <p> <code>IpAddressCount</code>: The number of IP addresses that you have associated with the Resolver endpoint.</p> </li> <li> <p> <code>Name</code>: The name of the Resolver endpoint.</p> </li> <li> <p> <code>SecurityGroupIds</code>: The IDs of the VPC security groups that you specified when you created the Resolver endpoint.</p> </li> <li> <p> <code>Status</code>: The status of the Resolver endpoint. If you specify <code>Status</code> for <code>Name</code>, specify one of the following status codes for <code>Values</code>: <code>CREATING</code>, <code>OPERATIONAL</code>, <code>UPDATING</code>, <code>AUTO_RECOVERING</code>, <code>ACTION_NEEDED</code>, or <code>DELETING</code>. For more information, see <code>Status</code> in <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ResolverEndpoint.html\">ResolverEndpoint</a>.</p> </li> </ul> <p> <b>ListResolverRules</b> </p> <p>Valid values for <code>Name</code> include the following:</p> <ul> <li> <p> <code>CreatorRequestId</code>: The value that you specified when you created the Resolver rule.</p> </li> <li> <p> <code>DomainName</code>: The domain name for which Resolver is forwarding DNS queries to your network. In the value that you specify for <code>Values</code>, include a trailing dot (.) after the domain name. For example, if the domain name is example.com, specify the following value. Note the \".\" after <code>com</code>:</p> <p> <code>example.com.</code> </p> </li> <li> <p> <code>Name</code>: The name of the Resolver rule.</p> </li> <li> <p> <code>ResolverEndpointId</code>: The ID of the Resolver endpoint that the Resolver rule is associated with.</p> <note> <p>You can filter on the Resolver endpoint only for rules that have a value of <code>FORWARD</code> for <code>RuleType</code>.</p> </note> </li> <li> <p> <code>Status</code>: The status of the Resolver rule. If you specify <code>Status</code> for <code>Name</code>, specify one of the following status codes for <code>Values</code>: <code>COMPLETE</code>, <code>DELETING</code>, <code>UPDATING</code>, or <code>FAILED</code>.</p> </li> <li> <p> <code>Type</code>: The type of the Resolver rule. If you specify <code>TYPE</code> for <code>Name</code>, specify <code>FORWARD</code> or <code>SYSTEM</code> for <code>Values</code>.</p> </li> </ul> <p> <b>ListResolverRuleAssociations</b> </p> <p>Valid values for <code>Name</code> include the following:</p> <ul> <li> <p> <code>Name</code>: The name of the Resolver rule association.</p> </li> <li> <p> <code>ResolverRuleId</code>: The ID of the Resolver rule that is associated with one or more VPCs.</p> </li> <li> <p> <code>Status</code>: The status of the Resolver rule association. If you specify <code>Status</code> for <code>Name</code>, specify one of the following status codes for <code>Values</code>: <code>CREATING</code>, <code>COMPLETE</code>, <code>DELETING</code>, or <code>FAILED</code>.</p> </li> <li> <p> <code>VPCId</code>: The ID of the VPC that the Resolver rule is associated with.</p> </li> </ul> <p> <b>ListResolverQueryLogConfigs</b> </p> <p>Valid values for <code>Name</code> include the following:</p> <ul> <li> <p> <code>Arn</code>: The ARN for the query logging configuration.</p> </li> <li> <p> <code>AssociationCount</code>: The number of VPCs that are associated with the query logging configuration.</p> </li> <li> <p> <code>CreationTime</code>: The date and time that the query logging configuration was created, in Unix time format and Coordinated Universal Time (UTC). </p> </li> <li> <p> <code>CreatorRequestId</code>: A unique string that identifies the request that created the query logging configuration.</p> </li> <li> <p> <code>Destination</code>: The AWS service that you want to forward query logs to. Valid values include the following:</p> <ul> <li> <p> <code>S3</code> </p> </li> <li> <p> <code>CloudWatchLogs</code> </p> </li> <li> <p> <code>KinesisFirehose</code> </p> </li> </ul> </li> <li> <p> <code>DestinationArn</code>: The ARN of the location that Resolver is sending query logs to. This value can be the ARN for an S3 bucket, a CloudWatch Logs log group, or a Kinesis Data Firehose delivery stream.</p> </li> <li> <p> <code>Id</code>: The ID of the query logging configuration</p> </li> <li> <p> <code>Name</code>: The name of the query logging configuration</p> </li> <li> <p> <code>OwnerId</code>: The AWS account ID for the account that created the query logging configuration.</p> </li> <li> <p> <code>ShareStatus</code>: An indication of whether the query logging configuration is shared with other AWS accounts, or was shared with the current account by another AWS account. Valid values include: <code>NOT_SHARED</code>, <code>SHARED_WITH_ME</code>, or <code>SHARED_BY_ME</code>.</p> </li> <li> <p> <code>Status</code>: The status of the query logging configuration. If you specify <code>Status</code> for <code>Name</code>, specify the applicable status code for <code>Values</code>: <code>CREATING</code>, <code>CREATED</code>, <code>DELETING</code>, or <code>FAILED</code>. For more information, see <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ResolverQueryLogConfig.html#Route53Resolver-Type-route53resolver_ResolverQueryLogConfig-Status\">Status</a>. </p> </li> </ul> <p> <b>ListResolverQueryLogConfigAssociations</b> </p> <p>Valid values for <code>Name</code> include the following:</p> <ul> <li> <p> <code>CreationTime</code>: The date and time that the VPC was associated with the query logging configuration, in Unix time format and Coordinated Universal Time (UTC).</p> </li> <li> <p> <code>Error</code>: If the value of <code>Status</code> is <code>FAILED</code>, specify the cause: <code>DESTINATION_NOT_FOUND</code> or <code>ACCESS_DENIED</code>.</p> </li> <li> <p> <code>Id</code>: The ID of the query logging association.</p> </li> <li> <p> <code>ResolverQueryLogConfigId</code>: The ID of the query logging configuration that a VPC is associated with.</p> </li> <li> <p> <code>ResourceId</code>: The ID of the Amazon VPC that is associated with the query logging configuration.</p> </li> <li> <p> <code>Status</code>: The status of the query logging association. If you specify <code>Status</code> for <code>Name</code>, specify the applicable status code for <code>Values</code>: <code>CREATING</code>, <code>CREATED</code>, <code>DELETING</code>, or <code>FAILED</code>. For more information, see <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ResolverQueryLogConfigAssociation.html#Route53Resolver-Type-route53resolver_ResolverQueryLogConfigAssociation-Status\">Status</a>. </p> </li> </ul>"
         },
         "Values":{
           "shape":"FilterValues",
@@ -1876,7 +1803,7 @@
         },
         "OwnerId":{
           "shape":"AccountId",
-          "documentation":"<p>The Amazon Web Services account ID of the owner of the VPC that this firewall configuration applies to.</p>"
+          "documentation":"<p>The AWS account ID of the owner of the VPC that this firewall configuration applies to.</p>"
         },
         "FirewallFailOpen":{
           "shape":"FirewallFailOpenStatus",
@@ -2000,8 +1927,7 @@
       "type":"string",
       "enum":[
         "ENABLED",
-        "DISABLED",
-        "USE_LOCAL_RESOURCE_SETTING"
+        "DISABLED"
       ]
     },
     "FirewallRule":{
@@ -2087,7 +2013,7 @@
         },
         "OwnerId":{
           "shape":"AccountId",
-          "documentation":"<p>The Amazon Web Services account ID for the account that created the rule group. When a rule group is shared with your account, this is the account that has shared the rule group with you. </p>"
+          "documentation":"<p>The AWS account ID for the account that created the rule group. When a rule group is shared with your account, this is the account that has shared the rule group with you. </p>"
         },
         "CreatorRequestId":{
           "shape":"CreatorRequestId",
@@ -2095,7 +2021,7 @@
         },
         "ShareStatus":{
           "shape":"ShareStatus",
-          "documentation":"<p>Whether the rule group is shared with other Amazon Web Services accounts, or was shared with the current account by another Amazon Web Services account. Sharing is configured through Resource Access Manager (RAM).</p>"
+          "documentation":"<p>Whether the rule group is shared with other AWS accounts, or was shared with the current account by another AWS account. Sharing is configured through AWS Resource Access Manager (AWS RAM).</p>"
         },
         "CreationTime":{
           "shape":"Rfc3339TimeString",
@@ -2141,7 +2067,7 @@
         },
         "ManagedOwnerName":{
           "shape":"ServicePrinciple",
-          "documentation":"<p>The owner of the association, used only for associations that are not managed by you. If you use Firewall Manager to manage your DNS Firewalls, then this reports Firewall Manager as the managed owner.</p>"
+          "documentation":"<p>The owner of the association, used only for associations that are not managed by you. If you use AWS Firewall Manager to manage your DNS Firewalls, then this reports Firewall Manager as the managed owner.</p>"
         },
         "Status":{
           "shape":"FirewallRuleGroupAssociationStatus",
@@ -2195,7 +2121,7 @@
         },
         "OwnerId":{
           "shape":"AccountId",
-          "documentation":"<p>The Amazon Web Services account ID for the account that created the rule group. When a rule group is shared with your account, this is the account that has shared the rule group with you. </p>"
+          "documentation":"<p>The AWS account ID for the account that created the rule group. When a rule group is shared with your account, this is the account that has shared the rule group with you. </p>"
         },
         "CreatorRequestId":{
           "shape":"CreatorRequestId",
@@ -2203,7 +2129,7 @@
         },
         "ShareStatus":{
           "shape":"ShareStatus",
-          "documentation":"<p>Whether the rule group is shared with other Amazon Web Services accounts, or was shared with the current account by another Amazon Web Services account. Sharing is configured through Resource Access Manager (RAM).</p>"
+          "documentation":"<p>Whether the rule group is shared with other AWS accounts, or was shared with the current account by another AWS account. Sharing is configured through AWS Resource Access Manager (AWS RAM).</p>"
         }
       },
       "documentation":"<p>Minimal high-level information for a firewall rule group. The action <a>ListFirewallRuleGroups</a> returns an array of these objects. </p> <p>To retrieve full information for a firewall rule group, call <a>GetFirewallRuleGroup</a> and <a>ListFirewallRules</a>.</p>"
@@ -2214,7 +2140,7 @@
     },
     "FirewallRuleGroupPolicy":{
       "type":"string",
-      "max":30000
+      "max":5000
     },
     "FirewallRuleGroupStatus":{
       "type":"string",
@@ -2300,7 +2226,7 @@
       "members":{
         "FirewallRuleGroupPolicy":{
           "shape":"FirewallRuleGroupPolicy",
-          "documentation":"<p>The Identity and Access Management (Amazon Web Services IAM) policy for sharing the specified rule group. You can use the policy to share the rule group using Resource Access Manager (RAM). </p>"
+          "documentation":"<p>The AWS Identity and Access Management (AWS IAM) policy for sharing the specified rule group. You can use the policy to share the rule group using AWS Resource Access Manager (AWS RAM). </p>"
         }
       }
     },
@@ -2320,25 +2246,6 @@
         "FirewallRuleGroup":{
           "shape":"FirewallRuleGroup",
           "documentation":"<p>A collection of rules used to filter DNS network traffic. </p>"
-        }
-      }
-    },
-    "GetResolverConfigRequest":{
-      "type":"structure",
-      "required":["ResourceId"],
-      "members":{
-        "ResourceId":{
-          "shape":"ResourceId",
-          "documentation":"<p>Resource ID of the Amazon VPC that you want to get information about.</p>"
-        }
-      }
-    },
-    "GetResolverConfigResponse":{
-      "type":"structure",
-      "members":{
-        "ResolverConfig":{
-          "shape":"ResolverConfig",
-          "documentation":"<p>Information about the behavior configuration of Route 53 Resolver behavior for the VPC you specified in the <code>GetResolverConfig</code> request.</p>"
         }
       }
     },
@@ -2529,7 +2436,7 @@
         },
         "Status":{
           "shape":"FirewallDomainListStatus",
-          "documentation":"<p>Status of the import request.</p>"
+          "documentation":"<p> </p>"
         },
         "StatusMessage":{
           "shape":"StatusMessage",
@@ -2606,12 +2513,7 @@
         },
         "Ip":{
           "shape":"Ip",
-          "documentation":"<p>The IPv4 address that you want to use for DNS queries.</p>",
-          "box":true
-        },
-        "Ipv6":{
-          "shape":"Ipv6",
-          "documentation":"<p> The IPv6 address that you want to use for DNS queries. </p>",
+          "documentation":"<p>The IP address that you want to use for DNS queries.</p>",
           "box":true
         }
       },
@@ -2630,11 +2532,7 @@
         },
         "Ip":{
           "shape":"Ip",
-          "documentation":"<p>One IPv4 address that the Resolver endpoint uses for DNS queries.</p>"
-        },
-        "Ipv6":{
-          "shape":"Ipv6",
-          "documentation":"<p> One IPv6 address that the Resolver endpoint uses for DNS queries. </p>"
+          "documentation":"<p>One IP address that the Resolver endpoint uses for DNS queries.</p>"
         },
         "Status":{
           "shape":"IpAddressStatus",
@@ -2667,8 +2565,7 @@
         "DETACHING",
         "FAILED_RESOURCE_GONE",
         "DELETING",
-        "DELETE_FAILED_FAS_EXPIRED",
-        "UPDATING"
+        "DELETE_FAILED_FAS_EXPIRED"
       ]
     },
     "IpAddressUpdate":{
@@ -2686,12 +2583,7 @@
         },
         "Ip":{
           "shape":"Ip",
-          "documentation":"<p>The new IPv4 address.</p>",
-          "box":true
-        },
-        "Ipv6":{
-          "shape":"Ipv6",
-          "documentation":"<p> The new IPv6 address. </p>",
+          "documentation":"<p>The new IP address.</p>",
           "box":true
         }
       },
@@ -2700,17 +2592,12 @@
     "IpAddressesRequest":{
       "type":"list",
       "member":{"shape":"IpAddressRequest"},
-      "max":20,
+      "max":10,
       "min":1
     },
     "IpAddressesResponse":{
       "type":"list",
       "member":{"shape":"IpAddressResponse"}
-    },
-    "Ipv6":{
-      "type":"string",
-      "max":39,
-      "min":7
     },
     "LimitExceededException":{
       "type":"structure",
@@ -2942,39 +2829,6 @@
         }
       }
     },
-    "ListResolverConfigsMaxResult":{
-      "type":"integer",
-      "max":100,
-      "min":5
-    },
-    "ListResolverConfigsRequest":{
-      "type":"structure",
-      "members":{
-        "MaxResults":{
-          "shape":"ListResolverConfigsMaxResult",
-          "documentation":"<p>The maximum number of Resolver configurations that you want to return in the response to a <code>ListResolverConfigs</code> request. If you don't specify a value for <code>MaxResults</code>, up to 100 Resolver configurations are returned.</p>",
-          "box":true
-        },
-        "NextToken":{
-          "shape":"NextToken",
-          "documentation":"<p>(Optional) If the current Amazon Web Services account has more than <code>MaxResults</code> Resolver configurations, use <code>NextToken</code> to get the second and subsequent pages of results.</p> <p>For the first <code>ListResolverConfigs</code> request, omit this value.</p> <p>For the second and subsequent requests, get the value of <code>NextToken</code> from the previous response and specify that value for <code>NextToken</code> in the request.</p>",
-          "box":true
-        }
-      }
-    },
-    "ListResolverConfigsResponse":{
-      "type":"structure",
-      "members":{
-        "NextToken":{
-          "shape":"NextToken",
-          "documentation":"<p>If a response includes the last of the Resolver configurations that are associated with the current Amazon Web Services account, <code>NextToken</code> doesn't appear in the response.</p> <p>If a response doesn't include the last of the configurations, you can get more configurations by submitting another <code>ListResolverConfigs</code> request. Get the value of <code>NextToken</code> that Amazon Route 53 returned in the previous response and include it in <code>NextToken</code> in the next request.</p>"
-        },
-        "ResolverConfigs":{
-          "shape":"ResolverConfigList",
-          "documentation":"<p>An array that contains one <code>ResolverConfigs</code> element for each Resolver configuration that is associated with the current Amazon Web Services account.</p>"
-        }
-      }
-    },
     "ListResolverDnssecConfigsRequest":{
       "type":"structure",
       "members":{
@@ -2985,7 +2839,7 @@
         },
         "NextToken":{
           "shape":"NextToken",
-          "documentation":"<p>(Optional) If the current Amazon Web Services account has more than <code>MaxResults</code> DNSSEC configurations, use <code>NextToken</code> to get the second and subsequent pages of results.</p> <p>For the first <code>ListResolverDnssecConfigs</code> request, omit this value.</p> <p>For the second and subsequent requests, get the value of <code>NextToken</code> from the previous response and specify that value for <code>NextToken</code> in the request.</p>",
+          "documentation":"<p>(Optional) If the current AWS account has more than <code>MaxResults</code> DNSSEC configurations, use <code>NextToken</code> to get the second and subsequent pages of results.</p> <p>For the first <code>ListResolverDnssecConfigs</code> request, omit this value.</p> <p>For the second and subsequent requests, get the value of <code>NextToken</code> from the previous response and specify that value for <code>NextToken</code> in the request.</p>",
           "box":true
         },
         "Filters":{
@@ -3000,11 +2854,11 @@
       "members":{
         "NextToken":{
           "shape":"NextToken",
-          "documentation":"<p>If a response includes the last of the DNSSEC configurations that are associated with the current Amazon Web Services account, <code>NextToken</code> doesn't appear in the response.</p> <p>If a response doesn't include the last of the configurations, you can get more configurations by submitting another <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_ListResolverDnssecConfigs.html\">ListResolverDnssecConfigs</a> request. Get the value of <code>NextToken</code> that Amazon Route 53 returned in the previous response and include it in <code>NextToken</code> in the next request.</p>"
+          "documentation":"<p>If a response includes the last of the DNSSEC configurations that are associated with the current AWS account, <code>NextToken</code> doesn't appear in the response.</p> <p>If a response doesn't include the last of the configurations, you can get more configurations by submitting another <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_ListResolverDnssecConfigs.html\">ListResolverDnssecConfigs</a> request. Get the value of <code>NextToken</code> that Amazon Route 53 returned in the previous response and include it in <code>NextToken</code> in the next request.</p>"
         },
         "ResolverDnssecConfigs":{
           "shape":"ResolverDnssecConfigList",
-          "documentation":"<p>An array that contains one <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_ResolverDnssecConfig.html\">ResolverDnssecConfig</a> element for each configuration for DNSSEC validation that is associated with the current Amazon Web Services account.</p>"
+          "documentation":"<p>An array that contains one <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_ResolverDnssecConfig.html\">ResolverDnssecConfig</a> element for each configuration for DNSSEC validation that is associated with the current AWS account.</p>"
         }
       }
     },
@@ -3078,7 +2932,7 @@
         },
         "ResolverEndpoints":{
           "shape":"ResolverEndpoints",
-          "documentation":"<p>The Resolver endpoints that were created by using the current Amazon Web Services account, and that match the specified filters, if any.</p>"
+          "documentation":"<p>The Resolver endpoints that were created by using the current AWS account, and that match the specified filters, if any.</p>"
         }
       }
     },
@@ -3148,7 +3002,7 @@
         },
         "SortBy":{
           "shape":"SortByKey",
-          "documentation":"<p>The element that you want Resolver to sort query logging configurations by. </p> <note> <p>If you submit a second or subsequent <code>ListResolverQueryLogConfigs</code> request and specify the <code>NextToken</code> parameter, you must use the same value for <code>SortBy</code>, if any, as in the previous request.</p> </note> <p>Valid values include the following elements:</p> <ul> <li> <p> <code>Arn</code>: The ARN of the query logging configuration</p> </li> <li> <p> <code>AssociationCount</code>: The number of VPCs that are associated with the specified configuration </p> </li> <li> <p> <code>CreationTime</code>: The date and time that Resolver returned when the configuration was created</p> </li> <li> <p> <code>CreatorRequestId</code>: The value that was specified for <code>CreatorRequestId</code> when the configuration was created</p> </li> <li> <p> <code>DestinationArn</code>: The location that logs are sent to</p> </li> <li> <p> <code>Id</code>: The ID of the configuration</p> </li> <li> <p> <code>Name</code>: The name of the configuration</p> </li> <li> <p> <code>OwnerId</code>: The Amazon Web Services account number of the account that created the configuration</p> </li> <li> <p> <code>ShareStatus</code>: Whether the configuration is shared with other Amazon Web Services accounts or shared with the current account by another Amazon Web Services account. Sharing is configured through Resource Access Manager (RAM).</p> </li> <li> <p> <code>Status</code>: The current status of the configuration. Valid values include the following:</p> <ul> <li> <p> <code>CREATING</code>: Resolver is creating the query logging configuration.</p> </li> <li> <p> <code>CREATED</code>: The query logging configuration was successfully created. Resolver is logging queries that originate in the specified VPC.</p> </li> <li> <p> <code>DELETING</code>: Resolver is deleting this query logging configuration.</p> </li> <li> <p> <code>FAILED</code>: Resolver either couldn't create or couldn't delete the query logging configuration. Here are two common causes:</p> <ul> <li> <p>The specified destination (for example, an Amazon S3 bucket) was deleted.</p> </li> <li> <p>Permissions don't allow sending logs to the destination.</p> </li> </ul> </li> </ul> </li> </ul>"
+          "documentation":"<p>The element that you want Resolver to sort query logging configurations by. </p> <note> <p>If you submit a second or subsequent <code>ListResolverQueryLogConfigs</code> request and specify the <code>NextToken</code> parameter, you must use the same value for <code>SortBy</code>, if any, as in the previous request.</p> </note> <p>Valid values include the following elements:</p> <ul> <li> <p> <code>Arn</code>: The ARN of the query logging configuration</p> </li> <li> <p> <code>AssociationCount</code>: The number of VPCs that are associated with the specified configuration </p> </li> <li> <p> <code>CreationTime</code>: The date and time that Resolver returned when the configuration was created</p> </li> <li> <p> <code>CreatorRequestId</code>: The value that was specified for <code>CreatorRequestId</code> when the configuration was created</p> </li> <li> <p> <code>DestinationArn</code>: The location that logs are sent to</p> </li> <li> <p> <code>Id</code>: The ID of the configuration</p> </li> <li> <p> <code>Name</code>: The name of the configuration</p> </li> <li> <p> <code>OwnerId</code>: The AWS account number of the account that created the configuration</p> </li> <li> <p> <code>ShareStatus</code>: Whether the configuration is shared with other AWS accounts or shared with the current account by another AWS account. Sharing is configured through AWS Resource Access Manager (AWS RAM).</p> </li> <li> <p> <code>Status</code>: The current status of the configuration. Valid values include the following:</p> <ul> <li> <p> <code>CREATING</code>: Resolver is creating the query logging configuration.</p> </li> <li> <p> <code>CREATED</code>: The query logging configuration was successfully created. Resolver is logging queries that originate in the specified VPC.</p> </li> <li> <p> <code>DELETING</code>: Resolver is deleting this query logging configuration.</p> </li> <li> <p> <code>FAILED</code>: Resolver either couldn't create or couldn't delete the query logging configuration. Here are two common causes:</p> <ul> <li> <p>The specified destination (for example, an Amazon S3 bucket) was deleted.</p> </li> <li> <p>Permissions don't allow sending logs to the destination.</p> </li> </ul> </li> </ul> </li> </ul>"
         },
         "SortOrder":{
           "shape":"SortOrder",
@@ -3210,7 +3064,7 @@
         },
         "ResolverRuleAssociations":{
           "shape":"ResolverRuleAssociations",
-          "documentation":"<p>The associations that were created between Resolver rules and VPCs using the current Amazon Web Services account, and that match the specified filters, if any.</p>"
+          "documentation":"<p>The associations that were created between Resolver rules and VPCs using the current AWS account, and that match the specified filters, if any.</p>"
         }
       }
     },
@@ -3247,7 +3101,7 @@
         },
         "ResolverRules":{
           "shape":"ResolverRules",
-          "documentation":"<p>The Resolver rules that were created using the current Amazon Web Services account and that match the specified filters, if any.</p>"
+          "documentation":"<p>The Resolver rules that were created using the current AWS account and that match the specified filters, if any.</p>"
         }
       }
     },
@@ -3321,7 +3175,7 @@
         },
         "FirewallRuleGroupPolicy":{
           "shape":"FirewallRuleGroupPolicy",
-          "documentation":"<p>The Identity and Access Management (Amazon Web Services IAM) policy to attach to the rule group.</p>"
+          "documentation":"<p>The AWS Identity and Access Management (AWS IAM) policy to attach to the rule group.</p>"
         }
       }
     },
@@ -3347,7 +3201,7 @@
         },
         "ResolverQueryLogConfigPolicy":{
           "shape":"ResolverQueryLogConfigPolicy",
-          "documentation":"<p>An Identity and Access Management policy statement that lists the query logging configurations that you want to share with another Amazon Web Services account and the operations that you want the account to be able to perform. You can specify the following operations in the <code>Actions</code> section of the statement:</p> <ul> <li> <p> <code>route53resolver:AssociateResolverQueryLogConfig</code> </p> </li> <li> <p> <code>route53resolver:DisassociateResolverQueryLogConfig</code> </p> </li> <li> <p> <code>route53resolver:ListResolverQueryLogConfigAssociations</code> </p> </li> <li> <p> <code>route53resolver:ListResolverQueryLogConfigs</code> </p> </li> </ul> <p>In the <code>Resource</code> section of the statement, you specify the ARNs for the query logging configurations that you want to share with the account that you specified in <code>Arn</code>. </p>"
+          "documentation":"<p>An AWS Identity and Access Management policy statement that lists the query logging configurations that you want to share with another AWS account and the operations that you want the account to be able to perform. You can specify the following operations in the <code>Actions</code> section of the statement:</p> <ul> <li> <p> <code>route53resolver:AssociateResolverQueryLogConfig</code> </p> </li> <li> <p> <code>route53resolver:DisassociateResolverQueryLogConfig</code> </p> </li> <li> <p> <code>route53resolver:ListResolverQueryLogConfigAssociations</code> </p> </li> <li> <p> <code>route53resolver:ListResolverQueryLogConfigs</code> </p> </li> </ul> <p>In the <code>Resource</code> section of the statement, you specify the ARNs for the query logging configurations that you want to share with the account that you specified in <code>Arn</code>. </p>"
         }
       }
     },
@@ -3374,7 +3228,7 @@
         },
         "ResolverRulePolicy":{
           "shape":"ResolverRulePolicy",
-          "documentation":"<p>An Identity and Access Management policy statement that lists the rules that you want to share with another Amazon Web Services account and the operations that you want the account to be able to perform. You can specify the following operations in the <code>Action</code> section of the statement:</p> <ul> <li> <p> <code>route53resolver:GetResolverRule</code> </p> </li> <li> <p> <code>route53resolver:AssociateResolverRule</code> </p> </li> <li> <p> <code>route53resolver:DisassociateResolverRule</code> </p> </li> <li> <p> <code>route53resolver:ListResolverRules</code> </p> </li> <li> <p> <code>route53resolver:ListResolverRuleAssociations</code> </p> </li> </ul> <p>In the <code>Resource</code> section of the statement, specify the ARN for the rule that you want to share with another account. Specify the same ARN that you specified in <code>Arn</code>.</p>"
+          "documentation":"<p>An AWS Identity and Access Management policy statement that lists the rules that you want to share with another AWS account and the operations that you want the account to be able to perform. You can specify the following operations in the <code>Action</code> section of the statement:</p> <ul> <li> <p> <code>route53resolver:GetResolverRule</code> </p> </li> <li> <p> <code>route53resolver:AssociateResolverRule</code> </p> </li> <li> <p> <code>route53resolver:DisassociateResolverRule</code> </p> </li> <li> <p> <code>route53resolver:ListResolverRules</code> </p> </li> <li> <p> <code>route53resolver:ListResolverRuleAssociations</code> </p> </li> </ul> <p>In the <code>Resource</code> section of the statement, specify the ARN for the rule that you want to share with another account. Specify the same ARN that you specified in <code>Arn</code>.</p>"
         }
       }
     },
@@ -3388,52 +3242,13 @@
       },
       "documentation":"<p>The response to a <code>PutResolverRulePolicy</code> request.</p>"
     },
-    "ResolverAutodefinedReverseStatus":{
-      "type":"string",
-      "enum":[
-        "ENABLING",
-        "ENABLED",
-        "DISABLING",
-        "DISABLED",
-        "UPDATING_TO_USE_LOCAL_RESOURCE_SETTING",
-        "USE_LOCAL_RESOURCE_SETTING"
-      ]
-    },
-    "ResolverConfig":{
-      "type":"structure",
-      "members":{
-        "Id":{
-          "shape":"ResourceId",
-          "documentation":"<p>ID for the Resolver configuration.</p>"
-        },
-        "ResourceId":{
-          "shape":"ResourceId",
-          "documentation":"<p>The ID of the Amazon Virtual Private Cloud VPC that you're configuring Resolver for.</p>"
-        },
-        "OwnerId":{
-          "shape":"AccountId",
-          "documentation":"<p>The owner account ID of the Amazon Virtual Private Cloud VPC.</p>"
-        },
-        "AutodefinedReverse":{
-          "shape":"ResolverAutodefinedReverseStatus",
-          "documentation":"<p> The status of whether or not the Resolver will create autodefined rules for reverse DNS lookups. This is enabled by default. The status can be one of following:</p> <ul> <li> <p> <b>ENABLING:</b> Autodefined rules for reverse DNS lookups are being enabled but are not complete.</p> </li> <li> <p> <b>ENABLED:</b> Autodefined rules for reverse DNS lookups are enabled.</p> </li> <li> <p> <b>DISABLING:</b> Autodefined rules for reverse DNS lookups are being disabled but are not complete.</p> </li> <li> <p> <b>DISABLED:</b> Autodefined rules for reverse DNS lookups are disabled.</p> </li> </ul>"
-        }
-      },
-      "documentation":"<p>A complex type that contains information about a Resolver configuration for a VPC.</p>"
-    },
-    "ResolverConfigList":{
-      "type":"list",
-      "member":{"shape":"ResolverConfig"}
-    },
     "ResolverDNSSECValidationStatus":{
       "type":"string",
       "enum":[
         "ENABLING",
         "ENABLED",
         "DISABLING",
-        "DISABLED",
-        "UPDATING_TO_USE_LOCAL_RESOURCE_SETTING",
-        "USE_LOCAL_RESOURCE_SETTING"
+        "DISABLED"
       ]
     },
     "ResolverDnssecConfig":{
@@ -3512,13 +3327,9 @@
         "ModificationTime":{
           "shape":"Rfc3339TimeString",
           "documentation":"<p>The date and time that the endpoint was last modified, in Unix time format and Coordinated Universal Time (UTC).</p>"
-        },
-        "ResolverEndpointType":{
-          "shape":"ResolverEndpointType",
-          "documentation":"<p> The Resolver endpoint IP address type. </p>"
         }
       },
-      "documentation":"<p>In the response to a <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_CreateResolverEndpoint.html\">CreateResolverEndpoint</a>, <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DeleteResolverEndpoint.html\">DeleteResolverEndpoint</a>, <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverEndpoint.html\">GetResolverEndpoint</a>, Updates the name, or ResolverEndpointType for an endpoint, or <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_UpdateResolverEndpoint.html\">UpdateResolverEndpoint</a> request, a complex type that contains settings for an existing inbound or outbound Resolver endpoint.</p>"
+      "documentation":"<p>In the response to a <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_CreateResolverEndpoint.html\">CreateResolverEndpoint</a>, <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DeleteResolverEndpoint.html\">DeleteResolverEndpoint</a>, <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_GetResolverEndpoint.html\">GetResolverEndpoint</a>, <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_ListResolverEndpoints.html\">ListResolverEndpoints</a>, or <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_UpdateResolverEndpoint.html\">UpdateResolverEndpoint</a> request, a complex type that contains settings for an existing inbound or outbound Resolver endpoint.</p>"
     },
     "ResolverEndpointDirection":{
       "type":"string",
@@ -3538,14 +3349,6 @@
         "DELETING"
       ]
     },
-    "ResolverEndpointType":{
-      "type":"string",
-      "enum":[
-        "IPV6",
-        "IPV4",
-        "DUALSTACK"
-      ]
-    },
     "ResolverEndpoints":{
       "type":"list",
       "member":{"shape":"ResolverEndpoint"}
@@ -3559,7 +3362,7 @@
         },
         "OwnerId":{
           "shape":"AccountId",
-          "documentation":"<p>The Amazon Web Services account ID for the account that created the query logging configuration. </p>"
+          "documentation":"<p>The AWS account ID for the account that created the query logging configuration. </p>"
         },
         "Status":{
           "shape":"ResolverQueryLogConfigStatus",
@@ -3567,7 +3370,7 @@
         },
         "ShareStatus":{
           "shape":"ShareStatus",
-          "documentation":"<p>An indication of whether the query logging configuration is shared with other Amazon Web Services accounts, or was shared with the current account by another Amazon Web Services account. Sharing is configured through Resource Access Manager (RAM).</p>"
+          "documentation":"<p>An indication of whether the query logging configuration is shared with other AWS accounts, or was shared with the current account by another AWS account. Sharing is configured through AWS Resource Access Manager (AWS RAM).</p>"
         },
         "AssociationCount":{
           "shape":"Count",
@@ -3666,7 +3469,7 @@
     },
     "ResolverQueryLogConfigPolicy":{
       "type":"string",
-      "max":30000
+      "max":5000
     },
     "ResolverQueryLogConfigStatus":{
       "type":"string",
@@ -3722,7 +3525,7 @@
         },
         "OwnerId":{
           "shape":"AccountId",
-          "documentation":"<p>When a rule is shared with another Amazon Web Services account, the account ID of the account that the rule is shared with.</p>"
+          "documentation":"<p>When a rule is shared with another AWS account, the account ID of the account that the rule is shared with.</p>"
         },
         "ShareStatus":{
           "shape":"ShareStatus",
@@ -3803,7 +3606,7 @@
     },
     "ResolverRulePolicy":{
       "type":"string",
-      "max":30000
+      "max":5000
     },
     "ResolverRuleStatus":{
       "type":"string",
@@ -3985,20 +3788,15 @@
     },
     "TargetAddress":{
       "type":"structure",
+      "required":["Ip"],
       "members":{
         "Ip":{
           "shape":"Ip",
-          "documentation":"<p>One IPv4 address that you want to forward DNS queries to.</p>",
-          "box":true
+          "documentation":"<p>One IP address that you want to forward DNS queries to. You can specify only IPv4 addresses.</p>"
         },
         "Port":{
           "shape":"Port",
           "documentation":"<p>The port at <code>Ip</code> that you want to forward DNS queries to.</p>",
-          "box":true
-        },
-        "Ipv6":{
-          "shape":"Ipv6",
-          "documentation":"<p> One IPv6 address that you want to forward DNS queries to. </p>",
           "box":true
         }
       },
@@ -4092,7 +3890,7 @@
         },
         "Domains":{
           "shape":"FirewallDomains",
-          "documentation":"<p>A list of domains to use in the update operation.</p> <important> <p>There is a limit of 1000 domains per request.</p> </important> <p>Each domain specification in your domain list must satisfy the following requirements: </p> <ul> <li> <p>It can optionally start with <code>*</code> (asterisk).</p> </li> <li> <p>With the exception of the optional starting asterisk, it must only contain the following characters: <code>A-Z</code>, <code>a-z</code>, <code>0-9</code>, <code>-</code> (hyphen).</p> </li> <li> <p>It must be from 1-255 characters in length. </p> </li> </ul>"
+          "documentation":"<p>A list of domains to use in the update operation.</p> <p>Each domain specification in your domain list must satisfy the following requirements: </p> <ul> <li> <p>It can optionally start with <code>*</code> (asterisk).</p> </li> <li> <p>With the exception of the optional starting asterisk, it must only contain the following characters: <code>A-Z</code>, <code>a-z</code>, <code>0-9</code>, <code>-</code> (hyphen).</p> </li> <li> <p>It must be from 1-255 characters in length. </p> </li> </ul>"
         }
       }
     },
@@ -4109,7 +3907,7 @@
         },
         "Status":{
           "shape":"FirewallDomainListStatus",
-          "documentation":"<p>Status of the <code>UpdateFirewallDomains</code> request.</p>"
+          "documentation":"<p> </p>"
         },
         "StatusMessage":{
           "shape":"StatusMessage",
@@ -4212,56 +4010,6 @@
         }
       }
     },
-    "UpdateIpAddress":{
-      "type":"structure",
-      "required":[
-        "IpId",
-        "Ipv6"
-      ],
-      "members":{
-        "IpId":{
-          "shape":"ResourceId",
-          "documentation":"<p> The ID of the IP address, specified by the <code>ResolverEndpointId</code>. </p>"
-        },
-        "Ipv6":{
-          "shape":"Ipv6",
-          "documentation":"<p> The IPv6 address that you want to use for DNS queries. </p>"
-        }
-      },
-      "documentation":"<p> Provides information about the IP address type in response to <a href=\"https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_UpdateResolverEndpoint.html\">UpdateResolverEndpoint</a>. </p>"
-    },
-    "UpdateIpAddresses":{
-      "type":"list",
-      "member":{"shape":"UpdateIpAddress"},
-      "max":50,
-      "min":0
-    },
-    "UpdateResolverConfigRequest":{
-      "type":"structure",
-      "required":[
-        "ResourceId",
-        "AutodefinedReverseFlag"
-      ],
-      "members":{
-        "ResourceId":{
-          "shape":"ResourceId",
-          "documentation":"<p>Resource ID of the Amazon VPC that you want to update the Resolver configuration for.</p>"
-        },
-        "AutodefinedReverseFlag":{
-          "shape":"AutodefinedReverseFlag",
-          "documentation":"<p>Indicates whether or not the Resolver will create autodefined rules for reverse DNS lookups. This is enabled by default. Disabling this option will also affect EC2-Classic instances using ClassicLink. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-classiclink.html\">ClassicLink</a> in the <i>Amazon EC2 guide</i>.</p> <important> <p>We are retiring EC2-Classic on August 15, 2022. We recommend that you migrate from EC2-Classic to a VPC. For more information, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-migrate.html\">Migrate from EC2-Classic to a VPC</a> in the <i>Amazon EC2 guide</i> and the blog <a href=\"http://aws.amazon.com/blogs/aws/ec2-classic-is-retiring-heres-how-to-prepare/\">EC2-Classic Networking is Retiring – Here’s How to Prepare</a>.</p> </important> <note> <p>It can take some time for the status change to be completed.</p> </note> <p/>"
-        }
-      }
-    },
-    "UpdateResolverConfigResponse":{
-      "type":"structure",
-      "members":{
-        "ResolverConfig":{
-          "shape":"ResolverConfig",
-          "documentation":"<p>An array that contains settings for the specified Resolver configuration.</p>"
-        }
-      }
-    },
     "UpdateResolverDnssecConfigRequest":{
       "type":"structure",
       "required":[
@@ -4299,16 +4047,6 @@
         "Name":{
           "shape":"Name",
           "documentation":"<p>The name of the Resolver endpoint that you want to update.</p>",
-          "box":true
-        },
-        "ResolverEndpointType":{
-          "shape":"ResolverEndpointType",
-          "documentation":"<p> Specifies the endpoint type for what type of IP address the endpoint uses to forward DNS queries. </p>",
-          "box":true
-        },
-        "UpdateIpAddresses":{
-          "shape":"UpdateIpAddresses",
-          "documentation":"<p> Updates the Resolver endpoint type to IpV4, Ipv6, or dual-stack. </p>",
           "box":true
         }
       }
@@ -4352,8 +4090,7 @@
       "type":"string",
       "enum":[
         "ENABLE",
-        "DISABLE",
-        "USE_LOCAL_RESOURCE_SETTING"
+        "DISABLE"
       ]
     },
     "ValidationException":{
@@ -4361,9 +4098,9 @@
       "members":{
         "Message":{"shape":"ExceptionMessage"}
       },
-      "documentation":"<p>You have provided an invalid command. Supported values are <code>ADD</code>, <code>REMOVE</code>, or <code>REPLACE</code> a domain.</p>",
+      "documentation":"<p/>",
       "exception":true
     }
   },
-  "documentation":"<p>When you create a VPC using Amazon VPC, you automatically get DNS resolution within the VPC from Route 53 Resolver. By default, Resolver answers DNS queries for VPC domain names such as domain names for EC2 instances or Elastic Load Balancing load balancers. Resolver performs recursive lookups against public name servers for all other domain names.</p> <p>You can also configure DNS resolution between your VPC and your network over a Direct Connect or VPN connection:</p> <p> <b>Forward DNS queries from resolvers on your network to Route 53 Resolver</b> </p> <p>DNS resolvers on your network can forward DNS queries to Resolver in a specified VPC. This allows your DNS resolvers to easily resolve domain names for Amazon Web Services resources such as EC2 instances or records in a Route 53 private hosted zone. For more information, see <a href=\"https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver.html#resolver-overview-forward-network-to-vpc\">How DNS Resolvers on Your Network Forward DNS Queries to Route 53 Resolver</a> in the <i>Amazon Route 53 Developer Guide</i>.</p> <p> <b>Conditionally forward queries from a VPC to resolvers on your network</b> </p> <p>You can configure Resolver to forward queries that it receives from EC2 instances in your VPCs to DNS resolvers on your network. To forward selected queries, you create Resolver rules that specify the domain names for the DNS queries that you want to forward (such as example.com), and the IP addresses of the DNS resolvers on your network that you want to forward the queries to. If a query matches multiple rules (example.com, acme.example.com), Resolver chooses the rule with the most specific match (acme.example.com) and forwards the query to the IP addresses that you specified in that rule. For more information, see <a href=\"https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver.html#resolver-overview-forward-vpc-to-network\">How Route 53 Resolver Forwards DNS Queries from Your VPCs to Your Network</a> in the <i>Amazon Route 53 Developer Guide</i>.</p> <p>Like Amazon VPC, Resolver is Regional. In each Region where you have VPCs, you can choose whether to forward queries from your VPCs to your network (outbound queries), from your network to your VPCs (inbound queries), or both.</p>"
+  "documentation":"<p>When you create a VPC using Amazon VPC, you automatically get DNS resolution within the VPC from Route 53 Resolver. By default, Resolver answers DNS queries for VPC domain names such as domain names for EC2 instances or Elastic Load Balancing load balancers. Resolver performs recursive lookups against public name servers for all other domain names.</p> <p>You can also configure DNS resolution between your VPC and your network over a Direct Connect or VPN connection:</p> <p> <b>Forward DNS queries from resolvers on your network to Route 53 Resolver</b> </p> <p>DNS resolvers on your network can forward DNS queries to Resolver in a specified VPC. This allows your DNS resolvers to easily resolve domain names for AWS resources such as EC2 instances or records in a Route 53 private hosted zone. For more information, see <a href=\"https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver.html#resolver-overview-forward-network-to-vpc\">How DNS Resolvers on Your Network Forward DNS Queries to Route 53 Resolver</a> in the <i>Amazon Route 53 Developer Guide</i>.</p> <p> <b>Conditionally forward queries from a VPC to resolvers on your network</b> </p> <p>You can configure Resolver to forward queries that it receives from EC2 instances in your VPCs to DNS resolvers on your network. To forward selected queries, you create Resolver rules that specify the domain names for the DNS queries that you want to forward (such as example.com), and the IP addresses of the DNS resolvers on your network that you want to forward the queries to. If a query matches multiple rules (example.com, acme.example.com), Resolver chooses the rule with the most specific match (acme.example.com) and forwards the query to the IP addresses that you specified in that rule. For more information, see <a href=\"https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver.html#resolver-overview-forward-vpc-to-network\">How Route 53 Resolver Forwards DNS Queries from Your VPCs to Your Network</a> in the <i>Amazon Route 53 Developer Guide</i>.</p> <p>Like Amazon VPC, Resolver is Regional. In each Region where you have VPCs, you can choose whether to forward queries from your VPCs to your network (outbound queries), from your network to your VPCs (inbound queries), or both.</p>"
 }

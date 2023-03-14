@@ -23,10 +23,7 @@
     "ListMetrics": {
       "input_token": "NextToken",
       "output_token": "NextToken",
-      "result_key": [
-        "Metrics",
-        "OwningAccounts"
-      ]
+      "result_key": "Metrics"
     },
     "GetMetricData": {
       "input_token": "NextToken",
@@ -36,12 +33,6 @@
         "MetricDataResults",
         "Messages"
       ]
-    },
-    "DescribeAnomalyDetectors": {
-      "input_token": "NextToken",
-      "limit_key": "MaxResults",
-      "output_token": "NextToken",
-      "result_key": "AnomalyDetectors"
     }
   }
 }

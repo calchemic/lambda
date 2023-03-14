@@ -275,12 +275,6 @@
       "limit_key": "MaxResults",
       "output_token": "NextToken",
       "result_key": "Summaries"
-    },
-    "GetResourcePolicies": {
-      "input_token": "NextToken",
-      "limit_key": "MaxResults",
-      "output_token": "NextToken",
-      "result_key": "Policies"
     }
   }
 }

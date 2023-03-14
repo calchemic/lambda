@@ -4,7 +4,7 @@
 # may not use this file except in compliance with the License. A copy of
 # the License is located at
 #
-# https://aws.amazon.com/apache2.0/
+# http://aws.amazon.com/apache2.0/
 #
 # or in the "license" file accompanying this file. This file is
 # distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
@@ -16,15 +16,22 @@ import errno
 import socket
 import warnings
 
+from botocore.vendored import six
 from boto3.exceptions import PythonDeprecationWarning
 
-# In python3, socket.error is OSError, which is too general
-# for what we want (i.e FileNotFoundError is a subclass of OSError).
-# In py3 all the socket related errors are in a newly created
-# ConnectionError
-SOCKET_ERROR = ConnectionError
+if six.PY3:
+    # In python3, socket.error is OSError, which is too general
+    # for what we want (i.e FileNotFoundError is a subclass of OSError).
+    # In py3 all the socket related errors are in a newly created
+    # ConnectionError
+    SOCKET_ERROR = ConnectionError
+else:
+    SOCKET_ERROR = socket.error
 
-import collections.abc as collections_abc
+if six.PY3:
+    import collections.abc as collections_abc
+else:
+    import collections as collections_abc
 
 
 if sys.platform.startswith('win'):
@@ -57,17 +64,14 @@ def filter_python_deprecation_warnings():
 
 
 def _warn_deprecated_python():
-    """Use this template for future deprecation campaigns as needed."""
-    py_36_params = {
-        'date': 'May 30, 2022',
-        'blog_link': (
-            'https://aws.amazon.com/blogs/developer/'
-            'python-support-policy-updates-for-aws-sdks-and-tools/'
-        )
+    py_27_params = {
+        'date': 'July 15, 2021',
+        'blog_link': 'https://aws.amazon.com/blogs/developer/announcing-end-'
+                     'of-support-for-python-2-7-in-aws-sdk-for-python-and-'
+                     'aws-cli-v1/'
     }
     deprecated_versions = {
-        # Example template for future deprecations
-        # (3, 6): py_36_params,
+        (2,7): py_27_params,
     }
     py_version = sys.version_info[:2]
 
@@ -76,7 +80,7 @@ def _warn_deprecated_python():
         warning = (
             "Boto3 will no longer support Python {}.{} "
             "starting {}. To continue receiving service updates, "
-            "bug fixes, and security updates please upgrade to Python 3.7 or "
+            "bug fixes, and security updates please upgrade to Python 3.6 or "
             "later. More information can be found here: {}"
         ).format(py_version[0], py_version[1], params['date'], params['blog_link'])
         warnings.warn(warning, PythonDeprecationWarning)

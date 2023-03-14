@@ -10,13 +10,14 @@
 # distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
 # ANY KIND, either express or implied. See the License for the specific
 # language governing permissions and limitations under the License.
-import errno
 import inspect
-import os
-import socket
 import sys
+import os
+import errno
+import socket
 
 from botocore.compat import six
+
 
 if sys.platform.startswith('win'):
     def rename_file(current_filename, new_filename):
@@ -33,17 +34,24 @@ if sys.platform.startswith('win'):
 else:
     rename_file = os.rename
 
+if six.PY3:
+    def accepts_kwargs(func):
+        # In python3.4.1, there's backwards incompatible
+        # changes when using getargspec with functools.partials.
+        return inspect.getfullargspec(func)[2]
 
-def accepts_kwargs(func):
-    return inspect.getfullargspec(func)[2]
+    # In python3, socket.error is OSError, which is too general
+    # for what we want (i.e FileNotFoundError is a subclass of OSError).
+    # In py3 all the socket related errors are in a newly created
+    # ConnectionError
+    SOCKET_ERROR = ConnectionError
+    MAXINT = None
+else:
+    def accepts_kwargs(func):
+        return inspect.getargspec(func)[2]
 
-
-# In python 3, socket.error is OSError, which is too general
-# for what we want (i.e FileNotFoundError is a subclass of OSError).
-# In python 3, all the socket related errors are in a newly created
-# ConnectionError.
-SOCKET_ERROR = ConnectionError
-MAXINT = None
+    SOCKET_ERROR = socket.error
+    MAXINT = sys.maxint
 
 
 def seekable(fileobj):
@@ -63,7 +71,7 @@ def seekable(fileobj):
         try:
             fileobj.seek(0, 1)
             return True
-        except OSError:
+        except (OSError, IOError):
             # If an io related error was thrown then it is not seekable.
             return False
     # Else, the fileobj is not seekable
@@ -90,5 +98,4 @@ def fallocate(fileobj, size):
         fileobj.truncate(size)
 
 
-# Import at end of file to avoid circular dependencies
-from multiprocessing.managers import BaseManager  # noqa: F401,E402
+from multiprocessing.managers import BaseManager

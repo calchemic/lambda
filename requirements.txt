@@ -7,9 +7,10 @@ flask-admin
 flask-wtf
 flask-mail
 flask-uploads
-flask2postman
+#flask2postman #unneeded for deployment package, for use locally
 flask-s3
 flask-caching
+Flask-Bootstrap4
 
 # Utility/Infrastructure Packages
 urllib3 

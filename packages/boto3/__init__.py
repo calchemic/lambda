@@ -4,7 +4,7 @@
 # may not use this file except in compliance with the License. A copy of
 # the License is located at
 #
-# https://aws.amazon.com/apache2.0/
+# http://aws.amazon.com/apache2.0/
 #
 # or in the "license" file accompanying this file. This file is
 # distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
@@ -13,11 +13,12 @@
 
 import logging
 
-from boto3.compat import _warn_deprecated_python
 from boto3.session import Session
+from boto3.compat import _warn_deprecated_python
+
 
 __author__ = 'Amazon Web Services'
-__version__ = '1.26.89'
+__version__ = '1.17.84'
 
 
 # The default Boto3 session; autoloaded when needed.
@@ -102,7 +103,7 @@ def resource(*args, **kwargs):
 
 
 # Set up logging to ``/dev/null`` like a library is supposed to.
-# https://docs.python.org/3.3/howto/logging.html#configuring-logging-for-a-library
+# http://docs.python.org/3.3/howto/logging.html#configuring-logging-for-a-library
 class NullHandler(logging.Handler):
     def emit(self, record):
         pass
