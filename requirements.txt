@@ -1,3 +1,6 @@
+# Stinkbait Requirements
+
+# General Requirements
 flask
 flask-login
 flask-admin
@@ -6,17 +9,35 @@ flask-mail
 flask-uploads
 flask2postman
 flask-s3
-#general utility packages
+flask-caching
+
+# Utility/Infrastructure Packages
 urllib3 
 aws_lambda_powertools 
 aws-xray-sdk 
 ksuid
 
-#recon module packages
-sec-api
-dnspython
+#Recon Module Packages
+pyasn # asn lookups for who owns a given ip address - would be nice if I had a db of all the asn's and their owners and whether they are commercial/residential
+ipinfo # ip address lookups for who owns a given ip address - probably preferable, but potentially paid.
+python-whois # whois lookups for a given domain
+dnspython # dns lookups for a given domain
+pycrtsh # crt.sh certificate transparency logs
+quiet-riot # AWS/Azure/GCP cloud enumeration
+shodan # shodan.io api
+censys # censys.io api
 
 
-#ai module packages
+# Targets Module Packages
+sec-api # organization information from sec.gov if US public traded company
+
+
+# Campaigns Module Packages
+
+# Implants Module Packages
+
+# Reporting Module Packages
+
+# AI Packages
 #openai 
 #langchain

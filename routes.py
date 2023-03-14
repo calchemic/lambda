@@ -11,22 +11,122 @@ from lambda_function import logger, tracer, app, login_manager, UserMixin, User,
 from flask import render_template, request, send_file, redirect, url_for, flash, session, jsonify, send_from_directory
 from urllib.parse import unquote
 
+#########################################################################################
+###################################  Admin Routes  ######################################
+#########################################################################################
+# Admin Dashboard route
+@app.route('/admin/dashboard')
+def admin_dashboard():
+    #TODO: Return Dashboard of various Administrator configuration options
+    # Should include things like managing api keys for non-aws services, registering/managing domains, certificates, and email servers (SMTP)
+    pass
+
+# API Key Management Admin Dashboard route
+@app.route('/admin/dashboard/api-keys')
+def api_key_management():
+    #TODO implement methods to add/update and delete API Keys using SSM Parameter store Secure String option to store the keys.
+    pass
+
+# ######### POTENTIAL CODE FOR API KEY ROUTES - UNTESTED, BUT ROUGHLY CORRECT ##########
+# ######### Define the route for updating the OpenAI API key ###########################
+# @app.route('/update_openai_key', methods=['POST'])
+# def update_openai_key():
+#     # Get the new API key value from the form
+#     openai_key = request.form['openai_key']
+
+#     # Store the new API key value in SSM Parameter Store
+#     ssm.put_parameter(Name='/api_keys/openai', Value=openai_key, Type='SecureString', Overwrite=True)
+
+#     # Return a message indicating success
+#     message = 'OpenAI API key updated successfully.'
+#     return render_template('api_keys.html', message=message)
+
+# # Define the route for deleting the OpenAI API key
+# @app.route('/delete_openai_key', methods=['GET'])
+# def delete_openai_key():
+#     # Delete the OpenAI API key from SSM Parameter Store
+#     ssm.delete_parameter(Name='/api_keys/openai')
+
+#     # Return a message indicating success
+#     message = 'OpenAI API key deleted successfully.'
+#     return render_template('api_keys.html', message=message)
+
+# # Define the route for adding the OpenAI API key
+# @app.route('/add_openai_key', methods=['POST'])
+# def add_openai_key():
+#     # Get the new API key value from the form
+#     openai_key = request.form['openai_key']
+
+#     # Store the new API key value in SSM Parameter Store
+#     ssm.put_parameter(Name='/api_keys/openai', Value=openai_key, Type='SecureString')
+
+#     # Return a message indicating success
+#     message = 'OpenAI API key added successfully.'
+#     return render_template('api_keys.html', message=message)
+
+# # Define the route for updating the Github API key
+# @app.route('/update_github_key', methods=['POST'])
+# def update_github_key():
+#     # Get the new API key value from the form
+#     github_key = request.form['github_key']
+
+#     # Store the new API key value in SSM Parameter Store
+#     ssm.put_parameter(Name='/api_keys/github', Value=github_key, Type='SecureString', Overwrite=True)
+
+#     # Return a message indicating success
+#     message = 'Github API key updated successfully.'
+#     return render_template('api_keys.html', message=message)
+
+# # Define the route for deleting the Github API key
+# @app.route('/delete_github_key', methods=['GET'])
+# def delete_github_key():
+#     # Delete the Github API key from SSM Parameter Store
+#     ssm.delete_parameter(Name='/api_keys/github')
+
+#     # Return a message indicating success
+#     message = 'Github API key deleted successfully.'
+#     return render_template('api_keys.html', message=message)
+
+# # Define the route for adding the Github API key
+# @app.route('/add_github_key', methods=['POST'])
+# def add_github_key():
+#     # Get the new API key value from the form
+#     github_key = request.form['github_key']
+
+#     # Store the new API key value in SSM Parameter Store
+#     ssm.put_parameter(Name='/api_keys/github', Value=github_key, Type='SecureString')
+
+#     # Return a message indicating success
+#     message = 'Github API key added successfully.'
+#     return render_template('api_keys.html', message=message)
+
+# # Define the route for displaying the API keys
+# @app.route('/api_keys', methods=['GET'])
+# def api_keys():
+#     # Check whether the OpenAI API key exists in SSM Parameter Store
+#     openai_key_exists = False
+#     try
+# ##################### END UNTESTED CODE FOR API KEY ROUTES #######################
+# ##################################################################################
+
+
+#########################################################################################
+###############################  End Admin Routes  ######################################
+#########################################################################################
 
 
 #########################################################################################
 #################################  User Routes  #########################################
 #########################################################################################
 @app.route('/logout')
+@tracer.capture_method
 def logout():
     session.clear()
     return redirect(url_for('index'))
 
-@app.route('/favicon.ico')
-def favicon():
-    return send_file(os.path.join(app.root_path, 'static'),'img/favicon.ico', mimetype='image/vnd.microsoft.icon')
-
 # Stinkbait User Profile Page
 @app.route('/profile')
+@tracer.capture_method
 @login_required
 def profile():
     logger.info("Profile Page")
@@ -40,6 +140,7 @@ def profile():
 
 # Stinkbait User Password Reset Page
 @app.route('/profile/reset-password', methods=['GET', 'POST'])
+@tracer.capture_method
 def reset_password():
     if request.method == 'POST':
         # Get the email, new password, and confirm new password from the form data
@@ -62,6 +163,7 @@ def reset_password():
         return render_template('profile/password_reset.html')
 
 @app.route('/allow-list', methods=['GET', 'POST'])
+@tracer.capture_method
 def allow_list():
     if request.method == 'POST':
         # # If the form was submitted, retrieve the IP address and User Agent from the form data
@@ -75,6 +177,7 @@ def allow_list():
     return render_template('profile/allow_list.html') #, allowed=allowed)
 
 @app.route('/register', methods=['POST', 'GET'])
+@tracer.capture_method
 def register():
     logger.info("Register Page")
     if request.method == 'POST':
@@ -214,10 +317,39 @@ def login():
 #########################################################################################
 
 #########################################################################################
+###################################  Recon Routes  ######################################
+#########################################################################################
+@tracer.capture_method
+@app.route('/recon/dashboard', methods=['GET', 'POST'])
+@login_required
+def recon_dashboard():
+    # TODO: Add Recon Main Dashboard
+    pass
+
+@tracer.capture_method
+@app.route('/recon/org', methods=['GET', 'POST'])
+@login_required
+def recon_org_recon():
+    # TODO: Add Recon Scan Implementation
+    pass
+
+@tracer.capture_method
+@app.route('/recon/results/<org_id>', methods=['GET', 'POST'])
+@login_required
+def recon_scan_results(org_id):
+    # Todo: Add Recon Scan Results Implementation
+    pass
+
+#########################################################################################
+#################################  End Recon Routes  ####################################
+#########################################################################################
+
+#########################################################################################
 ###################################  Targets Routes  ####################################
 #########################################################################################
 
 # Create a new organization
+@tracer.capture_method
 @app.route('/targets/orgs/new', methods=['GET', 'POST'])
 def target_org_new():
     if request.method == 'POST':
@@ -274,6 +406,7 @@ def target_org_new():
         return render_template('targets/new_org.html')
 
 # Target Organizations Dashboard
+@tracer.capture_method
 @app.route('/targets/orgs')
 def target_orgs_dashboard():
     response = target_orgs_table.scan()
@@ -301,6 +434,7 @@ def target_orgs_dashboard():
     return render_template('targets/orgs_dashboard.html', orgs=orgs)
 
 # Org Profile page for a specific organization
+@tracer.capture_method
 @app.route('/targets/orgs/<org_id>')
 def org_profile(org_id):
     # Retrieve the organization's data from your database using the org_id parameter
@@ -311,6 +445,7 @@ def org_profile(org_id):
 
 
 # New target page
+@tracer.capture_method
 @app.route('/targets/subjects/new', methods=['GET', 'POST'])
 def target_subject_new():
     if request.method == 'POST':
@@ -375,6 +510,7 @@ def target_subjects_dashboard():
     return render_template('targets/subject_dashboard.html', subjects=subjects)
 
 # Target profile page
+@tracer.capture_method
 @app.route('/targets/subjects/<int:id>')
 def target_profile(id):
     # Look up the target data from the database based on the ID
@@ -386,116 +522,12 @@ def target_profile(id):
 ###############################  End Targets Routes  ####################################
 #########################################################################################
 
-
-#########################################################################################
-###################################  Admin Routes  ######################################
-#########################################################################################
-# Admin Dashboard route
-@app.route('/admin/dashboard')
-def admin_dashboard():
-    #TODO: Return Dashboard of various Administrator configuration options
-    # Should include things like managing api keys for non-aws services, registering/managing domains, certificates, and email servers (SMTP)
-    pass
-
-# API Key Management Admin Dashboard route
-@app.route('/admin/dashboard/api-keys')
-def api_key_management():
-    #TODO implement methods to add/update and delete API Keys using SSM Parameter store Secure String option to store the keys.
-    pass
-
-# ######### POTENTIAL CODE FOR API KEY ROUTES - UNTESTED, BUT ROUGHLY CORRECT ##########
-# ######### Define the route for updating the OpenAI API key ###########################
-# @app.route('/update_openai_key', methods=['POST'])
-# def update_openai_key():
-#     # Get the new API key value from the form
-#     openai_key = request.form['openai_key']
-
-#     # Store the new API key value in SSM Parameter Store
-#     ssm.put_parameter(Name='/api_keys/openai', Value=openai_key, Type='SecureString', Overwrite=True)
-
-#     # Return a message indicating success
-#     message = 'OpenAI API key updated successfully.'
-#     return render_template('api_keys.html', message=message)
-
-# # Define the route for deleting the OpenAI API key
-# @app.route('/delete_openai_key', methods=['GET'])
-# def delete_openai_key():
-#     # Delete the OpenAI API key from SSM Parameter Store
-#     ssm.delete_parameter(Name='/api_keys/openai')
-
-#     # Return a message indicating success
-#     message = 'OpenAI API key deleted successfully.'
-#     return render_template('api_keys.html', message=message)
-
-# # Define the route for adding the OpenAI API key
-# @app.route('/add_openai_key', methods=['POST'])
-# def add_openai_key():
-#     # Get the new API key value from the form
-#     openai_key = request.form['openai_key']
-
-#     # Store the new API key value in SSM Parameter Store
-#     ssm.put_parameter(Name='/api_keys/openai', Value=openai_key, Type='SecureString')
-
-#     # Return a message indicating success
-#     message = 'OpenAI API key added successfully.'
-#     return render_template('api_keys.html', message=message)
-
-# # Define the route for updating the Github API key
-# @app.route('/update_github_key', methods=['POST'])
-# def update_github_key():
-#     # Get the new API key value from the form
-#     github_key = request.form['github_key']
-
-#     # Store the new API key value in SSM Parameter Store
-#     ssm.put_parameter(Name='/api_keys/github', Value=github_key, Type='SecureString', Overwrite=True)
-
-#     # Return a message indicating success
-#     message = 'Github API key updated successfully.'
-#     return render_template('api_keys.html', message=message)
-
-# # Define the route for deleting the Github API key
-# @app.route('/delete_github_key', methods=['GET'])
-# def delete_github_key():
-#     # Delete the Github API key from SSM Parameter Store
-#     ssm.delete_parameter(Name='/api_keys/github')
-
-#     # Return a message indicating success
-#     message = 'Github API key deleted successfully.'
-#     return render_template('api_keys.html', message=message)
-
-# # Define the route for adding the Github API key
-# @app.route('/add_github_key', methods=['POST'])
-# def add_github_key():
-#     # Get the new API key value from the form
-#     github_key = request.form['github_key']
-
-#     # Store the new API key value in SSM Parameter Store
-#     ssm.put_parameter(Name='/api_keys/github', Value=github_key, Type='SecureString')
-
-#     # Return a message indicating success
-#     message = 'Github API key added successfully.'
-#     return render_template('api_keys.html', message=message)
-
-# # Define the route for displaying the API keys
-# @app.route('/api_keys', methods=['GET'])
-# def api_keys():
-#     # Check whether the OpenAI API key exists in SSM Parameter Store
-#     openai_key_exists = False
-#     try
-# ##################### END UNTESTED CODE FOR API KEY ROUTES #######################
-# ##################################################################################
-
-
-#########################################################################################
-###############################  End Admin Routes  ######################################
-#########################################################################################
-
-
 #########################################################################################
 #################################  Campaigns Routes  ####################################
 #########################################################################################
 
 # New Campaign route
+@tracer.capture_method
 @app.route('/campaigns/new-campaign', methods=['GET', 'POST'])
 def campaign_new_campaign():
     if request.method == 'POST':
@@ -538,6 +570,7 @@ def campaign_new_campaign():
         return render_template('campaigns/new_campaign.html')
     
 # Campaign Dashboard route
+@tracer.capture_method
 @app.route('/campaigns/dashboard')
 def campaign_campaigns_dashboard():
     response = campaigns_table.scan()
@@ -557,6 +590,7 @@ def campaign_campaigns_dashboard():
     return render_template('campaigns/campaigns_dashboard.html', campaigns=campaigns)
 
 
+@tracer.capture_method
 @app.route('/campaigns/email/new_email_template', methods=['GET', 'POST'])
 def campaign_email_new_email_template():
     if request.method == 'POST':
@@ -582,15 +616,18 @@ def campaign_email_new_email_template():
     else:
         return render_template('campaigns/email/new_email_template.html')
     
+@tracer.capture_method
 @app.route('/campaigns/email/preview', methods=['GET', 'POST'])
 def campaign_email_preview_email():
     #TODO: Implement preview email functionality
     pass
 
+@tracer.capture_method
 @app.route('/campaigns/email/send', methods=['GET', 'POST'])
 def campaign_email_send_email():
     pass
 
+@tracer.capture_method
 @app.route('/targets/dns-cert-manager', methods=['GET', 'POST'])
 def campaign_dns_cert_manager():
     # if request.method == 'POST':
@@ -661,12 +698,14 @@ def implants():
     return render_template('implants.html', potential_implants=potential_implants)
 
 # Implant Shell Routes
+@tracer.capture_method
 @app.route('/implants/shell-session')
 def shell_session():
     return render_template('implants/shell_session.html')
 
 # Implant Shell Send Command Route
 # TODO: Currently - the JS in shell_session.html is sending the command and data to this route; but something isn't correct. Needs troubleshooting.
+@tracer.capture_method
 @app.route('/implants/shell-session/send-command', methods=['GET', 'POST'])
 def send_command():
     try:
@@ -686,7 +725,6 @@ def send_command():
 #########################################################################################
 ################################  End Implants Routes  ##################################
 #########################################################################################
-
 
 #########################################################################################
 ###############################  Back Office Routes  ####################################
@@ -729,12 +767,11 @@ def backoffice_documentation():
 #############################  End Back Office Routes  ##################################
 #########################################################################################
 
-
-
 #########################################################################################
 ###############################  General App Routes  ####################################
 #########################################################################################
 # Browser tracking route
+@tracer.capture_method
 @app.route('/browser-info', methods=['POST'])
 def browser_info():
     data = request.get_json()
@@ -750,6 +787,7 @@ def browser_info():
     return 'OK'
 
 # Static image file route
+@tracer.capture_method
 @app.route('/static/img/<path:path>')
 def send_static(path):
     full_path = os.path.join('static', 'img', path)
@@ -775,6 +813,11 @@ def downloads():
 def error404(error):
     logger.info("404 Page")
     return render_template('404.html')
+
+@tracer.capture_method
+@app.route('/favicon.ico')
+def favicon():
+    return send_file(os.path.join(app.root_path, 'static'),'img/favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 # Set the CORS headers
 @app.after_request

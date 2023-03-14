@@ -113,8 +113,10 @@ class User():
             self.is_active = True
             self.is_anonymous = False
 
-
     def __repr__(self):
+        return '<User {}>'.format(self.username)
+    
+    def __str__(self) -> str:
         return '<User {}>'.format(self.username)
 
     def get_id(self):
@@ -142,10 +144,12 @@ class User():
 
 
 def get_user_id():
+    # Check the flask session for the user ID
     if 'user_id' in session:
         logger.info("[User ID found in session]"+session['user_id'])
         return session['user_id']
     else:
+        # Check the API Gateway request for a session cookie
         user_cookie = request.cookies.get('session')
         if user_cookie != None:
             logger.info("[User cookie found in request]"+user_cookie)
@@ -161,6 +165,7 @@ def get_user_id():
                     data = zlib.decompress(data)
                 final_data = data.decode("utf-8")
                 decoded_cookie = json.loads(final_data)
+                # Parse the session cookie to find the user ID and return it (middle section of the cookie is the user ID)
                 user_id = decoded_cookie['_user_id']
                 return user_id
             except Exception as e:
@@ -175,17 +180,19 @@ def get_user_id():
 def load_user_from_request(request):
     # Load the user ID from the session cookie if it's present, else retrieve the session cookie from the request and decode it to get the user ID
     user_id = get_user_id()
-    logger.info(f'User ID: {user_id}')
+    logger.info(f'Current User ID: {user_id}')
+    # If the user ID is not present, return an anonymous user object
     if user_id is None:
         return User(user_id=None, username=None, password_hash=None, role=None, is_authenticated=False, is_active=False, is_anonymous=True)
     else:
-        # Retrieve User Object from Database (DynamoDB)
         try:
+            # Retrieve User Object from Database using the get(user_id) static method of the User Class (DynamoDB)
             session_user = User.get(user_id)
         except Exception as e:
             logger.error(f'Error retrieving user from database: {e}')
             return User(user_id=None, username=None, password_hash=None, role=None, is_authenticated=False, is_active=False, is_anonymous=True)
         try:
+            # Set the user object in the Flask session based on the user ID retrieved from the user object stored in DynamoDB
             logger.info(f'User ID: {session_user}')
             return User(user_id=session_user['user_id'], username=session_user['username'], password_hash=session_user['password'], first_name=session_user['first_name'], last_name=session_user['last_name'], role=session_user['role'], email=session_user['email'], address=session_user['address'], city=session_user['city'], state=session_user['state'], zip_code=session_user['zip_code'],country=session_user['country'], organization=session_user['organization'], phone=session_user['phone'], is_authenticated=True, is_active=True, is_anonymous=False)
         except Exception as e:

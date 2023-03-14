@@ -111,9 +111,8 @@
     /* CSS for header */
     
     .logo {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+        max-width: 100%;
+        max-height: 100%;
     }
     
     header {
@@ -121,16 +120,23 @@
         background-blend-mode: luminosity;
         text-align: center;
         width: 100%;
+        height: 14rem;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
     }
     
+    .header-profile-photo {
+        position: absolute;
+        top: 1rem;
+        right: 0.5rem;
+    }
+    
     .header-buttons {
         position: absolute;
-        top: 20px;
-        right: 20px;
+        top: 1rem;
+        right: 1rem;
     }
     
     .btn-primary {
@@ -213,11 +219,6 @@
         color: #ffcc00;
     }
     
-    a:active {
-        background-color: #ffcc00;
-        color: #000000;
-    }
-    
     .form-container {
         max-width: 50%;
         display: flex;
@@ -226,6 +227,21 @@
         align-items: center;
         height: 100%;
         margin: 0 auto;
+    }
+    
+    .profile-pic-container {
+        display: inline-block;
+        border: 3px solid #fff;
+        size: 0.5rem;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+    
+    .profile-pic {
+        width: 100%;
+        height: auto;
+        max-width: 60px;
+        max-height: 60px;
     }
     
     .register-form {

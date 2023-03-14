@@ -1,9 +1,6 @@
 <header>
     {% if current_user.is_authenticated %}
-    <div class="header-buttons">
-        <a href="{{ url_for('logout') }}" class="btn btn-secondary">Logout</a>
-    </div>
-    <nav>
+    <nav class="main-nav">
         <ul>
             <li class="dropdown">
                 <a href="#">Recon</a>
@@ -20,12 +17,13 @@
                     <li><a href="{{ url_for('target_orgs_dashboard') }}">Target Organizations</a></li>
                     <li><a href="{{ url_for('target_subject_new') }}">Create a Target Subject</a></li>
                     <li><a href="{{ url_for('target_subjects_dashboard') }}">Target Subjects</a></li>
-
                 </ul>
             </li>
-            <a href="{{ url_for('index') }}">
-                <img style="height: 100%;" class="logo" src="{{url_for('static', filename='img/stinkbait.png')}}">
-            </a>
+            <li>
+                <a href="{{ url_for('index') }}">
+                    <img style="height: 100%;" class="logo" src="{{url_for('static', filename='img/stinkbait.png')}}">
+                </a>
+            </li>
             <li class="dropdown">
                 <a href="{{ url_for('campaign_campaigns_dashboard') }}">Campaigns</a>
                 <ul class="dropdown-menu">
@@ -47,37 +45,30 @@
                     <li><a href="#">Implant Session Replay</a></li>
                 </ul>
             </li>
-            <!-- <li class="dropdown">
-                <a href="#">Back Office</a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Create a Report</a></li>
-                    <li><a href="#">Create a KPI Dashboard</a></li>
-                    <li><a href="{{ url_for('backoffice_reports') }}">Reports</a></li>
-                    <li><a href="#">KPI Dashboards</a></li>
-                    <li><a href="{{ url_for('backoffice_documentation') }}">Documentation</a></li>
-                    <li><a href="#">Settings</a></li>
-                </ul>
-            </li> -->
-            <!-- <li class="dropdown">
-                <a href="#">Profile</a>
-                <ul class="dropdown-menu">
-                    <li><a href="{{ url_for('profile') }}">User Profile</a></li>
-                    <li><a href="{{ url_for('reset_password') }}">Password Reset</a></li>
-                    <li><a href="{{ url_for('allow_list') }}">Access Allow List</a></li>
-                    <li><a href="#">Settings</a></li>
-                    <li><a href="#">Logout</a></li>
-                </ul>
-            </li> -->
         </ul>
     </nav>
+    <div class="header-profile-photo">
+        <div class="dropdown">
+            <a href="{{ url_for( 'profile') }}">
+                <div class="profile-pic-container">
+                    <img src="https://i.pravatar.cc/150?img=3 " alt="Profile Picture" class="profile-pic">
+                </div>
+            </a>
+            <ul class="dropdown-menu" style="justify-content: left; align-items: center;">
+                <li><a href="{{ url_for( 'profile') }}">Profile</a></li>
+                <li><a href="# ">Settings</a></li>
+                <li><a href="{{ url_for( 'logout') }}">Logout</a></li>
+            </ul>
+        </div>
+    </div>
     {% else %}
-    <div class="header-buttons">
-        <a href="{{ url_for('login') }}" class="btn btn-primary">Login</a>
-        <a href="{{ url_for('register') }}" class="btn btn-secondary">Register</a>
+    <div class="header-buttons ">
+        <a href="{{ url_for( 'login') }}" class="btn btn-primary">Login</a>
+        <a href="{{ url_for( 'register') }}" class="btn btn-secondary">Register</a>
     </div>
     <nav>
-        <a href="{{ url_for('index') }}">
-            <img style="height: 100%;" class="logo" src="{{url_for('static', filename='img/stinkbait.png')}}">
+        <a href="{{ url_for( 'index') }}">
+            <img style="height: 100%; " class="logo" src="{{url_for( 'static', filename='img/stinkbait.png' )}}">
         </a>
     </nav>
     {% endif %}
