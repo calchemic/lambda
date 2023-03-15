@@ -71,14 +71,14 @@ jobs:
 
       - name: Delete the CloudFormation Stack
         run: aws cloudformation delete-stack --stack-name stinkbait
-      #       - name: Check for "CREATE_FAILED" Cloudformation events
-      #         run: |
-      #           failed_events=$(aws cloudformation describe-stack-events --stack-name stinkbait --query "StackEvents[?ResourceStatus=='CREATE_FAILED']")
-      #           echo "$failed_events" >> failed_events.log
-      #           if [ -n "$failed_events" ]; then
-      #             echo "The following CREATE_FAILED events were found:"
-      #             echo "$failed_events"
-      #           fi
+      - name: Check for "CREATE_FAILED" Cloudformation events
+        run: |
+          failed_events=$(aws cloudformation describe-stack-events --stack-name stinkbait --query "StackEvents[?ResourceStatus=='CREATE_FAILED']")
+          echo "$failed_events" >> failed_events.log
+          if [ -n "$failed_events" ]; then
+            echo "The following CREATE_FAILED events were found:"
+            echo "$failed_events"
+          fi
       - name: Package Lambda Function Code
         run: aws cloudformation package --template-file template.yaml --s3-bucket infantsense --output-template-file packaged_template.yaml --region us-east-1
       - name: Sleep for 15 seconds
