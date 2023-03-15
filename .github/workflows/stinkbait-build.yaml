@@ -52,10 +52,8 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
           aws-region: us-east-1
-          # role-to-assume: github-action-role
-          role-duration-seconds: 1200
-          role-to-assume: arn:aws:iam::225609042289:role/github-action-role
-          # aws-region: us-east-1
+          role-to-assume: arn:aws:iam::369912791300:role/github-action-role
+
 
   deploy-stack:
     permissions:
@@ -69,10 +67,8 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
           aws-region: us-east-1
-          # role-to-assume: github-action-role
-          role-duration-seconds: 1200
-          role-to-assume: arn:aws:iam::225609042289:role/github-action-role
-          # aws-region: us-east-1
+          role-to-assume: arn:aws:iam::369912791300:role/github-action-role
+
       - name: Delete the CloudFormation Stack
         run: aws cloudformation delete-stack --stack-name stinkbait
       #       - name: Check for "CREATE_FAILED" Cloudformation events
