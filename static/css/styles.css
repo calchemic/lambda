@@ -103,7 +103,8 @@ nav {
 nav ul {
     display: flex;
     width: 100%;
-    color: #61d13e;
+    color: #000000;
+    background-color: #61d13e;
     justify-content: space-between;
     align-items: center;
     list-style: none;
@@ -114,6 +115,7 @@ nav ul li {
     flex-grow: 1;
     text-align: center;
     width: calc(100% / 4);
+    color: #61d13e;
 }
 
 a {
@@ -129,7 +131,8 @@ a {
 a:hover {
     text-decoration: none;
     background-color: #000000;
-    color: #ffcc00;
+    color: #61d13e;
+    ;
 }
 
 .form-container {
@@ -240,6 +243,7 @@ input[type="submit"] {
 }
 
 body {
+    font-family: 'Monaco', monospace;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -284,6 +288,7 @@ p {
     width: 100%;
     text-align: center;
     white-space: nowrap;
+    color: #61d13e;
 }
 
 .dropdown-menu li a {
@@ -291,6 +296,7 @@ p {
     display: block;
     padding: 0.5rem;
     font-size: 1rem;
+    background-color: #61d13e;
     color: #333333;
 }
 

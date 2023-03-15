@@ -3,73 +3,73 @@
     <nav class="main-nav">
         <ul>
             <li class="dropdown">
-                <a style="color: #61d13e;" href="#">Recon</a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Organization Recon</a></li>
-                    <li><a href="#">Subject Recon</a></li>
-                    <li><a href="#">Technology Recon</a></li>
+                <a style="color: #61d13e; font-family: 'monaco', monospace; " href="# ">Recon</a>
+                <ul class="dropdown-menu " style="background-color: #61d13e; ">
+                    <li><a href="# ">Organization Recon</a></li>
+                    <li><a href="# ">Subject Recon</a></li>
+                    <li><a href="# ">Technology Recon</a></li>
                 </ul>
             </li>
-            <li class="dropdown">
-                <a style="color: #61d13e;" href="{{ url_for('target_orgs_dashboard') }}">Targets</a>
-                <ul class="dropdown-menu">
-                    <li><a href="{{ url_for('target_org_new') }}">Create a Target Organization</a></li>
-                    <li><a href="{{ url_for('target_orgs_dashboard') }}">Target Organizations</a></li>
-                    <li><a href="{{ url_for('target_subject_new') }}">Create a Target Subject</a></li>
-                    <li><a href="{{ url_for('target_subjects_dashboard') }}">Target Subjects</a></li>
+            <li class="dropdown ">
+                <a style="color: #61d13e; font-family: 'monaco', monospace;" href="{{ url_for( 'target_orgs_dashboard') }} ">Targets</a>
+                <ul class="dropdown-menu " style="background-color: #61d13e; ">
+                    <li><a href=" {{ url_for( 'target_org_new') }} ">Create a Target Organization</a></li>
+                    <li><a href="{{ url_for( 'target_orgs_dashboard') }} ">Target Organizations</a></li>
+                    <li><a href="{{ url_for( 'target_subject_new') }} ">Create a Target Subject</a></li>
+                    <li><a href="{{ url_for( 'target_subjects_dashboard') }} ">Target Subjects</a></li>
                 </ul>
             </li>
             <li>
-                <a href="{{ url_for('index') }}">
-                    <img style="height: 100%;" class="logo" src="{{url_for('static', filename='img/stinkbait.png')}}">
+                <a href="{{ url_for( 'index') }} ">
+                    <img style="height: 100%; " class="logo " src="{{url_for( 'static', filename='img/stinkbait.png' )}} ">
                 </a>
             </li>
-            <li class="dropdown">
-                <a style="color: #61d13e;" href="{{ url_for('campaign_campaigns_dashboard') }}">Campaigns</a>
-                <ul class="dropdown-menu">
-                    <li><a href="{{url_for('campaign_new_campaign')}}">Create Phishing Campaign</a></li>
-                    <li><a href="#">Deploy Phishing Campaign</a></li>
-                    <li><a href="{{url_for('campaign_email_new_email_template')}}">Create Email Template</a></li>
-                    <li><a href="#">Create Landing Page</a></li>
-                    <li><a href="#">Create Decoy Landing Page</a></li>
-                    <li><a href="{{url_for('campaign_dns_cert_manager')}}">Phishing Domain Management</a></li>
+            <li class="dropdown ">
+                <a style="color: #61d13e; font-family: 'monaco', monospace;" href="{{ url_for( 'campaign_campaigns_dashboard') }} ">Campaigns</a>
+                <ul class="dropdown-menu " style="background-color: #61d13e; ">
+                    <li><a href="{{url_for( 'campaign_new_campaign')}} ">Create Phishing Campaign</a></li>
+                    <li><a href="# ">Deploy Phishing Campaign</a></li>
+                    <li><a href="{{url_for( 'campaign_email_new_email_template')}} ">Create Email Template</a></li>
+                    <li><a href="# ">Create Landing Page</a></li>
+                    <li><a href="# ">Create Decoy Landing Page</a></li>
+                    <li><a href="{{url_for( 'campaign_dns_cert_manager')}} ">Phishing Domain Management</a></li>
                 </ul>
             </li>
-            <li class="dropdown">
-                <a style="color: #61d13e;" href="{{ url_for('implants') }}">Implants</a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Create a Payload</a></li>
-                    <li><a href="#">Payload Staging</a></li>
-                    <li><a href="#">Live Implants</a></li>
-                    <li><a href="{{url_for('shell_session')}}">Implant Session</a></li>
-                    <li><a href="#">Implant Session Replay</a></li>
+            <li class="dropdown ">
+                <a style="color: #61d13e; font-family: 'monaco', monospace;" href="{{ url_for( 'implants') }} ">Implants</a>
+                <ul class="dropdown-menu " style="background-color: #61d13e; ">
+                    <li><a href="# ">Create a Payload</a></li>
+                    <li><a href="# ">Payload Staging</a></li>
+                    <li><a href="# ">Live Implants</a></li>
+                    <li><a href="{{url_for( 'shell_session')}} ">Implant Session</a></li>
+                    <li><a href="# ">Implant Session Replay</a></li>
                 </ul>
             </li>
         </ul>
     </nav>
-    <div class="header-profile-photo">
-        <div class="dropdown">
-            <a href="{{ url_for( 'profile') }}">
-                <div style="color:#61d13e;" class="profile-pic-container">
-                    <img src="https://i.pravatar.cc/150?img=3 " alt="Profile Picture" class="profile-pic">
+    <div class="header-profile-photo ">
+        <div class="dropdown ">
+            <a href="{{ url_for( 'profile') }} ">
+                <div style="color:#61d13e; " class="profile-pic-container ">
+                    <img src="https://i.pravatar.cc/150?img=3 " alt="Profile Picture " class="profile-pic ">
                 </div>
             </a>
-            <ul class="dropdown-menu" style="text-align: left;">
-                <li><a href="{{ url_for( 'profile') }}">Profile</a></li>
-                <li><a href="{{url_for('allow_list')}}">Access List</a></li>
-                <li><a href="#">Settings</a></li>
-                <li><a href="{{ url_for( 'logout') }}">Logout</a></li>
+            <ul class="dropdown-menu " style="text-align: left; background-color: #61d13e;">
+                <li><a href="{{ url_for( 'profile') }} ">Profile</a></li>
+                <li><a href="{{url_for( 'allow_list')}} ">Access List</a></li>
+                <li><a href="# ">Settings</a></li>
+                <li><a href="{{ url_for( 'logout') }} ">Logout</a></li>
             </ul>
         </div>
     </div>
     {% else %}
     <div class="header-buttons ">
-        <a href="{{ url_for( 'login') }}" class="btn btn-primary">Login</a>
-        <a href="{{ url_for( 'register') }}" class="btn btn-secondary">Register</a>
+        <a href="{{ url_for( 'login') }} " class="btn btn-primary ">Login</a>
+        <a href="{{ url_for( 'register') }} " class="btn btn-secondary ">Register</a>
     </div>
     <nav>
-        <a href="{{ url_for( 'index') }}">
-            <img style="height: 100%; " class="logo" src="{{url_for( 'static', filename='img/stinkbait.png' )}}">
+        <a href="{{ url_for( 'index') }} ">
+            <img style="height: 100%; " class="logo " src="{{url_for( 'static', filename='img/stinkbait.png' )}} ">
         </a>
     </nav>
     {% endif %}
